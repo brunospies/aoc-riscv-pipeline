@@ -1,0 +1,21 @@
+ Address    Code        Basic                     Source
+
+0x00400000  0x3c011001  lui $1,0x00001001     5        la $t0, array           # t0 <- &array
+0x00400004  0x34280000  ori $8,$1,0x00000000       
+0x00400008  0x3c011001  lui $1,0x00001001     7        la $t1, size            # t1 <- &size
+0x0040000c  0x34290014  ori $9,$1,0x00000014       
+0x00400010  0x8d290000  lw $9,0x00000000($9)  8        lw $t1, 0($t1)          # t1 <- size
+0x00400014  0x3c011001  lui $1,0x00001001     10       la $t2, i               # t2 <- &i
+0x00400018  0x342a0018  ori $10,$1,0x00000018      
+0x0040001c  0x8d4a0000  lw $10,0x00000000($10)11       lw $t2, 0($t2)          # t2 <- i
+0x00400020  0x200bffff  addi $11,$0,0xffffffff13       addi $t3, $0, -1        # t3 <- -1
+0x00400024  0x0149c02a  slt $24,$10,$9        20       slt $t8, $t2, $t1       # Verifica se o array foi todo preenchido (i < size ?)
+0x00400028  0x13000005  beq $24,$0,0x00000005 21       beq $t8, $zero, end     # 
+0x0040002c  0x000a7880  sll $15,$10,0x0000000223       sll $t7, $t2, 2         # t7 <- i*4
+0x00400030  0x010f7820  add $15,$8,$15        24       add $t7, $t0, $t7       # C�lcula endere�o do elemento (base + deslocamento)
+0x00400034  0xadeb0000  sw $11,0x00000000($15)25       sw $t3, 0($t7)          # array[i] <- t3        
+0x00400038  0x214a0001  addi $10,$10,0x000000026       addi $t2, $t2, 1        # Aponta para o pr�ximo elemento do array
+0x0040003c  0x08100009  j 0x00400024          28       j while                 # volta
+0x00400040  0x3c011001  lui $1,0x00001001     31       la $t0, i               # t0 <- &i
+0x00400044  0x34280018  ori $8,$1,0x00000018       
+0x00400048  0x8d0a0000  lw $10,0x00000000($8) 32       lw $t2, 0($t0)          # i <- t2

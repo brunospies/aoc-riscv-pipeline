@@ -1,0 +1,17 @@
+Util_package.vhd
+../rtl/MIPS_package.vhd
+../rtl/ALU.vhd
+../rtl/RegisterNbits.vhd
+../rtl/Forwarding_unit.vhd
+../rtl/HazardDetection_unit.vhd
+../rtl/BranchDetection_unit.vhd
+../rtl/RegisterFile.vhd
+../rtl/Stage_ID.vhd
+../rtl/Stage_EX.vhd
+../rtl/Stage_MEM.vhd
+../rtl/Stage_WB.vhd
+../rtl/DataPath.vhd
+../rtl/ControlPath.vhd
+../rtl/MIPS_pipeline.vhd
+Memory.vhd
+MIPS_pipeline_tb.vhd

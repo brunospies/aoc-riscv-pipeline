@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------
--- Design unit: MIPS package
--- Description: package with...
+-- Design unit: RISCV package
+-- Description: package with instructions types
 -------------------------------------------------------------------------
 
 library IEEE;
@@ -8,18 +8,31 @@ use IEEE.std_logic_1164.all;
 
 package RISCV_package is  
         
-    -- inst_type defines the instructions decodable by the control unit
-    type Instruction_type is (ADDU, SUBU, AAND, OOR, SW, LW, ADDIU, ORI, SLT, BEQ, J, LUI, INVALID_INSTRUCTION, BUBBLE);
+    -- inst_type defines the instructions decodable by the control unit (complete RV32I ISA)
+    type Instruction_type is (
+        LUI, AUIPC,                                                                -- U format 
+        JAL,                                                                       -- J format
+        JALR,                                                                      -- I format
+        BEQ, BNE, BLT, BGE, BLTU, BGEU,                                            -- B format
+        LB, LH, LW, LBU, LHU,                                                      -- I format
+        SB, SH, SW,                                                                -- S format
+        ADDI, SLTI, SLTIU, XORI, ORI, ANDI, SLLI, SRLI, SRAI,                      -- I format
+        ADD, SUB, SLL_, SLT, SLTU, XOR_, SRL_, SRA_, OR_, AND_,                    -- R format
+        FENCE, FENCE_i, ECALL, EBREAK, CSRRW, CSRRS, CSRRC, CSRRWI, CSRRSI, CSRRCI -- I format
+    );
+
+    type Instruction_format is (R, I, S, B, U, J);
  
     type Microinstruction is record
-        RegWrite    : std_logic;        -- Register file write control
+        RegWrite    : std_logic;                    -- Register file write control
         ALUSrc      : std_logic_vector(1 downto 0); -- Selects the ALU second operand
-        RegDst      : std_logic;        -- Selects the destination register
-        MemToReg    : std_logic;        -- Selects the data to the register file
-        MemWrite    : std_logic;        -- Enable the data memory write
-        Branch      : std_logic;        -- Indicates the BEQ instruction
-        Jump        : std_logic;        -- Indicates the J instruction
-        instruction : Instruction_type; -- Decoded instruction            
+        RegDst      : std_logic;                    -- Selects the destination register
+        MemToReg    : std_logic;                    -- Selects the data to the register file
+        MemWrite    : std_logic;                    -- Enable the data memory write
+        Branch      : std_logic;                    -- Indicates the BEQ instruction
+        Jump        : std_logic;                    -- Indicates the J instruction
+        instruction : Instruction_type;             -- Decoded instruction  
+        format      : Instruction_format;           -- Indicates the instruction format      
     end record;
          
 end RISCV_package;

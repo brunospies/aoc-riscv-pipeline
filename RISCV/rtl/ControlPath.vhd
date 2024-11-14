@@ -43,24 +43,31 @@ begin
                      X; -- invalid format
 
     -- Instruction type decode
-    decodedInstruction <= LUI     when decodedFormat = U and opcode(5) = '1' else
+    decodedInstruction <= -- U-format 
+                          LUI     when decodedFormat = U and opcode(5) = '1' else
                           AUIPC   when decodedFormat = U and opcode(5) = '0' else
+                          -- J-format
                           JAL     when decodedFormat = J else
+                          -- I-format
                           JALR    when opcode = "1100111" else 
+                          -- B-format
                           BEQ     when decodedFormat = B and funct3 = "000" else
                           BNE     when decodedFormat = B and funct3 = "001" else
                           BLT     when decodedFormat = B and funct3 = "100" else
                           BGE     when decodedFormat = B and funct3 = "101" else 
                           BLTU    when decodedFormat = B and funct3 = "110" else
                           BGEU    when decodedFormat = B and funct3 = "111" else 
+                          -- I-format
                           LB      when opcode = "0000011" and funct3 = "000" else 
                           LH      when opcode = "0000011" and funct3 = "001" else
                           LW      when opcode = "0000011" and funct3 = "010" else
                           LBU     when opcode = "0000011" and funct3 = "100" else
                           LHU     when opcode = "0000011" and funct3 = "101" else
+                          -- S-format
                           SB      when decodedFormat = S and funct3 = "000" else
                           SH      when decodedFormat = S and funct3 = "001" else
                           SW      when decodedFormat = S and funct3 = "010" else
+                          -- I-format
                           ADDI    when opcode = "0010011" and funct3 = "000" else
                           SLTI    when opcode = "0010011" and funct3 = "010" else
                           SLTIU   when opcode = "0010011" and funct3 = "011" else
@@ -70,6 +77,7 @@ begin
                           SLLI    when opcode = "0010011" and funct3 = "001" else
                           SRLI    when opcode = "0010011" and funct3 = "101" and funct7(5) = '0' else
                           SRAI    when opcode = "0010011" and funct3 = "101" and funct7(5) = '1' else
+                          -- R-format
                           ADD     when decodedFormat = R and funct3 = "000" and funct7(5) = '0' else
                           SUB     when decodedFormat = R and funct3 = "000" and funct7(5) = '1' else
                           SLL_    when decodedFormat = R and funct3 = "001" else
@@ -80,23 +88,42 @@ begin
                           SRA_    when decodedFormat = R and funct3 = "101" and funct7(5) = '1' else
                           OR_     when decodedFormat = R and funct3 = "110" else
                           AND_    when decodedFormat = R and funct3 = "111" else
+                          -- FENCE instructions
                           FENCE   when opcode = "0001111" and funct3 = "000" else
                           FENCE_I when opcode = "0001111" and funct3 = "001" else
+                          -- SYSTEM instruction
                           ECALL   when opcode = "1110011" and funct3 = "000" and instruction(20) = '0' else
                           EBREAK  when opcode = "1110011" and funct3 = "000" and instruction(20) = '1' else
+                          -- CSR instructions
                           CSRRW   when opcode = "1110011" and funct3 = "001" else 
                           CSRRS   when opcode = "1110011" and funct3 = "010" else
                           CSRRC   when opcode = "1110011" and funct3 = "011" else
                           CSRRWI  when opcode = "1110011" and funct3 = "101" else
                           CSRRSI  when opcode = "1110011" and funct3 = "101" else
                           CSRRCI  when opcode = "1110011" and funct3 = "111" else
+
+                          -- Invalid or not implemented instruction
                           INVALID_INSTRUCTION; 
                           
                            
             
     assert not (decodedInstruction = INVALID_INSTRUCTION and reset = '0')    
     report "******************* INVALID INSTRUCTION *************"
-    severity error;    
-
+    severity error; 
     
+    uins.RegWrite <= '1' when decodedFormat = U or decodedFormat = R or decodedFormat = I or decodedFormat = J else 
+                     '0';
+
+    uins.ALUSrc <= '1' when decodedFormat = I or decodedFormat = J or decodedFormat = U else 
+                   '0'; 
+
+    uins.MemToReg <= '1' when opcode = "0000011" else -- Load Instructions
+                     '0'; 
+
+    uins.MemWrite <= '1' when decodedFormat = S else
+                     '0';
+    
+
+    -- FENCE, BREAK and CSR => TODO...
+
 end behavioral;

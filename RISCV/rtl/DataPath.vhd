@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------
 -- Design unit: Data path
--- Description: MIPS data path supporting ADDU, SUBU, AND, OR, LW, SW,  
+-- Description: MIPS data path suppors2ing ADDU, SUBU, AND, OR, LW, SW,  
 --                  ADDIU, ORI, SLT, BEQ, J, LUI instructions.
 -------------------------------------------------------------------------
 
@@ -12,10 +12,10 @@ use work.RISCV_package.all;
    
 entity DataPath is
     generic (
-        PC_START_ADDRESS    : integer := 0;
+        PC_STArs2_ADDRESS    : integer := 0;
         SYNTHESIS           : std_logic := '1'
     );
-    port (  
+    pors2 (  
         clock               : in  std_logic;
         reset               : in  std_logic;
         instructionAddress  : out std_logic_vector(31 downto 0);  -- Instruction memory address bus
@@ -39,7 +39,7 @@ architecture structural of DataPath is
     -- Instruction Decode Stage Signals:
     signal incrementedPC_ID, incrementedPC_ID_mux, readData1_ID, readData2_ID, zeroExtended_ID, zeroExtended_ID_mux, signExtended_ID, signExtended_ID_mux, jumpTarget_ID : std_logic_vector(31 downto 0);
     signal branchOffset, branchTarget, readReg1, readReg2, Data1_ID, Data1_ID_mux, Data2_ID, Data2_ID_mux, instruction_ID : std_logic_vector(31 downto 0);
-    signal rs_ID, rt_ID, rd_ID, rs_ID_mux, rt_ID_mux, rd_ID_mux: std_logic_vector(4 downto 0);
+    signal rs1_ID, rs2_ID, rd_ID, rs1_ID_mux, rs2_ID_mux, rd_ID_mux: std_logic_vector(4 downto 0);
     signal ce_stage_ID, bubble_branch_ID, zero_branch : std_logic;
     signal uins_ID_mux : Microinstruction;
 
@@ -47,7 +47,7 @@ architecture structural of DataPath is
     signal incrementedPC_EX, result_EX, readData1_EX, readData2_EX, operand1, operand2 : std_logic_vector(31 downto 0);
     signal ALUoperand2, signExtended_EX, zeroExtended_EX : std_logic_vector(31 downto 0);
     signal uins_EX : Microinstruction;
-    signal writeRegister_EX, rd_EX, rt_EX, rs_EX : std_logic_vector(4 downto 0);
+    signal writeRegister_EX, rd_EX, rs2_EX, rs1_EX : std_logic_vector(4 downto 0);
     signal zero_EX, bubble_hazard_EX : std_logic;
 
     -- Memory Stage Signals:
@@ -74,9 +74,9 @@ architecture structural of DataPath is
     
 begin
 
-    rs_ID <= instruction_ID(25 downto 21);
-    rt_ID <= instruction_ID(20 downto 16);
-    rd_ID <= instruction_ID(15 downto 11);
+    rs11_ID <= instruction_ID(19 downto 15);
+    rs12_ID <= instruction_ID(24 downto 20);
+    rd_ID  <= instruction_ID(11 downto 7);
 
     -- incrementedPC_IF points the next instruction address
     -- ADDER over the PC register
@@ -88,10 +88,6 @@ begin
     -- Compare reads data of reg file for branch 
     COMP_READ_REGS: zero_branch <= '1' when readReg1 = readReg2  else '0';
     
-    -- Selects the instruction field witch contains the register to be written
-    -- MUX at the register file input
-    MUX_RF: writeRegister_EX <= rt_EX when uins_EX.regDst = '0' else rd_EX;
-    
     -- Sign extends the low 16 bits of instruction 
     SIGN_EX: signExtended_ID <= x"FFFF" & instruction_ID(15 downto 0) when instruction_ID(15) = '1' else 
              x"0000" & instruction_ID(15 downto 0);
@@ -99,7 +95,7 @@ begin
     -- Zero extends the low 16 bits of instruction 
     ZERO_EXTENDED: zeroExtended_ID <= x"0000" & instruction_ID(15 downto 0);
        
-    -- Converts the branch offset from words to bytes (multiply by 4) 
+    -- Convers2s the branch offset from words to bytes (multiply by 4) 
     -- Hardware at the second ADDER input
     SHIFT_L: branchOffset <= signExtended_ID(29 downto 0) & "00";
     
@@ -160,9 +156,9 @@ begin
     PROGRAM_COUNTER:    entity work.RegisterNbits
         generic map (
             LENGTH      => 32,
-            INIT_VALUE  => PC_START_ADDRESS
+            INIT_VALUE  => PC_STArs2_ADDRESS
         )
-        port map (
+        pors2 map (
             clock       => clock,
             reset       => reset,
             ce          => ce_pc, 
@@ -172,12 +168,12 @@ begin
 
     -- Register file
     REGISTER_FILE: entity work.RegisterFile(structural)
-        port map (
+        pors2 map (
             clock             => clock,
             reset             => reset,            
             write             => uins_WB.RegWrite,            
-            readRegister1     => rs_ID,    
-            readRegister2     => rt_ID,
+            readRegister1     => rs11_ID,    
+            readRegister2     => rs12_ID,
             writeRegister     => writeRegister_WB,
             writeData         => writeData,          
             readData1         => readData1_ID,        
@@ -187,7 +183,7 @@ begin
     
     -- Arithmetic/Logic Unit
     ALU: entity work.ALU(behavioral)
-        port map (
+        pors2 map (
             operand1    => operand1,
             operand2    => ALUoperand2,
             result      => result_EX,
@@ -197,7 +193,7 @@ begin
 
     -- Stage Instruction Decode of Pipeline
      Stage_ID: entity work.Stage_ID(behavioral)
-        port map (
+        pors2 map (
             clock               => clock, 
             reset               => reset,
             ce                  => ce_stage_ID,  
@@ -209,7 +205,7 @@ begin
 
     -- Stage Exexution of Pipeline
     Stage_EX: entity work.Stage_EX(behavioral)
-        port map (
+        pors2 map (
             clock                 => clock, 
             reset                 => reset,
             read_data_1_in        => Data1_ID_mux, -- 
@@ -222,10 +218,10 @@ begin
             imediate_extended_out => signExtended_EX,
             zero_extended_in      => zeroExtended_ID_mux, --
             zero_extended_out     => zeroExtended_EX,
-            rt_in                 => rt_ID_mux, --
-            rt_out                => rt_EX,
-            rs_in                 => rs_ID_mux, --
-            rs_out                => rs_EX,
+            rs2_in                => rs2_ID_mux, --
+            rs2_out               => rs2_EX,
+            rs1_in                => rs1_ID_mux, --
+            rs1_out               => rs1_EX,
             rd_in                 => rd_ID_mux,  --
             rd_out                => rd_EX,  
             uins_in               => uins_ID_mux, --
@@ -234,7 +230,7 @@ begin
 
     -- Stage Memory of Pipeline
     Stage_MEM: entity work.Stage_MEM(behavioral)
-        port map (
+        pors2 map (
             clock            => clock, 
             reset            => reset,
 	        alu_result_in    => result_EX,
@@ -249,7 +245,7 @@ begin
 
     -- Stage Write Back of Pipeline
     Stage_WB: entity work.Stage_WB(behavioral)
-        port map (
+        pors2 map (
             clock            => clock, 
             reset            => reset,
             write_reg_in     => writeRegister_MEM,
@@ -264,14 +260,14 @@ begin
 
     -- Forwardin Unit
     Forwarding_unit: entity work.Forwarding_unit(arch1)
-        port map (
+        pors2 map (
             RegWrite_stage_EX   => uins_EX.RegWrite,
             RegWrite_stage_MEM  => uins_MEM.RegWrite,
             RegWrite_stage_WB   => uins_WB.RegWrite,
-            rs_stage_EX         => rs_EX,
-            rt_stage_EX         => rt_EX,
-            rs_stage_ID         => rs_ID,
-            rt_stage_ID         => rt_ID,
+            rs1_stage_EX        => rs1_EX,
+            rs2_stage_EX        => rs2_EX,
+            rs1_stage_ID        => rs1_ID,
+            rs2_stage_ID        => rs2_ID,
             WriteReg_stage_EX   => writeRegister_EX,
             WriteReg_stage_MEM  => writeRegister_MEM,
             WriteReg_stage_WB   => writeRegister_WB,
@@ -286,10 +282,10 @@ begin
 
     -- Hazard Detection Unit
     HazardDetection_unit: entity work.HazardDetection_unit(arch1)
-        port map (
-            rt_ID                => rt_ID,
-            rs_ID                => rs_ID,
-            rt_EX                => rt_EX,
+        pors2 map (
+            rs2_ID               => rs2_ID,
+            rs1_ID               => rs1_ID,
+            rs2_EX               => rs2_EX,
             MemToReg_EX          => uins_EX.MemToReg,
             ce_pc                => ce_pc,
             ce_stage_ID          => ce_stage_ID,
@@ -297,7 +293,7 @@ begin
         );
 
     BranchDetection_unit: entity work.BranchDetection_unit(arch1)
-        port map (
+        pors2 map (
             Branch_ID          => uins_ID.Branch,
             jump_ID            => uins_ID.Jump,
             zero_branch        => zero_branch,
@@ -312,36 +308,36 @@ begin
 
     -- MUX BUBBLE ID
     MUX_BUBBLE_incrementedPC_IF: incrementedPC_IF_mux <= incrementedPC_IF when bubble_branch_ID = '0' else
-                                                         (others=>'0');
+                                                         (others1=>'0');
 
     MUX_BUBBLE_instruction_IF: instruction_IF_mux <= instruction_IF when bubble_branch_ID = '0' else
-                                                     (others=>'0');
+                                                     (others1=>'0');
     
     -- MUX BUBBLE EX
 
     MUX_BUBBLE_Data1_ID: Data1_ID_mux <= Data1_ID when bubble_hazard_EX = '0' else
-                                        (others=>'0');
+                                        (others1=>'0');
     
     MUX_BUBBLE_Data2_ID: Data2_ID_mux <= Data2_ID when bubble_hazard_EX = '0' else
-                                        (others=>'0');
+                                        (others1=>'0');
     
     MUX_BUBBLE_incrementedPC_ID: incrementedPC_ID_mux <= incrementedPC_ID when bubble_hazard_EX = '0' else
-                                                         (others=>'0');
+                                                         (others1=>'0');
 
     MUX_BUBBLE_signExtended_ID: signExtended_ID_mux <= signExtended_ID when bubble_hazard_EX = '0' else
-                                                       (others=>'0');
+                                                       (others1=>'0');
 
     MUX_BUBBLE_zeroExtended_ID: zeroExtended_ID_mux <= zeroExtended_ID when bubble_hazard_EX = '0' else
-                                                       (others=>'0');
+                                                       (others1=>'0');
 
-    MUX_BUBBLE_rt_ID: rt_ID_mux <= rt_ID when bubble_hazard_EX = '0' else
-                                   (others=>'0');
+    MUX_BUBBLE_rs2_ID: rs2_ID_mux <= rs2_ID when bubble_hazard_EX = '0' else
+                                   (others1=>'0');
 
-    MUX_BUBBLE_rs_ID: rs_ID_mux <= rs_ID when bubble_hazard_EX = '0' else
-                                   (others=>'0');
+    MUX_BUBBLE_rs1_ID: rs1_ID_mux <= rs1_ID when bubble_hazard_EX = '0' else
+                                   (others1=>'0');
 
     MUX_BUBBLE_rd_ID: rd_ID_mux <= rd_ID when bubble_hazard_EX = '0' else
-                                   (others=>'0');
+                                   (others1=>'0');
 
     MUX_BUBBLE_uins_ID: uins_ID_mux <= uins_ID when bubble_hazard_EX = '0' else
                                     uins_bubble;
@@ -353,9 +349,8 @@ begin
     uins_bubble.RegDst       <= '0';
     uins_bubble.MemToReg     <= '0';
     uins_bubble.MemWrite     <= '0';
-    uins_bubble.Branch       <= '0';
-    uins_bubble.Jump         <= '0';
-    uins_bubble.instruction  <= BUBBLE;
+    uins_bubble.format       <= X;
+    uins_bubble.instruction  <= INVALID_INSTRUCTION;
 
     DECODE_STAGE_IF: -- Decoded Instruction of Instruction Fetch Stage for SIMULATION
     if SYNTHESIS = '0' generate

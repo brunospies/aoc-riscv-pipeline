@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------
 -- Design unit: Data path
--- Description: MIPS data path suppors2ing ADDU, SUBU, AND, OR, LW, SW,  
+-- Description: MIPS data path supporting ADDU, SUBU, AND, OR, LW, SW,  
 --                  ADDIU, ORI, SLT, BEQ, J, LUI instructions.
 -------------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ entity DataPath is
         PC_STArs2_ADDRESS    : integer := 0;
         SYNTHESIS           : std_logic := '1'
     );
-    pors2 (  
+    port (  
         clock               : in  std_logic;
         reset               : in  std_logic;
         instructionAddress  : out std_logic_vector(31 downto 0);  -- Instruction memory address bus
@@ -24,7 +24,7 @@ entity DataPath is
         dataAddress         : out std_logic_vector(31 downto 0);  -- Data memory address bus
         data_i              : in  std_logic_vector(31 downto 0);  -- Data bus from data memory 
         data_o              : out std_logic_vector(31 downto 0);  -- Data bus to data memory
-	    MemWrite            : out std_logic;
+        MemWrite            : out std_logic;
         uins_ID             : in  Microinstruction                -- Control path microinstruction
     );
 end DataPath;
@@ -74,8 +74,8 @@ architecture structural of DataPath is
     
 begin
 
-    rs11_ID <= instruction_ID(19 downto 15);
-    rs12_ID <= instruction_ID(24 downto 20);
+    rs1_ID <= instruction_ID(19 downto 15);
+    rs2_ID <= instruction_ID(24 downto 20);
     rd_ID  <= instruction_ID(11 downto 7);
 
     -- incrementedPC_IF points the next instruction address
@@ -158,7 +158,7 @@ begin
             LENGTH      => 32,
             INIT_VALUE  => PC_STArs2_ADDRESS
         )
-        pors2 map (
+        port map (
             clock       => clock,
             reset       => reset,
             ce          => ce_pc, 
@@ -168,12 +168,12 @@ begin
 
     -- Register file
     REGISTER_FILE: entity work.RegisterFile(structural)
-        pors2 map (
+        port map (
             clock             => clock,
             reset             => reset,            
             write             => uins_WB.RegWrite,            
-            readRegister1     => rs11_ID,    
-            readRegister2     => rs12_ID,
+            readRegister1     => rs1_ID,    
+            readRegister2     => rs2_ID,
             writeRegister     => writeRegister_WB,
             writeData         => writeData,          
             readData1         => readData1_ID,        
@@ -183,7 +183,7 @@ begin
     
     -- Arithmetic/Logic Unit
     ALU: entity work.ALU(behavioral)
-        pors2 map (
+        port map (
             operand1    => operand1,
             operand2    => ALUoperand2,
             result      => result_EX,
@@ -193,7 +193,7 @@ begin
 
     -- Stage Instruction Decode of Pipeline
      Stage_ID: entity work.Stage_ID(behavioral)
-        pors2 map (
+        port map (
             clock               => clock, 
             reset               => reset,
             ce                  => ce_stage_ID,  
@@ -205,7 +205,7 @@ begin
 
     -- Stage Exexution of Pipeline
     Stage_EX: entity work.Stage_EX(behavioral)
-        pors2 map (
+        port map (
             clock                 => clock, 
             reset                 => reset,
             read_data_1_in        => Data1_ID_mux, -- 
@@ -230,7 +230,7 @@ begin
 
     -- Stage Memory of Pipeline
     Stage_MEM: entity work.Stage_MEM(behavioral)
-        pors2 map (
+        port map (
             clock            => clock, 
             reset            => reset,
 	        alu_result_in    => result_EX,
@@ -245,7 +245,7 @@ begin
 
     -- Stage Write Back of Pipeline
     Stage_WB: entity work.Stage_WB(behavioral)
-        pors2 map (
+        port map (
             clock            => clock, 
             reset            => reset,
             write_reg_in     => writeRegister_MEM,
@@ -260,7 +260,7 @@ begin
 
     -- Forwardin Unit
     Forwarding_unit: entity work.Forwarding_unit(arch1)
-        pors2 map (
+        port map (
             RegWrite_stage_EX   => uins_EX.RegWrite,
             RegWrite_stage_MEM  => uins_MEM.RegWrite,
             RegWrite_stage_WB   => uins_WB.RegWrite,
@@ -282,7 +282,7 @@ begin
 
     -- Hazard Detection Unit
     HazardDetection_unit: entity work.HazardDetection_unit(arch1)
-        pors2 map (
+        port map (
             rs2_ID               => rs2_ID,
             rs1_ID               => rs1_ID,
             rs2_EX               => rs2_EX,
@@ -293,7 +293,7 @@ begin
         );
 
     BranchDetection_unit: entity work.BranchDetection_unit(arch1)
-        pors2 map (
+        port map (
             Branch_ID          => uins_ID.Branch,
             jump_ID            => uins_ID.Jump,
             zero_branch        => zero_branch,

@@ -6,7 +6,7 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
 
-package MIPS_package is  
+package RISCV_package is  
         
     -- inst_type defines the instructions decodable by the control unit
     type Instruction_type is (ADDU, SUBU, AAND, OOR, SW, LW, ADDIU, ORI, SLT, BEQ, J, LUI, INVALID_INSTRUCTION, BUBBLE);
@@ -22,6 +22,6 @@ package MIPS_package is
         instruction : Instruction_type; -- Decoded instruction            
     end record;
          
-end MIPS_package;
+end RISCV_package;
 
 

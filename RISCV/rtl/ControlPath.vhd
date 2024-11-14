@@ -84,7 +84,13 @@ begin
                           FENCE_I when opcode = "0001111" and funct3 = "001" else
                           ECALL   when opcode = "1110011" and funct3 = "000" and instruction(20) = '0' else
                           EBREAK  when opcode = "1110011" and funct3 = "000" and instruction(20) = '1' else
-                          CSRRW   when opcode = "1110011" and funct3 = "001" else
+                          CSRRW   when opcode = "1110011" and funct3 = "001" else 
+                          CSRRS   when opcode = "1110011" and funct3 = "010" else
+                          CSRRC   when opcode = "1110011" and funct3 = "011" else
+                          CSRRWI  when opcode = "1110011" and funct3 = "101" else
+                          CSRRSI  when opcode = "1110011" and funct3 = "101" else
+                          CSRRCI  when opcode = "1110011" and funct3 = "111" else
+                          INVALID_INSTRUCTION; 
                           
                            
             

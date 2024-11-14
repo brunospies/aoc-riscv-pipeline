@@ -66,9 +66,11 @@ architecture structural of DataPath is
     signal uins_bubble : Microinstruction;
 
     -- SIMULATION Signals:
-    signal instruction_Stage_IF : Instruction_type;
-    alias  opcode: std_logic_vector(5 downto 0) is instruction_IF(31 downto 26);
-    alias  funct: std_logic_vector(5 downto 0) is instruction_IF(5 downto 0);
+    signal decodedInstruction_IF: Instruction_type;
+    signal decodedFormat_IF:      Instruction_format;
+    alias  opcode: std_logic_vector(6 downto 0) is instruction_IF(6 downto 0);
+    alias  funct3: std_logic_vector(2 downto 0) is instruction_IF(14 downto 12);
+    alias  funct7: std_logic_vector(6 downto 0) is instruction_IF(31 downto 25); 
     signal cicles : integer := 0;
 
     
@@ -361,19 +363,77 @@ begin
             end if;
         end process;
 
-        instruction_Stage_IF <=   ADDU    when opcode = "000000" and funct = "100001" else
-                                  SUBU    when opcode = "000000" and funct = "100011" else
-                                  AAND    when opcode = "000000" and funct = "100100" else
-                                  OOR     when opcode = "000000" and funct = "100101" else
-                                  SLT     when opcode = "000000" and funct = "101010" else
-                                  SW      when opcode = "101011" else
-                                  LW      when opcode = "100011" else
-                                  ADDIU   when opcode = "001001" else
-                                  ORI     when opcode = "001101" else
-                                  BEQ     when opcode = "000100" else
-                                  J       when opcode = "000010" else
-                                  LUI     when opcode = "001111" and instruction_IF(25 downto 21) = "00000" else
-                                  BUBBLE ;    -- Invalid or not implemented instruction
+        -- Instruction format decode
+    decodedFormat_IF <= U when opcode = "0010111" or opcode = "0110111" else
+                     J when opcode = "1101111" else
+                     I when opcode = "1100111" or opcode = "1100111" or opcode = "1110011" or opcode = "0001111" else
+                     B when opcode = "1100011" else
+                     R when opcode = "0110011" else
+                     S when opcode = "0100011" else
+                     X; -- invalid format
+
+    -- Instruction type decode
+    decodedInstruction_IF <=   -- U-format 
+                            LUI     when decodedFormat_IF = U and opcode(5) = '1' else
+                            AUIPC   when decodedFormat_IF = U and opcode(5) = '0' else
+                            -- J-format
+                            JAL     when decodedFormat_IF = J else
+                            -- I-format
+                            JALR    when opcode = "1100111" else 
+                            -- B-format
+                            BEQ     when decodedFormat_IF = B and funct3 = "000" else
+                            BNE     when decodedFormat_IF = B and funct3 = "001" else
+                            BLT     when decodedFormat_IF = B and funct3 = "100" else
+                            BGE     when decodedFormat_IF = B and funct3 = "101" else 
+                            BLTU    when decodedFormat_IF = B and funct3 = "110" else
+                            BGEU    when decodedFormat_IF = B and funct3 = "111" else 
+                            -- I-format
+                            LB      when opcode = "0000011" and funct3 = "000" else 
+                            LH      when opcode = "0000011" and funct3 = "001" else
+                            LW      when opcode = "0000011" and funct3 = "010" else
+                            LBU     when opcode = "0000011" and funct3 = "100" else
+                            LHU     when opcode = "0000011" and funct3 = "101" else
+                            -- S-format
+                            SB      when decodedFormat_IF = S and funct3 = "000" else
+                            SH      when decodedFormat_IF = S and funct3 = "001" else
+                            SW      when decodedFormat_IF = S and funct3 = "010" else
+                            -- I-format
+                            ADDI    when opcode = "0010011" and funct3 = "000" else
+                            SLTI    when opcode = "0010011" and funct3 = "010" else
+                            SLTIU   when opcode = "0010011" and funct3 = "011" else
+                            XORI    when opcode = "0010011" and funct3 = "100" else 
+                            ORI     when opcode = "0010011" and funct3 = "110" else
+                            ANDI    when opcode = "0010011" and funct3 = "111" else
+                            SLLI    when opcode = "0010011" and funct3 = "001" else
+                            SRLI    when opcode = "0010011" and funct3 = "101" and funct7(5) = '0' else
+                            SRAI    when opcode = "0010011" and funct3 = "101" and funct7(5) = '1' else
+                            -- R-format
+                            ADD     when decodedFormat_IF = R and funct3 = "000" and funct7(5) = '0' else
+                            SUB     when decodedFormat_IF = R and funct3 = "000" and funct7(5) = '1' else
+                            SLL_    when decodedFormat_IF = R and funct3 = "001" else
+                            SLT     when decodedFormat_IF = R and funct3 = "010" else
+                            SLTU    when decodedFormat_IF = R and funct3 = "011" else
+                            XOR_    when decodedFormat_IF = R and funct3 = "100" else
+                            SRL_    when decodedFormat_IF = R and funct3 = "101" and funct7(5) = '0' else
+                            SRA_    when decodedFormat_IF = R and funct3 = "101" and funct7(5) = '1' else
+                            OR_     when decodedFormat_IF = R and funct3 = "110" else
+                            AND_    when decodedFormat_IF = R and funct3 = "111" else
+                            -- FENCE instructions
+                            FENCE   when opcode = "0001111" and funct3 = "000" else
+                            FENCE_I when opcode = "0001111" and funct3 = "001" else
+                            -- SYSTEM instruction
+                            ECALL   when opcode = "1110011" and funct3 = "000" and instruction(20) = '0' else
+                            EBREAK  when opcode = "1110011" and funct3 = "000" and instruction(20) = '1' else
+                            -- CSR instructions
+                            CSRRW   when opcode = "1110011" and funct3 = "001" else 
+                            CSRRS   when opcode = "1110011" and funct3 = "010" else
+                            CSRRC   when opcode = "1110011" and funct3 = "011" else
+                            CSRRWI  when opcode = "1110011" and funct3 = "101" else
+                            CSRRSI  when opcode = "1110011" and funct3 = "101" else
+                            CSRRCI  when opcode = "1110011" and funct3 = "111" else
+
+                            -- Invalid or not implemented instruction
+                            INVALID_INSTRUCTION; 
     end generate;
 
 end structural;

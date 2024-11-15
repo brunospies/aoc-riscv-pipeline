@@ -12,8 +12,8 @@ use work.RISCV_package.all;
    
 entity DataPath is
     generic (
-        PC_STArs2_ADDRESS    : integer := 0;
-        SYNTHESIS           : std_logic := '1'
+        PC_START_ADDRESS    : integer := 0;
+        SYNTHESIS           : std_logic := '0'
     );
     port (  
         clock               : in  std_logic;
@@ -37,15 +37,15 @@ architecture structural of DataPath is
     signal ce_pc : std_logic;
 
     -- Instruction Decode Stage Signals:
-    signal incrementedPC_ID, incrementedPC_ID_mux, readData1_ID, readData2_ID, zeroExtended_ID, zeroExtended_ID_mux, signExtended_ID, signExtended_ID_mux, jumpTarget_ID : std_logic_vector(31 downto 0);
+    signal incrementedPC_ID, readData1_ID, readData2_ID, imm_data_ID, imm_data_ID_mux, jumpTarget_ID : std_logic_vector(31 downto 0);
     signal branchOffset, branchTarget, readReg1, readReg2, Data1_ID, Data1_ID_mux, Data2_ID, Data2_ID_mux, instruction_ID : std_logic_vector(31 downto 0);
     signal rs1_ID, rs2_ID, rd_ID, rs1_ID_mux, rs2_ID_mux, rd_ID_mux: std_logic_vector(4 downto 0);
-    signal ce_stage_ID, bubble_branch_ID, zero_branch : std_logic;
+    signal ce_stage_ID, bubble_branch_ID, branch_decision : std_logic;
     signal uins_ID_mux : Microinstruction;
 
     -- Execution Stage Signals:
-    signal incrementedPC_EX, result_EX, readData1_EX, readData2_EX, operand1, operand2 : std_logic_vector(31 downto 0);
-    signal ALUoperand2, signExtended_EX, zeroExtended_EX : std_logic_vector(31 downto 0);
+    signal result_EX, readData1_EX, readData2_EX, operand1, operand2 : std_logic_vector(31 downto 0);
+    signal ALUoperand2, imm_data_EX, zeroExtended_EX : std_logic_vector(31 downto 0);
     signal uins_EX : Microinstruction;
     signal writeRegister_EX, rd_EX, rs2_EX, rs1_EX : std_logic_vector(4 downto 0);
     signal zero_EX, bubble_hazard_EX : std_logic;
@@ -88,18 +88,15 @@ begin
     instructionAddress <= pc_q;
     
     -- Compare reads data of reg file for branch 
-    COMP_READ_REGS: zero_branch <= '1' when readReg1 = readReg2  else '0';
+    COMP_READ_REGS: branch_decision <= '1' when readReg1 = readReg2  else '0';
     
     -- Sign extends the low 16 bits of instruction 
-    SIGN_EX: signExtended_ID <= x"FFFF" & instruction_ID(15 downto 0) when instruction_ID(15) = '1' else 
+    SIGN_EX: imm_data_ID <= x"FFFF" & instruction_ID(15 downto 0) when instruction_ID(15) = '1' else 
              x"0000" & instruction_ID(15 downto 0);
-                    
-    -- Zero extends the low 16 bits of instruction 
-    ZERO_EXTENDED: zeroExtended_ID <= x"0000" & instruction_ID(15 downto 0);
        
-    -- Convers2s the branch offset from words to bytes (multiply by 4) 
+    -- Convert the branch offset from words to bytes (multiply by 4) 
     -- Hardware at the second ADDER input
-    SHIFT_L: branchOffset <= signExtended_ID(29 downto 0) & "00";
+    SHIFT_L: branchOffset <= imm_data_ID(30 downto 0) & "0";
     
     -- Branch target address
     -- Branch ADDER
@@ -109,7 +106,7 @@ begin
     jumpTarget_ID <= incrementedPC_ID(31 downto 28) & instruction_ID(25 downto 0) & "00";
     
     -- MUX which selects the PC value
-    MUX_PC: pc_d <= branchTarget when (uins_ID.Branch and zero_branch) = '1' else 
+    MUX_PC: pc_d <= branchTarget when (uins_ID.format = B and branch_decision = '1') or uins.format = J else 
             jumpTarget_ID when uins_ID.Jump = '1' else
             incrementedPC_IF;
       
@@ -117,7 +114,7 @@ begin
     -- MUX at the ALU input
     MUX_ALU: ALUoperand2 <= operand2 when uins_EX.ALUSrc = "00" else
                             zeroExtended_EX when uins_EX.ALUSrc = "01" else
-                            signExtended_EX;
+                            imm_data_EX;
     
     -- Selects the data to be written in the register file
     -- MUX at the data memory output
@@ -158,7 +155,7 @@ begin
     PROGRAM_COUNTER:    entity work.RegisterNbits
         generic map (
             LENGTH      => 32,
-            INIT_VALUE  => PC_STArs2_ADDRESS
+            INIT_VALUE  => PC_START_ADDRESS
         )
         port map (
             clock       => clock,
@@ -213,13 +210,9 @@ begin
             read_data_1_in        => Data1_ID_mux, -- 
       	    read_data_1_out       => readData1_EX,
 	        read_data_2_in        => Data2_ID_mux, --
-            read_data_2_out       => readData2_EX, 
-	        incremented_pc_in     => incrementedPC_ID_mux,   --
-            incremented_pc_out    => incrementedPC_EX,
-            imediate_extended_in  => signExtended_ID_mux, --
-            imediate_extended_out => signExtended_EX,
-            zero_extended_in      => zeroExtended_ID_mux, --
-            zero_extended_out     => zeroExtended_EX,
+            read_data_2_out       => readData2_EX,
+            imm_data_in           => imm_data_ID_mux, --
+            imm_data_out          => imm_data_EX,
             rs2_in                => rs2_ID_mux, --
             rs2_out               => rs2_EX,
             rs1_in                => rs1_ID_mux, --
@@ -298,7 +291,7 @@ begin
         port map (
             Branch_ID          => uins_ID.Branch,
             jump_ID            => uins_ID.Jump,
-            zero_branch        => zero_branch,
+            branch_decision        => branch_decision,
             bubble_branch_ID   => bubble_branch_ID
         );
 
@@ -310,36 +303,30 @@ begin
 
     -- MUX BUBBLE ID
     MUX_BUBBLE_incrementedPC_IF: incrementedPC_IF_mux <= incrementedPC_IF when bubble_branch_ID = '0' else
-                                                         (others1=>'0');
+                                                         (others=>'0');
 
     MUX_BUBBLE_instruction_IF: instruction_IF_mux <= instruction_IF when bubble_branch_ID = '0' else
-                                                     (others1=>'0');
+                                                     (others=>'0');
     
     -- MUX BUBBLE EX
 
     MUX_BUBBLE_Data1_ID: Data1_ID_mux <= Data1_ID when bubble_hazard_EX = '0' else
-                                        (others1=>'0');
+                                        (others=>'0');
     
     MUX_BUBBLE_Data2_ID: Data2_ID_mux <= Data2_ID when bubble_hazard_EX = '0' else
-                                        (others1=>'0');
-    
-    MUX_BUBBLE_incrementedPC_ID: incrementedPC_ID_mux <= incrementedPC_ID when bubble_hazard_EX = '0' else
-                                                         (others1=>'0');
+                                        (others=>'0');
 
-    MUX_BUBBLE_signExtended_ID: signExtended_ID_mux <= signExtended_ID when bubble_hazard_EX = '0' else
-                                                       (others1=>'0');
-
-    MUX_BUBBLE_zeroExtended_ID: zeroExtended_ID_mux <= zeroExtended_ID when bubble_hazard_EX = '0' else
-                                                       (others1=>'0');
+    MUX_BUBBLE_IMM_DATA_ID: imm_data_ID_mux <= imm_data_ID when bubble_hazard_EX = '0' else
+                                               (others=>'0');
 
     MUX_BUBBLE_rs2_ID: rs2_ID_mux <= rs2_ID when bubble_hazard_EX = '0' else
-                                   (others1=>'0');
+                                   (others=>'0');
 
     MUX_BUBBLE_rs1_ID: rs1_ID_mux <= rs1_ID when bubble_hazard_EX = '0' else
-                                   (others1=>'0');
+                                   (others=>'0');
 
     MUX_BUBBLE_rd_ID: rd_ID_mux <= rd_ID when bubble_hazard_EX = '0' else
-                                   (others1=>'0');
+                                   (others=>'0');
 
     MUX_BUBBLE_uins_ID: uins_ID_mux <= uins_ID when bubble_hazard_EX = '0' else
                                     uins_bubble;
@@ -348,7 +335,6 @@ begin
 
     uins_bubble.RegWrite     <= '0';
     uins_bubble.ALUSrc       <= "00";
-    uins_bubble.RegDst       <= '0';
     uins_bubble.MemToReg     <= '0';
     uins_bubble.MemWrite     <= '0';
     uins_bubble.format       <= X;

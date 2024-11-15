@@ -37,7 +37,7 @@ architecture structural of DataPath is
     signal ce_pc : std_logic;
 
     -- Instruction Decode Stage Signals:
-    signal incrementedPC_ID, readData1_ID, readData2_ID, imm_data_ID, imm_data_ID_mux, jumpTarget_ID : std_logic_vector(31 downto 0);
+    signal incrementedPC_ID, readData1_ID, readData2_ID, imm_data_ID, imm_data_ID_mux : std_logic_vector(31 downto 0);
     signal branchOffset, branchTarget, readReg1, readReg2, Data1_ID, Data1_ID_mux, Data2_ID, Data2_ID_mux, instruction_ID : std_logic_vector(31 downto 0);
     signal rs1_ID, rs2_ID, rd_ID, rs1_ID_mux, rs2_ID_mux, rd_ID_mux: std_logic_vector(4 downto 0);
     signal ce_stage_ID, bubble_branch_ID, branch_decision : std_logic;
@@ -47,18 +47,18 @@ architecture structural of DataPath is
     signal result_EX, readData1_EX, readData2_EX, operand1, operand2 : std_logic_vector(31 downto 0);
     signal ALUoperand2, imm_data_EX, zeroExtended_EX : std_logic_vector(31 downto 0);
     signal uins_EX : Microinstruction;
-    signal writeRegister_EX, rd_EX, rs2_EX, rs1_EX : std_logic_vector(4 downto 0);
+    signal rd_EX, rd_EX, rs2_EX, rs1_EX : std_logic_vector(4 downto 0);
     signal zero_EX, bubble_hazard_EX : std_logic;
 
     -- Memory Stage Signals:
     signal result_MEM : std_logic_vector(31 downto 0);
     signal uins_MEM : Microinstruction;
-    signal writeRegister_MEM : std_logic_vector(4 downto 0);
+    signal rd_MEM : std_logic_vector(4 downto 0);
 
     -- Write Back Stage Signals:
     signal writeData, data_i_WB, result_WB: std_logic_vector(31 downto 0);
     signal uins_WB : Microinstruction;
-    signal writeRegister_WB : std_logic_vector(4 downto 0);
+    signal rd_WB : std_logic_vector(4 downto 0);
 
     -- Auxiliar Signals:
     signal ForwardA, ForwardB, Forward1, Forward2 : std_logic_vector(1 downto 0);
@@ -98,17 +98,13 @@ begin
     -- Hardware at the second ADDER input
     SHIFT_L: branchOffset <= imm_data_ID(30 downto 0) & "0";
     
-    -- Branch target address
+    -- Branch or Jump target address
     -- Branch ADDER
     ADDER_BRANCH: branchTarget <= STD_LOGIC_VECTOR(UNSIGNED(incrementedPC_ID) + UNSIGNED(branchOffset));
     
-    -- Jump target address
-    jumpTarget_ID <= incrementedPC_ID(31 downto 28) & instruction_ID(25 downto 0) & "00";
-    
     -- MUX which selects the PC value
-    MUX_PC: pc_d <= branchTarget when (uins_ID.format = B and branch_decision = '1') or uins.format = J else 
-            jumpTarget_ID when uins_ID.Jump = '1' else
-            incrementedPC_IF;
+    MUX_PC: pc_d <= branchTarget when (uins_ID.format = B and branch_decision = '1') or uins_ID.format = J or uins_ID.instruction = JALR else
+                    incrementedPC_IF;
       
     -- Selects the second ALU operand
     -- MUX at the ALU input
@@ -143,10 +139,10 @@ begin
     writeData;
 
     -- MUX Forward WB A
-    MUX_FORWARD_WB_A: Data1_ID <= writeData when ForwardWb_A = '1' else readData1_ID;
+    MUX_FORWArd_EX_A: Data1_ID <= writeData when ForwardWb_A = '1' else readData1_ID;
 
     -- MUX Forward WB B
-    MUX_FORWARD_WB_B: Data2_ID <= writeData when ForwardWb_B = '1' else readData2_ID;
+    MUX_FORWArd_EX_B: Data2_ID <= writeData when ForwardWb_B = '1' else readData2_ID;
 
     -- ALU output address the data memory
     dataAddress <= result_MEM;
@@ -173,7 +169,7 @@ begin
             write             => uins_WB.RegWrite,            
             readRegister1     => rs1_ID,    
             readRegister2     => rs2_ID,
-            writeRegister     => writeRegister_WB,
+            writeRegister     => rd_WB,
             writeData         => writeData,          
             readData1         => readData1_ID,        
             readData2         => readData2_ID
@@ -232,8 +228,8 @@ begin
             alu_result_out   => result_MEM,
 	        write_data_in    => operand2,
             write_data_out   => data_o,
-            write_reg_in     => writeRegister_EX,
-            write_reg_out    => writeRegister_MEM,
+            rd_in            => rd_EX,
+            rd_out           => rd_MEM,
             uins_in          => uins_EX,
             uins_out         => uins_MEM
         );
@@ -243,8 +239,8 @@ begin
         port map (
             clock            => clock, 
             reset            => reset,
-            write_reg_in     => writeRegister_MEM,
-            write_reg_out    => writeRegister_WB,
+            rd_in            => rd_MEM,
+            rd_out           => rd_WB,
             read_data_in     => data_i, 
             read_data_out    => data_i_WB,
 	        alu_result_in    => result_MEM,
@@ -263,9 +259,9 @@ begin
             rs2_stage_EX        => rs2_EX,
             rs1_stage_ID        => rs1_ID,
             rs2_stage_ID        => rs2_ID,
-            WriteReg_stage_EX   => writeRegister_EX,
-            WriteReg_stage_MEM  => writeRegister_MEM,
-            WriteReg_stage_WB   => writeRegister_WB,
+            rd_stage_EX         => rd_EX,
+            rd_stage_MEM        => rd_MEM,
+            rd_stage_WB         => rd_WB,
             ForwardA            => ForwardA,
             ForwardB            => ForwardB,
             Forward1            => Forward1,
@@ -289,9 +285,10 @@ begin
 
     BranchDetection_unit: entity work.BranchDetection_unit(arch1)
         port map (
-            Branch_ID          => uins_ID.Branch,
-            jump_ID            => uins_ID.Jump,
-            branch_decision        => branch_decision,
+            instruction_type   => uins_ID.instruction,
+            Data1_ID           => Data1_ID,
+            Data2_ID           => Data2_ID,
+            branch_decision    => branch_decision,
             bubble_branch_ID   => bubble_branch_ID
         );
 

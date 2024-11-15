@@ -11,12 +11,12 @@ use IEEE.numeric_std.all;
 
 entity HazardDetection_unit is
     port ( 
-        rt_ID                : in  std_logic_vector (4 downto 0);
-        rs_ID                : in  std_logic_vector (4 downto 0);
-        rt_EX                : in  std_logic_vector (4 downto 0);
-        MemToReg_EX          : in  std_logic;
-        ce_pc                : out std_logic;
-        ce_stage_ID          : out std_logic;
+        rs2_ID                : in  std_logic_vector (4 downto 0);
+        rs1_ID                : in  std_logic_vector (4 downto 0);
+        rs2_EX                : in  std_logic_vector (4 downto 0);
+        MemToReg_EX           : in  std_logic;
+        ce_pc                 : out std_logic;
+        ce_stage_ID           : out std_logic;
         bubble_hazard_EX      : out std_logic
     );
 end HazardDetection_unit;
@@ -27,7 +27,7 @@ signal ce : std_logic;
 
 begin
 
-    ce <= '0' when MemToReg_EX = '1' and (rt_EX = rs_ID or rt_EX = rt_ID) else
+    ce <= '0' when MemToReg_EX = '1' and (rs2_EX = rs1_ID or rs2_EX = rs2_ID) else
           '1';
     
     ce_pc <= ce;

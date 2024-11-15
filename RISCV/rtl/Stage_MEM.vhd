@@ -20,8 +20,8 @@ entity Stage_MEM is
         alu_result_out   : out std_logic_vector(31 downto 0); 
 	    write_data_in    : in  std_logic_vector(31 downto 0);  
         write_data_out   : out std_logic_vector(31 downto 0);
-        write_reg_in     : in  std_logic_vector(4 downto 0); 
-        write_reg_out    : out std_logic_vector(4 downto 0);
+        rd_in            : in  std_logic_vector(4 downto 0); 
+        rd_out           : out std_logic_vector(4 downto 0);
         uins_in          : in  Microinstruction;
         uins_out         : out Microinstruction                
     );
@@ -69,8 +69,8 @@ begin
             clock       => clock,
             reset       => reset,
             ce          => '1', 
-            d           => write_reg_in, 
-            q           => write_reg_out
+            d           => rd_in, 
+            q           => rd_out
         );
 
     -- Control registers   
@@ -80,17 +80,13 @@ begin
             uins_out.instruction <= INVALID_INSTRUCTION;
 	        uins_out.RegWrite  <= '0';
             uins_out.MemWrite  <= '0';
-            uins_out.MemToReg  <= '0';	
-            uins_out.Branch    <= '0';
-            uins_out.Jump      <= '0';       
+            uins_out.MemToReg  <= '0';     
         
         elsif rising_edge(clock) then
             uins_out.instruction <= uins_in.instruction;
 	        uins_out.RegWrite    <= uins_in.RegWrite;
             uins_out.MemWrite    <= uins_in.MemWrite;
-            uins_out.MemToReg    <= uins_in.MemToReg;	
-            uins_out.Branch      <= uins_in.Branch;
-            uins_out.Jump        <= uins_in.Jump; 
+            uins_out.MemToReg    <= uins_in.MemToReg;
         end if;
     end process;
     

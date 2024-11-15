@@ -27,7 +27,9 @@ entity Stage_EX is
         rs2_in                : in  std_logic_vector(4 downto 0);  
         rs2_out               : out std_logic_vector(4 downto 0);
         rd_in                 : in  std_logic_vector(4 downto 0);  
-        rd_out                : out std_logic_vector(4 downto 0);  
+        rd_out                : out std_logic_vector(4 downto 0);
+        funct_in              : in  std_logic_vector(3 downto 0);
+        funct_out             : out std_logic_vector(3 downto 0);
         uins_in               : in  Microinstruction;
         uins_out              : out Microinstruction                
     );

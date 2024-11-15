@@ -13,8 +13,8 @@ entity ALU is
         operand1    : in std_logic_vector(31 downto 0);
         operand2    : in std_logic_vector(31 downto 0);
         result      : out std_logic_vector(31 downto 0);
-        zero        : out std_logic;
-        operation   : in Instruction_type   
+        operation   : in Instruction_format;
+        funct       : in std_logic_vector(3 downto 0)   
     );
 end ALU;
 
@@ -28,6 +28,9 @@ begin
     op2 <= UNSIGNED(operand2);
     
     result <= STD_LOGIC_VECTOR(temp);
+
+    result <= operand2              when operation = U -- auipc?
+              
         
     temp <= op1 - op2               when operation = SUBU or operation = BEQ else
             op1 and op2             when operation = AAND else 
@@ -36,9 +39,6 @@ begin
             (others=>'0')           when operation = SLT and not (op1 < op2) else
             op2(15 downto 0) & x"0000"           when operation = LUI else
             op1 + op2;    -- default for ADDU, ADDIU, SW, LW   
-
-    -- Generates the zero flag
-    zero <= '1' when temp = 0 else '0';
     
 end behavioral;
 

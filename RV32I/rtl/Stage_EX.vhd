@@ -28,8 +28,6 @@ entity Stage_EX is
         rs2_out               : out std_logic_vector(4 downto 0);
         rd_in                 : in  std_logic_vector(4 downto 0);  
         rd_out                : out std_logic_vector(4 downto 0);
-        funct_in              : in  std_logic_vector(3 downto 0);
-        funct_out             : out std_logic_vector(3 downto 0);
         uins_in               : in  Microinstruction;
         uins_out              : out Microinstruction                
     );
@@ -127,7 +125,6 @@ begin
     begin
         if reset = '1' then
             uins_out.instruction <= INVALID_INSTRUCTION;
-            uins_out.format      <= X;
 	        uins_out.RegWrite    <= '0';
             uins_out.ALUSrc      <= "00";
             uins_out.MemWrite    <= '0';
@@ -135,7 +132,6 @@ begin
             
         elsif rising_edge(clock) then
             uins_out.instruction <= uins_in.instruction;
-            uins_out.format      <= uins_in.format;
 	        uins_out.RegWrite    <= uins_in.RegWrite;
             uins_out.ALUSrc      <= uins_in.ALUSrc;
             uins_out.MemWrite    <= uins_in.MemWrite;

@@ -13,8 +13,7 @@ entity ALU is
         operand1    : in std_logic_vector(31 downto 0);
         operand2    : in std_logic_vector(31 downto 0);
         result      : out std_logic_vector(31 downto 0);
-        operation   : in Instruction_format;
-        funct       : in std_logic_vector(3 downto 0)   
+        operation   : in Instruction_type; 
     );
 end ALU;
 
@@ -29,7 +28,7 @@ begin
     
     result <= STD_LOGIC_VECTOR(temp);
 
-    result <= operand2              when operation = U -- auipc?
+    result <= operand2              when operation = 
               
         
     temp <= op1 - op2               when operation = SUBU or operation = BEQ else

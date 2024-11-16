@@ -41,7 +41,6 @@ architecture structural of DataPath is
     signal branchOffset, branchTarget, readReg1, readReg2, Data1_ID, Data1_ID_mux, Data2_ID, Data2_ID_mux, instruction_ID : std_logic_vector(31 downto 0);
     signal rs1_ID, rs2_ID, rd_ID, rs1_ID_mux, rs2_ID_mux, rd_ID_mux: std_logic_vector(4 downto 0);
     signal ce_stage_ID, bubble_branch_ID, branch_decision : std_logic;
-    signal funct_ID : std_logic_vector(3 downto 0);
     signal uins_ID_mux : Microinstruction;
 
     -- Execution Stage Signals:
@@ -49,7 +48,6 @@ architecture structural of DataPath is
     signal ALUoperand2, imm_data_EX, zeroExtended_EX : std_logic_vector(31 downto 0);
     signal uins_EX : Microinstruction;
     signal rd_EX, rd_EX, rs2_EX, rs1_EX : std_logic_vector(4 downto 0);
-    signal funct_EX : std_logic_vector(3 downto 0);
     signal bubble_hazard_EX : std_logic;
 
     -- Memory Stage Signals:
@@ -81,7 +79,6 @@ begin
     rs1_ID   <= instruction_ID(19 downto 15);
     rs2_ID   <= instruction_ID(24 downto 20);
     rd_ID    <= instruction_ID(11 downto 7);
-    funct_ID <= instruction(30) & instruction(14 downto 12);
 
     -- incrementedPC_IF points the next instruction address
     -- ADDER over the PC register
@@ -185,8 +182,7 @@ begin
             operand1    => operand1,
             operand2    => ALUoperand2,
             result      => result_EX,
-            operation   => uins_EX.format,
-            funct       => funct_EX
+            operation   => uins_EX.instruction,
         );
 
     -- Stage Instruction Decode of Pipeline
@@ -217,9 +213,7 @@ begin
             rs1_in                => rs1_ID_mux, 
             rs1_out               => rs1_EX,
             rd_in                 => rd_ID_mux,  
-            rd_out                => rd_EX,  
-            funct_in              => funct_ID,
-            funct_out             => funct_EX,
+            rd_out                => rd_EX,
             uins_in               => uins_ID_mux, 
             uins_out              => uins_EX
         );
@@ -351,7 +345,7 @@ begin
             end if;
         end process;
 
-        -- Instruction format decode
+    -- Instruction format decode
     decodedFormat_IF <= U when opcode = "0010111" or opcode = "0110111" else
                      J when opcode = "1101111" else
                      I when opcode = "1100111" or opcode = "1100111" or opcode = "1110011" or opcode = "0001111" else

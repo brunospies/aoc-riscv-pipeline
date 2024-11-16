@@ -20,8 +20,11 @@ entity BranchDetection_unit is
 end BranchDetection_unit;
 
 architecture arch1 of BranchDetection_unit is
+    signal branch_prediction : std_logic;
 
 begin
+
+    branch_predictor <= '0'; -- move to input when to implement branch predictor
 
     branch_decision <= '1' when instruction_type = JAL or instruction_type = JALR or 
                                 (instruction_type = BEQ and Data1_ID = Data2_ID) or
@@ -32,6 +35,7 @@ begin
                                 (instruction_type = BGEU and Data1_ID >= Data2_ID) else
                        '0';
     
-    bubble_branch_ID <= branch_decision; -- Implement for Branch Predictor
+    bubble_branch_ID <= '1' when branch_decision /= branch_prediction else
+                        '0'; 
             
 end arch1;

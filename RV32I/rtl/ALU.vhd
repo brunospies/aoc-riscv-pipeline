@@ -20,28 +20,38 @@ end ALU;
 
 architecture behavioral of ALU is
 
-    signal temp, op1, op2: UNSIGNED(31 downto 0);
+    signal op1_u, op2_u: UNSIGNED(31 downto 0);
+    signal op1_s, op2_s: SIGNED(31 downto 0);
+    signal op1_i, op2_i: INTEGER;
+
+    constant zero : STD_LOGIC_VECTOR(31 downto 0):= (others=>0); 
+    constant one  : STD_LOGIC_VECTOR(31 downto 0):= x"00000001";
+    constant four : UNSIGNED(31 downto 0)        := x"00000004"; 
 
 begin
 
-    op1 <= UNSIGNED(operand1);
-    op2 <= UNSIGNED(operand2);
-    
-    result <= STD_LOGIC_VECTOR(temp);
+    op1_u <= UNSIGNED(operand1);
+    op2_u <= UNSIGNED(operand2);
 
-    result <= operand2                        when operation = LUI else 
-    sla 
-    sra 
-    srl 
+    op1_s <= SIGNED(operand1);
+    op2_s <= SIGNED(operand2); 
+   
+    op1_i <= TO_INTEGER(operand1, 32);
+    op2_i <= TO_INTEGER(operand2, 32);
+
+    result <= operand2                               when operation = LUI else 
+              std_logic_vector(signed(pc) + op2_s)   when operation = AUIPC else
+              std_logic_vector(unsigned(pc) + four)  when operation = JAL or operation = JALR else
+              operand1 and operand2                  when operation = ANDI or operation = AND_ else
+              one                                    when ((operation = SLTI or operation = SLT) and (op1_s < op1_s)) or ((operation = SLTIU or operation = SLTU) and (op1_u < op1_u)) else
+              zero                                   when ((operation = SLTI or operation = SLT) and (op1_s >= op1_s)) or ((operation = SLTIU or operation = SLTU) and (op1_u >= op1_u)) else
+              operand1 xor operand2                  when operation = XORI or operation = XOR_ else
+              operand1 or operand2                   when operation = OR_ or operation = ORI else
+              operand1 sll op2_i                     when operation = SLLI or operation = SLL_ else
+              operand1 srl op2_i                     when operation = SRLI or operation = SRL_ else
+              operand1 sra op2_i                     when operation = SRAI or operation = SRA_ else
+              std_logic_vector(op1_s - op2_s)        when operation = SUB else 
+              std_logic_vector(op1_s + op2_s); --B types, Load, Store, ADDI, ADD, and others instructions;
               
-        
-    temp <= op1 - op2               when operation = SUBU or operation = BEQ else
-            op1 and op2             when operation = AAND else 
-            op1 or  op2             when operation = OOR or operation = ORI else 
-            (0=>'1', others=>'0')   when operation = SLT and op1 < op2 else
-            (others=>'0')           when operation = SLT and not (op1 < op2) else
-            op2(15 downto 0) & x"0000"           when operation = LUI else
-            op1 + op2;    -- default for ADDU, ADDIU, SW, LW   
-    
 end behavioral;
 

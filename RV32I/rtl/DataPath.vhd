@@ -103,7 +103,8 @@ begin
     ADDER_BRANCH: branchTarget <= STD_LOGIC_VECTOR(UNSIGNED(PC_ID) + UNSIGNED(branchOffset));
     
     -- MUX which selects the PC value
-    MUX_PC: pc_d <= branchTarget when (uins_ID.format = B and branch_decision = '1') or uins_ID.format = J or uins_ID.instruction = JALR else
+    MUX_PC: pc_d <= branchTarget when (uins_ID.format = B and branch_decision = '1') or uins_ID.format = J else
+                    STD_LOGIC_VECTOR(UNSIGNED(imm_data_ID) + UNSIGNED(Data1_ID))(30 downto 0) & '0' when uins_ID.instruction = JALR else 
                     incrementedPC_IF;
       
     -- Selects the second ALU operand

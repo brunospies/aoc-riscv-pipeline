@@ -33,11 +33,11 @@ end DataPath;
 architecture structural of DataPath is
 
     -- Instruction Fetch Stage Signals:
-    signal incrementedPC_IF, pc_d, pc_q, incrementedPC_IF_mux, instruction_IF_mux : std_logic_vector(31 downto 0);
+    signal incrementedPC_IF, pc_d, pc_q, PC_IF_mux, instruction_IF_mux : std_logic_vector(31 downto 0);
     signal ce_pc : std_logic;
 
     -- Instruction Decode Stage Signals:
-    signal incrementedPC_ID, readData1_ID, readData2_ID, imm_data_ID, imm_data_ID_mux : std_logic_vector(31 downto 0);
+    signal PC_ID, readData1_ID, readData2_ID, imm_data_ID, imm_data_ID_mux : std_logic_vector(31 downto 0);
     signal branchOffset, branchTarget, readReg1, readReg2, Data1_ID, Data1_ID_mux, Data2_ID, Data2_ID_mux, instruction_ID : std_logic_vector(31 downto 0);
     signal rs1_ID, rs2_ID, rd_ID, rs1_ID_mux, rs2_ID_mux, rd_ID_mux: std_logic_vector(4 downto 0);
     signal ce_stage_ID, bubble_branch_ID, branch_decision : std_logic;
@@ -45,7 +45,7 @@ architecture structural of DataPath is
 
     -- Execution Stage Signals:
     signal result_EX, readData1_EX, readData2_EX, operand1, operand2 : std_logic_vector(31 downto 0);
-    signal ALUoperand2, imm_data_EX, zeroExtended_EX : std_logic_vector(31 downto 0);
+    signal ALUoperand2, imm_data_EX, zeroExtended_EX, PC_EX : std_logic_vector(31 downto 0);
     signal uins_EX : Microinstruction;
     signal rd_EX, rd_EX, rs2_EX, rs1_EX : std_logic_vector(4 downto 0);
     signal bubble_hazard_EX : std_logic;
@@ -100,7 +100,7 @@ begin
     
     -- Branch or Jump target address
     -- Branch ADDER
-    ADDER_BRANCH: branchTarget <= STD_LOGIC_VECTOR(UNSIGNED(incrementedPC_ID) + UNSIGNED(branchOffset));
+    ADDER_BRANCH: branchTarget <= STD_LOGIC_VECTOR(UNSIGNED(PC_ID) + UNSIGNED(branchOffset));
     
     -- MUX which selects the PC value
     MUX_PC: pc_d <= branchTarget when (uins_ID.format = B and branch_decision = '1') or uins_ID.format = J or uins_ID.instruction = JALR else
@@ -181,6 +181,7 @@ begin
         port map (
             operand1    => operand1,
             operand2    => ALUoperand2,
+            pc          => PC_EX,
             result      => result_EX,
             operation   => uins_EX.instruction,
         );
@@ -191,8 +192,8 @@ begin
             clock               => clock, 
             reset               => reset,
             ce                  => ce_stage_ID,  
-	        incremented_pc_in   => incrementedPC_IF_mux, 
-            incremented_pc_out  => incrementedPC_ID,
+	    pc_in               => PC_IF_mux, 
+            pc_out              => PC_ID,
             instruction_in      => instruction_IF_mux,
             instruction_out     => instruction_ID
         );
@@ -202,9 +203,11 @@ begin
         port map (
             clock                 => clock, 
             reset                 => reset,
+            pc_in                 => PC_ID,
+            pc_out                => PC_EX,
             read_data_1_in        => Data1_ID_mux, 
       	    read_data_1_out       => readData1_EX,
-	        read_data_2_in        => Data2_ID_mux, 
+	    read_data_2_in        => Data2_ID_mux, 
             read_data_2_out       => readData2_EX,
             imm_data_in           => imm_data_ID_mux, 
             imm_data_out          => imm_data_EX,
@@ -223,9 +226,9 @@ begin
         port map (
             clock            => clock, 
             reset            => reset,
-	        alu_result_in    => result_EX,
+	    alu_result_in    => result_EX,
             alu_result_out   => result_MEM,
-	        write_data_in    => operand2,
+	    write_data_in    => operand2,
             write_data_out   => data_o,
             rd_in            => rd_EX,
             rd_out           => rd_MEM,
@@ -298,8 +301,8 @@ begin
     instruction_out <= instruction_ID;
 
     -- MUX BUBBLE ID
-    MUX_BUBBLE_incrementedPC_IF: incrementedPC_IF_mux <= incrementedPC_IF when bubble_branch_ID = '0' else
-                                                         (others=>'0');
+    MUX_BUBBLE_PC_IF: PC_IF_mux <= pc_q when bubble_branch_ID = '0' else
+                                             (others=>'0');
 
     MUX_BUBBLE_instruction_IF: instruction_IF_mux <= instruction_IF when bubble_branch_ID = '0' else
                                                      (others=>'0');

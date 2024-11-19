@@ -18,7 +18,7 @@ entity Stage_EX is
         reset                 : in  std_logic; 
         read_data_1_in        : in  std_logic_vector(31 downto 0);  
         read_data_1_out       : out std_logic_vector(31 downto 0); 
-	    read_data_2_in        : in  std_logic_vector(31 downto 0);  
+	read_data_2_in        : in  std_logic_vector(31 downto 0);  
         read_data_2_out       : out std_logic_vector(31 downto 0); 
         imm_data_in           : in  std_logic_vector(31 downto 0); 
         imm_data_out          : out std_logic_vector(31 downto 0);

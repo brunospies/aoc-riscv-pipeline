@@ -12,6 +12,7 @@ entity ALU is
     port( 
         operand1    : in std_logic_vector(31 downto 0);
         operand2    : in std_logic_vector(31 downto 0);
+        pc          : in std_logic_vector(31 downto 0);
         result      : out std_logic_vector(31 downto 0);
         operation   : in Instruction_type; 
     );
@@ -28,7 +29,10 @@ begin
     
     result <= STD_LOGIC_VECTOR(temp);
 
-    result <= operand2              when operation = 
+    result <= operand2                        when operation = LUI else 
+    sla 
+    sra 
+    srl 
               
         
     temp <= op1 - op2               when operation = SUBU or operation = BEQ else

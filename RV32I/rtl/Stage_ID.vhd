@@ -16,8 +16,8 @@ entity Stage_ID is
         clock               : in  std_logic;
         reset               : in  std_logic;
         ce                  : in  std_logic;  
-	    incremented_pc_in   : in  std_logic_vector(31 downto 0);  
-        incremented_pc_out  : out std_logic_vector(31 downto 0);
+	pc_in               : in  std_logic_vector(31 downto 0);  
+        pc_out              : out std_logic_vector(31 downto 0);
         instruction_in      : in  std_logic_vector(31 downto 0);  
         instruction_out     : out std_logic_vector(31 downto 0)                
     );
@@ -28,8 +28,8 @@ architecture behavioral of Stage_ID is
     
 begin
 
-    -- PC+4 register
-    Incremented_pc:    entity work.RegisterNbits
+    -- PC register
+    PC:    entity work.RegisterNbits
         generic map (
             LENGTH      => 32,
             INIT_VALUE  => INIT
@@ -38,8 +38,8 @@ begin
             clock       => clock,
             reset       => reset,
             ce          => ce, 
-            d           => incremented_pc_in, 
-            q           => incremented_pc_out
+            d           => pc_in, 
+            q           => pc_out
         );
     
     -- Instruction register

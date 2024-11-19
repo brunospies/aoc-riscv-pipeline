@@ -37,7 +37,7 @@ architecture structural of DataPath is
     signal ce_pc : std_logic;
 
     -- Instruction Decode Stage Signals:
-    signal PC_ID, readData1_ID, readData2_ID, imm_data_ID, imm_data_ID_mux : std_logic_vector(31 downto 0);
+    signal PC_ID, readData1_ID, readData2_ID, imm_data_ID, imm_data_ID_mux, jumpTarget : std_logic_vector(31 downto 0);
     signal branchOffset, branchTarget, readReg1, readReg2, Data1_ID, Data1_ID_mux, Data2_ID, Data2_ID_mux, instruction_ID : std_logic_vector(31 downto 0);
     signal rs1_ID, rs2_ID, rd_ID, rs1_ID_mux, rs2_ID_mux, rd_ID_mux: std_logic_vector(4 downto 0);
     signal ce_stage_ID, bubble_branch_ID, branch_decision : std_logic;
@@ -47,7 +47,7 @@ architecture structural of DataPath is
     signal result_EX, readData1_EX, readData2_EX, operand1, operand2 : std_logic_vector(31 downto 0);
     signal ALUoperand2, imm_data_EX, zeroExtended_EX, PC_EX : std_logic_vector(31 downto 0);
     signal uins_EX : Microinstruction;
-    signal rd_EX, rd_EX, rs2_EX, rs1_EX : std_logic_vector(4 downto 0);
+    signal rd_EX, rs2_EX, rs1_EX : std_logic_vector(4 downto 0);
     signal bubble_hazard_EX : std_logic;
 
     -- Memory Stage Signals:
@@ -101,10 +101,12 @@ begin
     -- Branch or Jump target address
     -- Branch ADDER
     ADDER_BRANCH: branchTarget <= STD_LOGIC_VECTOR(UNSIGNED(PC_ID) + UNSIGNED(branchOffset));
+
+    jumpTarget <= STD_LOGIC_VECTOR(UNSIGNED(imm_data_ID) + UNSIGNED(Data1_ID));
     
     -- MUX which selects the PC value
     MUX_PC: pc_d <= branchTarget when (uins_ID.format = B and branch_decision = '1') or uins_ID.format = J else
-                    STD_LOGIC_VECTOR(UNSIGNED(imm_data_ID) + UNSIGNED(Data1_ID))(30 downto 0) & '0' when uins_ID.instruction = JALR else 
+                    jumpTarget(30 downto 0) & '0' when uins_ID.instruction = JALR else 
                     incrementedPC_IF;
       
     -- Selects the second ALU operand
@@ -184,8 +186,16 @@ begin
             operand2    => ALUoperand2,
             pc          => PC_EX,
             result      => result_EX,
-            operation   => uins_EX.instruction,
+            operation   => uins_EX.instruction
         );
+
+    -- Stage Instruction Decode of Pipeline
+    IMM_DATA_EXTRACT: entity work.ImmediateDataExtractor(arch2)
+    port map (
+        instruction      => instruction_ID(31 downto 7),
+        instruction_f    => uins_ID.format,
+        imm_data         => imm_data_ID
+    );
 
     -- Stage Instruction Decode of Pipeline
      Stage_ID: entity work.Stage_ID(behavioral)
@@ -193,7 +203,7 @@ begin
             clock               => clock, 
             reset               => reset,
             ce                  => ce_stage_ID,  
-	    pc_in               => PC_IF_mux, 
+	        pc_in               => PC_IF_mux, 
             pc_out              => PC_ID,
             instruction_in      => instruction_IF_mux,
             instruction_out     => instruction_ID
@@ -208,7 +218,7 @@ begin
             pc_out                => PC_EX,
             read_data_1_in        => Data1_ID_mux, 
       	    read_data_1_out       => readData1_EX,
-	    read_data_2_in        => Data2_ID_mux, 
+	        read_data_2_in        => Data2_ID_mux, 
             read_data_2_out       => readData2_EX,
             imm_data_in           => imm_data_ID_mux, 
             imm_data_out          => imm_data_EX,
@@ -288,7 +298,7 @@ begin
 
     BranchDetection_unit: entity work.BranchDetection_unit(arch1)
         port map (
-            instruction_type   => uins_ID.instruction,
+            instruction        => uins_ID.instruction,
             Data1_ID           => Data1_ID,
             Data2_ID           => Data2_ID,
             branch_decision    => branch_decision,
@@ -396,20 +406,20 @@ begin
                             -- R-format
                             ADD     when decodedFormat_IF = R and funct3 = "000" and funct7(5) = '0' else
                             SUB     when decodedFormat_IF = R and funct3 = "000" and funct7(5) = '1' else
-                            SLL_    when decodedFormat_IF = R and funct3 = "001" else
+                            SLLL    when decodedFormat_IF = R and funct3 = "001" else
                             SLT     when decodedFormat_IF = R and funct3 = "010" else
                             SLTU    when decodedFormat_IF = R and funct3 = "011" else
-                            XOR_    when decodedFormat_IF = R and funct3 = "100" else
-                            SRL_    when decodedFormat_IF = R and funct3 = "101" and funct7(5) = '0' else
-                            SRA_    when decodedFormat_IF = R and funct3 = "101" and funct7(5) = '1' else
-                            OR_     when decodedFormat_IF = R and funct3 = "110" else
-                            AND_    when decodedFormat_IF = R and funct3 = "111" else
+                            XORR    when decodedFormat_IF = R and funct3 = "100" else
+                            SRLL    when decodedFormat_IF = R and funct3 = "101" and funct7(5) = '0' else
+                            SRAA    when decodedFormat_IF = R and funct3 = "101" and funct7(5) = '1' else
+                            ORR     when decodedFormat_IF = R and funct3 = "110" else
+                            ANDD    when decodedFormat_IF = R and funct3 = "111" else
                             -- FENCE instructions
                             FENCE   when opcode = "0001111" and funct3 = "000" else
                             FENCE_I when opcode = "0001111" and funct3 = "001" else
                             -- SYSTEM instruction
-                            ECALL   when opcode = "1110011" and funct3 = "000" and instruction(20) = '0' else
-                            EBREAK  when opcode = "1110011" and funct3 = "000" and instruction(20) = '1' else
+                            ECALL   when opcode = "1110011" and funct3 = "000" and instruction_IF(20) = '0' else
+                            EBREAK  when opcode = "1110011" and funct3 = "000" and instruction_IF(20) = '1' else
                             -- CSR instructions
                             CSRRW   when opcode = "1110011" and funct3 = "001" else 
                             CSRRS   when opcode = "1110011" and funct3 = "010" else

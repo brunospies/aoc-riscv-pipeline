@@ -1,4 +1,4 @@
-../rtl/MIPS_package.vhd
+../rtl/RISCV_package.vhd
 ../rtl/ALU.vhd
 ../rtl/RegisterNbits.vhd
 ../rtl/Forwarding_unit.vhd
@@ -12,7 +12,7 @@
 ../rtl/Stage_WB.vhd
 ../rtl/DataPath.vhd
 ../rtl/ControlPath.vhd
-../rtl/MIPS_pipeline.vhd
+../rtl/RISCV_pipeline.vhd
 Util_package.vhd
 Memory.vhd
-MIPS_pipeline_tb.vhd
+RISCV_pipeline_tb.vhd

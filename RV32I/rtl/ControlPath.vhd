@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------
 -- Design unit: Control path
--- Description: RISCV control path supporting LUI, AUIPC, JAL, JALR, BEQ, BNE, BLT, BGE, BLTU, BGEU, LB, LH, LW, LBU, LHU, SB, SH, SW, ADDI, SLTI, SLTIU, XORI, ORI, ANDI, SLLI, SRLI, SRAI, ADD, SUB, SLL_, SLT, SLTU, XOR_, SRL_, SRA_, OR_, AND_, FENCE, FENCE_i, ECALL, EBREAK, CSRRW, CSRRS, CSRRC, CSRRWI, CSRRSI, CSRRCI instructions.
+-- Description: RISCV control path supporting LUI, AUIPC, JAL, JALR, BEQ, BNE, BLT, BGE, BLTU, BGEU, LB, LH, LW, LBU, LHU, SB, SH, SW, ADDI, SLTI, SLTIU, XORI, ORI, ANDI, SLLI, SRLI, SRAI, ADD, SUB, SLLL, SLT, SLTU, XORR, SRLL, SRAA, ORR, ANDD, FENCE, FENCE_i, ECALL, EBREAK, CSRRW, CSRRS, CSRRC, CSRRWI, CSRRSI, CSRRCI instructions.
 -------------------------------------------------------------------------
 
 library IEEE;
@@ -80,14 +80,14 @@ begin
                           -- R-format
                           ADD     when decodedFormat = R and funct3 = "000" and funct7(5) = '0' else
                           SUB     when decodedFormat = R and funct3 = "000" and funct7(5) = '1' else
-                          SLL_    when decodedFormat = R and funct3 = "001" else
+                          SLLL    when decodedFormat = R and funct3 = "001" else
                           SLT     when decodedFormat = R and funct3 = "010" else
                           SLTU    when decodedFormat = R and funct3 = "011" else
-                          XOR_    when decodedFormat = R and funct3 = "100" else
-                          SRL_    when decodedFormat = R and funct3 = "101" and funct7(5) = '0' else
-                          SRA_    when decodedFormat = R and funct3 = "101" and funct7(5) = '1' else
-                          OR_     when decodedFormat = R and funct3 = "110" else
-                          AND_    when decodedFormat = R and funct3 = "111" else
+                          XORR    when decodedFormat = R and funct3 = "100" else
+                          SRLL    when decodedFormat = R and funct3 = "101" and funct7(5) = '0' else
+                          SRAA    when decodedFormat = R and funct3 = "101" and funct7(5) = '1' else
+                          ORR     when decodedFormat = R and funct3 = "110" else
+                          ANDD    when decodedFormat = R and funct3 = "111" else
                           -- FENCE instructions
                           FENCE   when opcode = "0001111" and funct3 = "000" else
                           FENCE_I when opcode = "0001111" and funct3 = "001" else

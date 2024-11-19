@@ -17,7 +17,7 @@ package RISCV_package is
         LB, LH, LW, LBU, LHU,                                                       -- I format
         SB, SH, SW,                                                                 -- S format
         ADDI, SLTI, SLTIU, XORI, ORI, ANDI, SLLI, SRLI, SRAI,                       -- I format
-        ADD, SUB, SLL_, SLT, SLTU, XOR_, SRL_, SRA_, OR_, AND_,                     -- R format
+        ADD, SUB, SLLL, SLT, SLTU, XORR, SRLL, SRAA, ORR, ANDD,                     -- R format
         FENCE, FENCE_i, ECALL, EBREAK, CSRRW, CSRRS, CSRRC, CSRRWI, CSRRSI, CSRRCI, -- I format
         INVALID_INSTRUCTION                                                         -- Invalid 
     );

@@ -16,9 +16,11 @@ entity Stage_EX is
     port (  
         clock                 : in  std_logic;
         reset                 : in  std_logic; 
+        pc_in                 : in  std_logic_vector(31 downto 0);
+        pc_out                : out std_logic_vector(31 downto 0);
         read_data_1_in        : in  std_logic_vector(31 downto 0);  
         read_data_1_out       : out std_logic_vector(31 downto 0); 
-	read_data_2_in        : in  std_logic_vector(31 downto 0);  
+	    read_data_2_in        : in  std_logic_vector(31 downto 0);  
         read_data_2_out       : out std_logic_vector(31 downto 0); 
         imm_data_in           : in  std_logic_vector(31 downto 0); 
         imm_data_out          : out std_logic_vector(31 downto 0);
@@ -37,7 +39,21 @@ end Stage_EX;
 architecture behavioral of Stage_EX is 
     
 begin
-    
+    -- Read Data 1 register
+    PC:   entity work.RegisterNbits
+        generic map (
+            LENGTH      => 32,
+            INIT_VALUE  => INIT
+        )
+        port map (
+            clock       => clock,
+            reset       => reset,
+            ce          => '1', 
+            d           => pc_in, 
+            q           => pc_out
+        );
+
+
     -- Read Data 1 register
     Read_data_1:   entity work.RegisterNbits
         generic map (

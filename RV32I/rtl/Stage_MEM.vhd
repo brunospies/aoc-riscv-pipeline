@@ -16,8 +16,6 @@ entity Stage_MEM is
     port (  
         clock            : in  std_logic;
         reset            : in  std_logic;
-        pc_in            : in  std_logic_vector(31 downto 0);
-        pc_out           : out std_logic_vector(31 downto 0); 
 	alu_result_in    : in  std_logic_vector(31 downto 0);  
         alu_result_out   : out std_logic_vector(31 downto 0); 
 	write_data_in    : in  std_logic_vector(31 downto 0);  
@@ -33,21 +31,6 @@ end Stage_MEM;
 architecture behavioral of Stage_MEM is 
     
 begin
-
-    -- PC register
-    PC:    entity work.RegisterNbits
-        generic map (
-            LENGTH      => 32,
-            INIT_VALUE  => INIT
-        )
-        port map (
-            clock       => clock,
-            reset       => reset,
-            ce          => '1', 
-            d           => pc_in, 
-            q           => pc_out
-        );
-        
     -- ALU result register
     ALU_result:    entity work.RegisterNbits
         generic map (

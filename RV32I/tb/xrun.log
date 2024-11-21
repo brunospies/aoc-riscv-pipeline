@@ -275,4 +275,8 @@ xcelium> run 10ns
 Ran until 55 NS + 0
 xcelium> run 10ns
 Ran until 65 NS + 0
-xcelium> 
+xcelium> ^C
+xcelium> exit
+...Regained control from SimVision
+-------------------------------------
+TOOL:	xrun	19.09-s005: Exiting on Nov 21, 2024 at 13:42:57 -03  (total: 01:38:48)

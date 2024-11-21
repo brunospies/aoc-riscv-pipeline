@@ -50,9 +50,9 @@ if {[catch {group get -using [list INSTRUCTIONS]}]} {
 set createdGroup([list INSTRUCTIONS]) 1
 catch {group new -name INSTRUCTIONS -overlay 0}
 }
-if {[catch {group get -using [list IF_STAGE]}]} {
-set createdGroup([list IF_STAGE]) 1
-catch {group new -name IF_STAGE -overlay 0}
+if {[catch {group get -using [list PC_REGISTER]}]} {
+set createdGroup([list PC_REGISTER]) 1
+catch {group new -name PC_REGISTER -overlay 0}
 }
 if {[catch {group get -using [list ID_STAGE]}]} {
 set createdGroup([list ID_STAGE]) 1
@@ -137,7 +137,9 @@ group insert \
     [subst  {[format {:DUV:DATA_PATH:dataAddress}]} ] \
     [subst  {[format {:DUV:DATA_PATH:data_o}]} ] \
     [subst  {[format {:DUV:DATA_PATH:data_i}]} ] \
-    [subst  {[format {:DUV:DATA_PATH:clock}]} ]
+    [subst  {[format {:DUV:DATA_PATH:clock}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:branchTarget}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:branch_decision}]} ]
 }
 
 if {[info exists createdGroup([list INSTRUCTIONS])]} {
@@ -154,8 +156,8 @@ group insert \
     INS_SIGNALS
 }
 
-if {[info exists createdGroup([list IF_STAGE])]} {
-group using IF_STAGE
+if {[info exists createdGroup([list PC_REGISTER])]} {
+group using PC_REGISTER
 group set -overlay 0
 group set -comment {}
 group clear 0 end
@@ -402,7 +404,6 @@ waveform hierarchy collapse $groupId0
 set id [waveform add -cdivider divider]
 
 set groupId0 [waveform add -groups DATA_PATH]
-waveform hierarchy collapse $groupId0
 
 set id [waveform add -cdivider divider]
 
@@ -411,12 +412,10 @@ set groupId0 [waveform add -groups INSTRUCTIONS]
 set groupId1 [waveform find -name INS_SIGNALS]
 waveform hierarchy collapse $groupId1
 
-waveform hierarchy collapse $groupId0
 
 set id [waveform add -cdivider divider]
 
-set groupId0 [waveform add -groups IF_STAGE]
-waveform hierarchy collapse $groupId0
+set groupId0 [waveform add -groups PC_REGISTER]
 
 set id [waveform add -cdivider divider]
 
@@ -456,7 +455,6 @@ waveform hierarchy collapse $groupId0
 set id [waveform add -cdivider divider]
 
 set groupId0 [waveform add -groups FORWARDING_UNIT]
-waveform hierarchy collapse $groupId0
 
 set id [waveform add -cdivider divider]
 
@@ -466,7 +464,6 @@ waveform hierarchy collapse $groupId0
 set id [waveform add -cdivider divider]
 
 set groupId0 [waveform add -groups IMM_EXTRACTOR]
-waveform hierarchy collapse $groupId0
 
 set id [waveform add -cdivider divider]
 
@@ -479,4 +476,4 @@ set groupId0 [waveform add -groups INSTRUCTION_MEMORY]
 waveform hierarchy collapse $groupId0
 
 
-waveform xview limits 0 2000fs
+waveform xview limits 0 65000000fs

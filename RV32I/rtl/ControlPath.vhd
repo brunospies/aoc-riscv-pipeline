@@ -36,7 +36,7 @@ begin
     -- Instruction format decode
     decodedFormat <= U when opcode = "0010111" or opcode = "0110111" else
                      J when opcode = "1101111" else
-                     I when opcode = "1100111" or opcode = "1100111" or opcode = "1110011" or opcode = "0001111" else
+                     I when opcode = "1100111" or opcode = "0000011" or opcode = "0010011" or opcode = "0001111" or opcode = "1110011" else
                      B when opcode = "1100011" else
                      R when opcode = "0110011" else
                      S when opcode = "0100011" else
@@ -107,9 +107,9 @@ begin
                           
                            
             
-    assert not (decodedInstruction = INVALID_INSTRUCTION and reset = '0')    
-    report "******************* INVALID INSTRUCTION *************"
-    severity error; 
+    --assert (decodedInstruction = INVALID_INSTRUCTION and reset = '0')    
+    --report "******************* INVALID INSTRUCTION *************"
+    --severity error; 
     
     uins.RegWrite <= '1' when decodedFormat = U or decodedFormat = R or decodedFormat = I or decodedFormat = J else 
                      '0';

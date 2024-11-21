@@ -117,23 +117,23 @@ begin
     writeData when ForwardB = "01" else
     result_MEM;
 
-    -- MUX Forward 1 (comparison BEQ)
+    -- MUX Forward 1 (comparison)
     MUX_FORWARD_1: readReg1 <= readData1_ID when Forward1 = "00" else 
     result_EX when Forward1 = "01" else
     result_MEM when Forward1 = "10" else
     writeData;
 
-    -- MUX Forward 2 (comparison BEQ)
+    -- MUX Forward 2 (comparison)
     MUX_FORWARD_2: readReg2 <= readData2_ID when Forward2 = "00" else 
     result_EX when Forward2 = "01" else
     result_MEM when Forward2 = "10" else
     writeData;
 
     -- MUX Forward WB A
-    MUX_FORWArd_EX_A: Data1_ID <= writeData when ForwardWb_A = '1' else readData1_ID;
+    MUX_FORWARD_WB_A: Data1_ID <= writeData when ForwardWb_A = '1' else readData1_ID; 
 
     -- MUX Forward WB B
-    MUX_FORWArd_EX_B: Data2_ID <= writeData when ForwardWb_B = '1' else readData2_ID;
+    MUX_FORWARD_WB_B: Data2_ID <= writeData when ForwardWb_B = '1' else readData2_ID; 
 
     -- ALU output address the data memory
     dataAddress <= result_MEM;
@@ -287,8 +287,8 @@ begin
     BranchDetection_unit: entity work.BranchDetection_unit(arch1)
         port map (
             instruction        => uins_ID.instruction,
-            Data1_ID           => Data1_ID,
-            Data2_ID           => Data2_ID,
+            Data1_ID           => ReadReg1,
+            Data2_ID           => ReadReg2,
             branch_decision    => branch_decision,
             bubble_branch_ID   => bubble_branch_ID
         );

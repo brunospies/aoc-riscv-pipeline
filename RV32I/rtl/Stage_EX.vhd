@@ -141,17 +141,19 @@ begin
     begin
         if reset = '1' then
             uins_out.instruction <= INVALID_INSTRUCTION;
-	        uins_out.RegWrite    <= '0';
+	    uins_out.RegWrite    <= '0';
             uins_out.ALUSrc      <= '0';
             uins_out.MemWrite    <= '0';
-            uins_out.MemToReg    <= '0';   
+            uins_out.MemToReg    <= '0';
+            uins_out.format      <= X;   
             
         elsif rising_edge(clock) then
             uins_out.instruction <= uins_in.instruction;
-	        uins_out.RegWrite    <= uins_in.RegWrite;
+	    uins_out.RegWrite    <= uins_in.RegWrite;
             uins_out.ALUSrc      <= uins_in.ALUSrc;
             uins_out.MemWrite    <= uins_in.MemWrite;
             uins_out.MemToReg    <= uins_in.MemToReg;
+            uins_out.format      <= uins_in.format;
         end if;
     end process;
     

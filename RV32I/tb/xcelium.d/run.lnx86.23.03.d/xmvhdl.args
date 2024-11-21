@@ -1,0 +1,32 @@
+//
+// File created by:  xrun
+// Do not modify this file
+//
+-XLMODE
+./xcelium.d/run.lnx86.23.03.d
+-RUNMODE
+-V200X
+../rtl/RISCV_package.vhd
+../rtl/ALU.vhd
+../rtl/RegisterNbits.vhd
+../rtl/Forwarding_unit.vhd
+../rtl/HazardDetection_unit.vhd
+../rtl/BranchDetection_unit.vhd
+../rtl/ImmediateDataExtractor.vhd
+../rtl/RegisterFile.vhd
+../rtl/Stage_ID.vhd
+../rtl/Stage_EX.vhd
+../rtl/Stage_MEM.vhd
+../rtl/Stage_WB.vhd
+../rtl/DataPath.vhd
+../rtl/ControlPath.vhd
+../rtl/RISCV_pipeline.vhd
+Util_package.vhd
+Memory.vhd
+RISCV_pipeline_tb.vhd
+-CDSLIB
+./xcelium.d/run.lnx86.23.03.d/cdsrun.lib
+-HDLVAR
+./xcelium.d/run.lnx86.23.03.d/hdlrun.var
+-MESSAGES
+-UPDATE

@@ -5,3 +5,16 @@ s4(21Nov2024:11:34:27):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb
 s5(21Nov2024:11:55:36):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui "-s " 
 s6(21Nov2024:11:58:54):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s 
 s7(21Nov2024:12:04:09):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s 
+s8(21Nov2024:13:47:12):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui 
+s9(21Nov2024:14:00:45):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui "-s " 
+s10(21Nov2024:14:09:44):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s 
+s11(21Nov2024:14:21:47):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s 
+s12(21Nov2024:14:22:19):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s 
+s13(21Nov2024:14:23:07):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s 
+s14(21Nov2024:14:28:46):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s 
+s15(21Nov2024:14:30:14):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s 
+s16(21Nov2024:14:32:54):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s 
+s17(21Nov2024:14:55:37):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s 
+s18(21Nov2024:14:58:37):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s 
+s19(21Nov2024:15:07:14):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s 
+s20(21Nov2024:15:08:07):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s 

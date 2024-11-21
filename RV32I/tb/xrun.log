@@ -1,5 +1,5 @@
-xrun: 23.03-s004: (c) Copyright 1995-2023 Cadence Design Systems, Inc.
-TOOL:	xrun	23.03-s004: Started on Nov 21, 2024 at 15:08:06 -03
+xrun: 19.09-s005: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+TOOL:	xrun	19.09-s005: Started on Nov 21, 2024 at 15:42:40 -03
 xrun
 	-v200x
 	-gui
@@ -26,10 +26,13 @@ xrun
 	-access +rwc
 	-gui
 	-s
-../rtl/DataPath.vhd:
+Recompiling... reason: file '../rtl/ControlPath.vhd' is newer than expected.
+	expected: Thu Nov 21 15:12:53 2024
+	actual:   Thu Nov 21 15:41:55 2024
+../rtl/ControlPath.vhd:
 	errors: 0, warnings: 0
-WORKLIB.DATAPATH:STRUCTURAL (architecture):
-	streams: 12, words: 26758
+WORKLIB.CONTROLPATH:BEHAVIORAL (architecture):
+	streams: 1, words: 114
 xmelab: *W,ARCMRA: Elaborating the WORKLIB.RISCV_PIPELINE_TB:STRUCTURAL, MRA (most recently analyzed) architecture.
 	Elaborating the design hierarchy:
 xmelab: *W,CUDEFB: default binding occurred for component instance (:RISCV_pipeline_tb(structural):DUV) with design unit (WORKLIB.RISCV_PIPELINE:STRUCTURAL).
@@ -43,7 +46,6 @@ xmelab: *W,CUDEFB: default binding occurred for component instance (:RISCV_pipel
 		Processes:         159      73
 		Signals:            88      85
 	Writing initial simulation snapshot: WORKLIB.RISCV_PIPELINE_TB:STRUCTURAL
-xmsim: *W,NOMTDGUI: Multi-Threaded Dumping is disabled for interactive debug mode.
 xcelium> 
 xcelium> 
 -------------------------------------
@@ -51,7 +53,7 @@ Relinquished control to SimVision...
 # Restoring simulation environment...
 xcelium> input -quiet .reinvoke.sim
 xcelium> file delete .reinvoke.sim
-xcelium> run 10ns
+xcelium> run 4000ns
 ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DATA_MEMORY:$PROCESS_002 (architecture worklib.Memory:behavioral)
 Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
 ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :INSTRUCTION_MEMORY:$PROCESS_002 (architecture worklib.Memory:behavioral)
@@ -134,155 +136,5 @@ ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function 
 Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
 ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:$PROCESS_000 (architecture worklib.RegisterFile:structural)
 Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-Ran until 10 NS + 0
-xcelium> run 10ns
-Ran until 20 NS + 0
-xcelium> run 10ns
-Ran until 30 NS + 0
-xcelium> run 10ns
-Ran until 40 NS + 0
-xcelium> run 10ns
-Ran until 50 NS + 0
-xcelium> run 10ns
-Ran until 60 NS + 0
-xcelium> run 10ns
-Ran until 70 NS + 0
-xcelium> run 10ns
-Ran until 80 NS + 0
-xcelium> run 10ns
-Ran until 90 NS + 0
-xcelium> run 10ns
-Ran until 100 NS + 0
-xcelium> run 10ns
-Ran until 110 NS + 0
-xcelium> run 10ns
-Ran until 120 NS + 0
-xcelium> run 10ns
-Ran until 130 NS + 0
-xcelium> run 10ns
-Ran until 140 NS + 0
-xcelium> run 10ns
-Ran until 150 NS + 0
-xcelium> run 10ns
-Ran until 160 NS + 0
-xcelium> run 10ns
-Ran until 170 NS + 0
-xcelium> run 10ns
-Ran until 180 NS + 0
-xcelium> run 10ns
-Ran until 190 NS + 0
-xcelium> run 10ns
-Ran until 200 NS + 0
-xcelium> run 10ns
-Ran until 210 NS + 0
-xcelium> run 10ns
-Ran until 220 NS + 0
-xcelium> run 10ns
-Ran until 230 NS + 0
-xcelium> run 10ns
-Ran until 240 NS + 0
-xcelium> run 10ns
-Ran until 250 NS + 0
-xcelium> run 10ns
-Ran until 260 NS + 0
-xcelium> run 10ns
-Ran until 270 NS + 0
-xcelium> run 10ns
-Ran until 280 NS + 0
-xcelium> run 10ns
-Ran until 290 NS + 0
-xcelium> run 10ns
-Ran until 300 NS + 0
-xcelium> run 10ns
-Ran until 310 NS + 0
-xcelium> run 10ns
-Ran until 320 NS + 0
-xcelium> run 10ns
-Ran until 330 NS + 0
-xcelium> run 10ns
-Ran until 340 NS + 0
-xcelium> run 10ns
-Ran until 350 NS + 0
-xcelium> run 10ns
-Ran until 360 NS + 0
-xcelium> run 10ns
-Ran until 370 NS + 0
-xcelium> run 10ns
-Ran until 380 NS + 0
-xcelium> run 10ns
-Ran until 390 NS + 0
-xcelium> run 10ns
-Ran until 400 NS + 0
-xcelium> run 10ns
-Ran until 410 NS + 0
-xcelium> run 10ns
-Ran until 420 NS + 0
-xcelium> run 10ns
-Ran until 430 NS + 0
-xcelium> run 10ns
-Ran until 440 NS + 0
-xcelium> run 10ns
-Ran until 450 NS + 0
-xcelium> run 10ns
-Ran until 460 NS + 0
-xcelium> run 10ns
-Ran until 470 NS + 0
-xcelium> run 10ns
-Ran until 480 NS + 0
-xcelium> run 10ns
-Ran until 490 NS + 0
-xcelium> run 10ns
-Ran until 500 NS + 0
-xcelium> run 10ns
-Ran until 510 NS + 0
-xcelium> run 10ns
-Ran until 520 NS + 0
-xcelium> run 10ns
-Ran until 530 NS + 0
-xcelium> run 10ns
-Ran until 540 NS + 0
-xcelium> run 10ns
-Ran until 550 NS + 0
-xcelium> run 10ns
-Ran until 560 NS + 0
-xcelium> run 10ns
-Ran until 570 NS + 0
-xcelium> run 10ns
-Ran until 580 NS + 0
-xcelium> run 10ns
-Ran until 590 NS + 0
-xcelium> run 10ns
-Ran until 600 NS + 0
-xcelium> run 10ns
-Ran until 610 NS + 0
-xcelium> run 10ns
-Ran until 620 NS + 0
-xcelium> run 10ns
-Ran until 630 NS + 0
-xcelium> run 10ns
-Ran until 640 NS + 0
-xcelium> run 10ns
-Ran until 650 NS + 0
-xcelium> run 10ns
-Ran until 660 NS + 0
-xcelium> run 10ns
-Ran until 670 NS + 0
-xcelium> run 10ns
-Ran until 680 NS + 0
-xcelium> run 10ns
-Ran until 690 NS + 0
-xcelium> run 10ns
-Ran until 700 NS + 0
-xcelium> run 10ns
-Ran until 710 NS + 0
-xcelium> run 10ns
-Ran until 720 NS + 0
-xcelium> run 10ns
-Ran until 730 NS + 0
-xcelium> run 10ns
-Ran until 740 NS + 0
-xcelium> ^C
-xcelium> exit
-...Regained control from SimVision
--------------------------------------
-TOOL:	xrun	23.03-s004: Exiting on Nov 21, 2024 at 15:10:24 -03  (total: 00:02:18)
+Ran until 4 US + 0
+xcelium> 

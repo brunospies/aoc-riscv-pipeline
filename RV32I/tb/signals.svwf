@@ -2,12 +2,36 @@
 #
 # Mnemonic Maps
 #
-mmap new -reuse -name {Boolean as Logic} -radix %b -contents {{%c=FALSE -edgepriority 1 -shape low}
+mmap new  -reuse -name {Boolean as Logic} -radix %b -contents {{%c=FALSE -edgepriority 1 -shape low}
 {%c=TRUE -edgepriority 1 -shape high}}
-mmap new -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor orange -label REG:%x -linecolor yellow -shape bus}
+mmap new  -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor orange -label REG:%x -linecolor yellow -shape bus}
 {%x=1F -bgcolor red -label ERROR -linecolor white -shape EVENT}
 {%x=2C -bgcolor red -label ERROR -linecolor white -shape EVENT}
 {%x=* -label %x -linecolor gray -shape bus}}
+
+#
+# Conditions
+#
+set expression :DUV:DATA_PATH:Stage_EX:uins_out.instruction
+if {[catch {condition new -name  instruction_EX -expr $expression}] != ""} {
+    condition set -using instruction_EX -expr $expression
+}
+set expression :DUV:DATA_PATH:Stage_EX:uins_in.instruction
+if {[catch {condition new -name  instruction_ID -expr $expression}] != ""} {
+    condition set -using instruction_ID -expr $expression
+}
+set expression :DUV:DATA_PATH:decodedInstruction_IF
+if {[catch {condition new -name  instruction_IF -expr $expression}] != ""} {
+    condition set -using instruction_IF -expr $expression
+}
+set expression :DUV:DATA_PATH:Stage_MEM:uins_out.instruction
+if {[catch {condition new -name  instruction_MEM -expr $expression}] != ""} {
+    condition set -using instruction_MEM -expr $expression
+}
+set expression :DUV:DATA_PATH:Stage_WB:uins_out.instruction
+if {[catch {condition new -name  instruction_WB -expr $expression}] != ""} {
+    condition set -using instruction_WB -expr $expression
+}
 
 array unset createdGroup
 array set createdGroup {}
@@ -323,7 +347,6 @@ group insert \
     [subst  {[format {:DUV:DATA_PATH:HazardDetection_unit:ce_stage_ID}]} ] \
     [subst  {[format {:DUV:DATA_PATH:HazardDetection_unit:MemToReg_EX}]} ] \
     [subst  {[format {:DUV:DATA_PATH:HazardDetection_unit:rs1_ID}]} ] \
-    [subst  {[format {:DUV:DATA_PATH:HazardDetection_unit:rs2_EX}]} ] \
     [subst  {[format {:DUV:DATA_PATH:HazardDetection_unit:rs2_ID}]} ]
 }
 
@@ -402,7 +425,6 @@ waveform hierarchy collapse $groupId0
 set id [waveform add -cdivider divider]
 
 set groupId0 [waveform add -groups DATA_PATH]
-waveform hierarchy collapse $groupId0
 
 set id [waveform add -cdivider divider]
 
@@ -416,7 +438,6 @@ set groupId0 [waveform add -groups INSTRUCTIONS]
 set groupId1 [waveform find -name INS_SIGNALS]
 waveform hierarchy collapse $groupId1
 
-waveform hierarchy collapse $groupId0
 
 set id [waveform add -cdivider divider]
 
@@ -446,7 +467,6 @@ waveform hierarchy collapse $groupId0
 set id [waveform add -cdivider divider]
 
 set groupId0 [waveform add -groups ALU]
-waveform hierarchy collapse $groupId0
 
 set id [waveform add -cdivider divider]
 
@@ -456,7 +476,6 @@ waveform hierarchy collapse $groupId0
 set id [waveform add -cdivider divider]
 
 set groupId0 [waveform add -groups BRANCH_UNIT]
-waveform hierarchy collapse $groupId0
 
 set id [waveform add -cdivider divider]
 
@@ -471,7 +490,6 @@ waveform hierarchy collapse $groupId0
 set id [waveform add -cdivider divider]
 
 set groupId0 [waveform add -groups IMM_EXTRACTOR]
-waveform hierarchy collapse $groupId0
 
 set id [waveform add -cdivider divider]
 
@@ -483,4 +501,4 @@ set groupId0 [waveform add -groups INSTRUCTION_MEMORY]
 waveform hierarchy collapse $groupId0
 
 
-waveform xview limits 0 2000fs
+waveform xview limits 0 4000000000fs

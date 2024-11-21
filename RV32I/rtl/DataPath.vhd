@@ -277,7 +277,7 @@ begin
         port map (
             rs2_ID               => rs2_ID,
             rs1_ID               => rs1_ID,
-            rs2_EX               => rs2_EX,
+            rd_EX                => rd_EX,
             MemToReg_EX          => uins_EX.MemToReg,
             ce_pc                => ce_pc,
             ce_stage_ID          => ce_stage_ID,

@@ -13,7 +13,7 @@ entity HazardDetection_unit is
     port ( 
         rs2_ID                : in  std_logic_vector (4 downto 0);
         rs1_ID                : in  std_logic_vector (4 downto 0);
-        rs2_EX                : in  std_logic_vector (4 downto 0);
+        rd_EX                : in  std_logic_vector (4 downto 0);
         MemToReg_EX           : in  std_logic;
         ce_pc                 : out std_logic;
         ce_stage_ID           : out std_logic;
@@ -27,7 +27,7 @@ signal ce : std_logic;
 
 begin
 
-    ce <= '0' when MemToReg_EX = '1' and (rs2_EX = rs1_ID or rs2_EX = rs2_ID) else
+    ce <= '0' when MemToReg_EX = '1' and (rd_EX = rs1_ID or rd_EX = rs2_ID) else
           '1';
     
     ce_pc <= ce;

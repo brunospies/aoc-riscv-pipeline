@@ -114,7 +114,7 @@ begin
     uins.RegWrite <= '1' when decodedFormat = U or decodedFormat = R or decodedFormat = I or decodedFormat = J else 
                      '0';
 
-    uins.ALUSrc <= '1' when decodedFormat = I or decodedFormat = J or decodedFormat = U else 
+    uins.ALUSrc <= '1' when decodedFormat = I or decodedFormat = J or decodedFormat = U or decodedFormat = S else 
                    '0'; 
 
     uins.MemToReg <= '1' when opcode = "0000011" else -- Load Instructions

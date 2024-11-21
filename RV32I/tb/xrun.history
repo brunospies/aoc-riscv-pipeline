@@ -18,3 +18,7 @@ s17(21Nov2024:14:55:37):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_t
 s18(21Nov2024:14:58:37):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s 
 s19(21Nov2024:15:07:14):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s 
 s20(21Nov2024:15:08:07):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s 
+s21(21Nov2024:15:13:13):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui 
+s22(21Nov2024:15:25:05):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui "-s " 
+s23(21Nov2024:15:29:52):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s 
+s24(21Nov2024:15:42:40):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s 

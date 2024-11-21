@@ -56,8 +56,8 @@ begin
               std_logic_vector(unsigned(pc) + op2_u)                         when operation = AUIPC else
               std_logic_vector(unsigned(pc) + four)                          when operation = JAL or operation = JALR else
               operand1 and operand2                                          when operation = ANDI or operation = ANDD else
-              one                                                            when ((operation = SLTI or operation = SLT) and (op1_s < op1_s)) or ((operation = SLTIU or operation = SLTU) and (op1_u < op1_u)) else
-              zero                                                           when ((operation = SLTI or operation = SLT) and (op1_s >= op1_s)) or ((operation = SLTIU or operation = SLTU) and (op1_u >= op1_u)) else
+              one                                                            when ((operation = SLTI or operation = SLT) and (op1_s < op2_s)) or ((operation = SLTIU or operation = SLTU) and (op1_u < op2_u)) else
+              zero                                                           when ((operation = SLTI or operation = SLT) and (op1_s >= op2_s)) or ((operation = SLTIU or operation = SLTU) and (op1_u >= op2_u)) else
               operand1 xor operand2                                          when operation = XORI or operation = XORR else
               operand1 or operand2                                           when operation = ORR or operation = ORI else
               std_logic_vector(op1_u sll to_integer(op2_u))                  when operation = SLLI or operation = SLLL else

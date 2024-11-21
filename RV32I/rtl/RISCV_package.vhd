@@ -26,7 +26,7 @@ package RISCV_package is
  
     type Microinstruction is record
         RegWrite    : std_logic;                    -- Register file write control
-        ALUSrc      : std_logic_vector(1 downto 0); -- Selects the ALU second operand
+        ALUSrc      : std_logic;                    -- Selects the ALU second operand
         MemToReg    : std_logic;                    -- Selects the data to the register file
         MemWrite    : std_logic;                    -- Enable the data memory write
         instruction : Instruction_type;             -- Decoded instruction  

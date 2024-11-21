@@ -42,7 +42,7 @@ begin
                 "00";
     
     Forward1 <= "11" when RegWrite_stage_WB = '1' and rd_stage_WB /= "00000" and rd_stage_WB = rs1_stage_ID else
-                "10" when RegWrite_stage_MEM = '1' and rd_stage_EX /= "00000" and rd_stage_MEM = rs1_stage_ID else
+                "10" when RegWrite_stage_MEM = '1' and rd_stage_MEM /= "00000" and rd_stage_MEM = rs1_stage_ID else
                 "01" when RegWrite_stage_EX = '1' and rd_stage_EX /= "00000" and rd_stage_EX = rs1_stage_ID else
                 "00";
 

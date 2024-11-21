@@ -1,0 +1,7 @@
+s1(21Nov2024:11:19:34):  xrun -v200x -gui -f filelist.txt -top MIPS_pipeline_tb -access +rwc -gui 
+s2(21Nov2024:11:21:23):  xrun -v200x -gui -f filelist.txt -top MIPS_pipeline_tb -access +rwc -gui 
+s3(21Nov2024:11:30:23):  xrun -v200x -gui -f filelist.txt -top MIPS_pipeline_tb -access +rwc -gui 
+s4(21Nov2024:11:34:27):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui 
+s5(21Nov2024:11:55:36):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui "-s " 
+s6(21Nov2024:11:58:54):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s 
+s7(21Nov2024:12:04:09):  xrun -v200x -gui -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s 

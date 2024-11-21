@@ -1,0 +1,461 @@
+
+#
+# Preferences
+#
+preferences set plugin-enable-svdatabrowser-new 1
+preferences set toolbar-sendToIndago-WaveWindow {
+  usual
+  position -pos 1
+}
+preferences set toolbar-Standard-Console {
+  usual
+  position -pos 1
+}
+preferences set toolbar-Search-Console {
+  usual
+  position -pos 2
+}
+preferences set plugin-enable-groupscope 0
+preferences set plugin-enable-interleaveandcompare 0
+preferences set plugin-enable-waveformfrequencyplot 0
+preferences set toolbar-WaveZoom-WaveWindow {
+  usual
+  position -anchor w
+}
+
+#
+# Conditions
+#
+set expression simulator:::DUV:DATA_PATH:Stage_EX:uins_out.instruction
+if {[catch {condition new -name  instruction_EX -expr $expression}] != ""} {
+    condition set -using instruction_EX -expr $expression
+}
+set expression simulator:::DUV:DATA_PATH:Stage_EX:uins_in.instruction
+if {[catch {condition new -name  instruction_ID -expr $expression}] != ""} {
+    condition set -using instruction_ID -expr $expression
+}
+set expression simulator:::DUV:DATA_PATH:decodedInstruction_IF
+if {[catch {condition new -name  instruction_IF -expr $expression}] != ""} {
+    condition set -using instruction_IF -expr $expression
+}
+set expression simulator:::DUV:DATA_PATH:Stage_MEM:uins_out.instruction
+if {[catch {condition new -name  instruction_MEM -expr $expression}] != ""} {
+    condition set -using instruction_MEM -expr $expression
+}
+set expression simulator:::DUV:DATA_PATH:Stage_WB:uins_out.instruction
+if {[catch {condition new -name  instruction_WB -expr $expression}] != ""} {
+    condition set -using instruction_WB -expr $expression
+}
+#
+# Groups
+#
+catch {group new -name RISCV_PIPELINE -overlay 0}
+catch {group new -name DATA_PATH -overlay 0}
+catch {group new -name INSTRUCTIONS -overlay 0}
+catch {group new -name PC_REGISTER -overlay 0}
+catch {group new -name ID_STAGE -overlay 0}
+catch {group new -name EX_STAGE -overlay 0}
+catch {group new -name MEM_STAGE -overlay 0}
+catch {group new -name WB_STAGE -overlay 0}
+catch {group new -name ALU -overlay 0}
+catch {group new -name REG_FILE -overlay 0}
+catch {group new -name BRANCH_UNIT -overlay 0}
+catch {group new -name FORWARDING_UNIT -overlay 0}
+catch {group new -name HAZARD_UNIT -overlay 0}
+catch {group new -name IMM_EXTRACTOR -overlay 0}
+catch {group new -name DATA_MEMORY -overlay 0}
+catch {group new -name INSTRUCTION_MEMORY -overlay 0}
+catch {group new -name INS_SIGNALS -overlay 0}
+group using RISCV_PIPELINE
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    simulator:::DUV:clock \
+    simulator:::DUV:data_i \
+    simulator:::DUV:data_o \
+    simulator:::DUV:dataAddress \
+    simulator:::DUV:instruction \
+    simulator:::DUV:instructionAddress \
+    simulator:::DUV:MemWrite \
+    simulator:::DUV:reset
+group using DATA_PATH
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    simulator:::DUV:DATA_PATH:uins_ID \
+    simulator:::DUV:DATA_PATH:reset \
+    simulator:::DUV:DATA_PATH:MemWrite \
+    simulator:::DUV:DATA_PATH:instructionAddress \
+    simulator:::DUV:DATA_PATH:instruction_out \
+    simulator:::DUV:DATA_PATH:instruction_IF \
+    simulator:::DUV:DATA_PATH:dataAddress \
+    simulator:::DUV:DATA_PATH:data_o \
+    simulator:::DUV:DATA_PATH:data_i \
+    simulator:::DUV:DATA_PATH:clock \
+    simulator:::DUV:DATA_PATH:branchTarget \
+    simulator:::DUV:DATA_PATH:branch_decision
+group using INSTRUCTIONS
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    instruction_IF \
+    instruction_ID \
+    instruction_EX \
+    instruction_MEM \
+    instruction_WB \
+    INS_SIGNALS
+group using PC_REGISTER
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    simulator:::DUV:DATA_PATH:PROGRAM_COUNTER:ce \
+    simulator:::DUV:DATA_PATH:PROGRAM_COUNTER:clock \
+    simulator:::DUV:DATA_PATH:PROGRAM_COUNTER:d \
+    simulator:::DUV:DATA_PATH:PROGRAM_COUNTER:INIT_VALUE \
+    simulator:::DUV:DATA_PATH:PROGRAM_COUNTER:LENGTH \
+    simulator:::DUV:DATA_PATH:PROGRAM_COUNTER:q \
+    simulator:::DUV:DATA_PATH:PROGRAM_COUNTER:reset
+group using ID_STAGE
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    simulator:::DUV:DATA_PATH:Stage_ID:ce \
+    simulator:::DUV:DATA_PATH:Stage_ID:clock \
+    simulator:::DUV:DATA_PATH:Stage_ID:INIT \
+    simulator:::DUV:DATA_PATH:Stage_ID:instruction_in \
+    simulator:::DUV:DATA_PATH:Stage_ID:instruction_out \
+    simulator:::DUV:DATA_PATH:Stage_ID:pc_in \
+    simulator:::DUV:DATA_PATH:Stage_ID:pc_out \
+    simulator:::DUV:DATA_PATH:Stage_ID:reset
+group using EX_STAGE
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    simulator:::DUV:DATA_PATH:Stage_EX:clock \
+    simulator:::DUV:DATA_PATH:Stage_EX:imm_data_in \
+    simulator:::DUV:DATA_PATH:Stage_EX:imm_data_out \
+    simulator:::DUV:DATA_PATH:Stage_EX:INIT \
+    simulator:::DUV:DATA_PATH:Stage_EX:pc_in \
+    simulator:::DUV:DATA_PATH:Stage_EX:pc_out \
+    simulator:::DUV:DATA_PATH:Stage_EX:rd_in \
+    simulator:::DUV:DATA_PATH:Stage_EX:rd_out \
+    simulator:::DUV:DATA_PATH:Stage_EX:read_data_1_in \
+    simulator:::DUV:DATA_PATH:Stage_EX:read_data_1_out \
+    simulator:::DUV:DATA_PATH:Stage_EX:read_data_2_in \
+    simulator:::DUV:DATA_PATH:Stage_EX:read_data_2_out \
+    simulator:::DUV:DATA_PATH:Stage_EX:reset \
+    simulator:::DUV:DATA_PATH:Stage_EX:rs1_in \
+    simulator:::DUV:DATA_PATH:Stage_EX:rs1_out \
+    simulator:::DUV:DATA_PATH:Stage_EX:rs2_in \
+    simulator:::DUV:DATA_PATH:Stage_EX:rs2_out \
+    simulator:::DUV:DATA_PATH:Stage_EX:uins_in \
+    simulator:::DUV:DATA_PATH:Stage_EX:uins_out
+group using MEM_STAGE
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    simulator:::DUV:DATA_PATH:Stage_MEM:alu_result_in \
+    simulator:::DUV:DATA_PATH:Stage_MEM:alu_result_out \
+    simulator:::DUV:DATA_PATH:Stage_MEM:clock \
+    simulator:::DUV:DATA_PATH:Stage_MEM:INIT \
+    simulator:::DUV:DATA_PATH:Stage_MEM:rd_in \
+    simulator:::DUV:DATA_PATH:Stage_MEM:rd_out \
+    simulator:::DUV:DATA_PATH:Stage_MEM:reset \
+    simulator:::DUV:DATA_PATH:Stage_MEM:uins_in \
+    simulator:::DUV:DATA_PATH:Stage_MEM:uins_out \
+    simulator:::DUV:DATA_PATH:Stage_MEM:write_data_in \
+    simulator:::DUV:DATA_PATH:Stage_MEM:write_data_out
+group using WB_STAGE
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    simulator:::DUV:DATA_PATH:Stage_WB:alu_result_in \
+    simulator:::DUV:DATA_PATH:Stage_WB:alu_result_out \
+    simulator:::DUV:DATA_PATH:Stage_WB:clock \
+    simulator:::DUV:DATA_PATH:Stage_WB:INIT \
+    simulator:::DUV:DATA_PATH:Stage_WB:rd_in \
+    simulator:::DUV:DATA_PATH:Stage_WB:rd_out \
+    simulator:::DUV:DATA_PATH:Stage_WB:read_data_in \
+    simulator:::DUV:DATA_PATH:Stage_WB:read_data_out \
+    simulator:::DUV:DATA_PATH:Stage_WB:reset \
+    simulator:::DUV:DATA_PATH:Stage_WB:uins_in \
+    simulator:::DUV:DATA_PATH:Stage_WB:uins_out
+group using ALU
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    simulator:::DUV:DATA_PATH:ALU:four \
+    simulator:::DUV:DATA_PATH:ALU:one \
+    simulator:::DUV:DATA_PATH:ALU:op1_s \
+    simulator:::DUV:DATA_PATH:ALU:op1_u \
+    simulator:::DUV:DATA_PATH:ALU:op2_i \
+    simulator:::DUV:DATA_PATH:ALU:op2_s \
+    simulator:::DUV:DATA_PATH:ALU:op2_u \
+    simulator:::DUV:DATA_PATH:ALU:operand1 \
+    simulator:::DUV:DATA_PATH:ALU:operand2 \
+    simulator:::DUV:DATA_PATH:ALU:operation \
+    simulator:::DUV:DATA_PATH:ALU:pc \
+    simulator:::DUV:DATA_PATH:ALU:result \
+    simulator:::DUV:DATA_PATH:ALU:zero
+group using REG_FILE
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    simulator:::DUV:DATA_PATH:REGISTER_FILE:clock \
+    simulator:::DUV:DATA_PATH:REGISTER_FILE:readData1 \
+    simulator:::DUV:DATA_PATH:REGISTER_FILE:readData2 \
+    simulator:::DUV:DATA_PATH:REGISTER_FILE:readRegister1 \
+    simulator:::DUV:DATA_PATH:REGISTER_FILE:readRegister2 \
+    simulator:::DUV:DATA_PATH:REGISTER_FILE:reg \
+    simulator:::DUV:DATA_PATH:REGISTER_FILE:reset \
+    simulator:::DUV:DATA_PATH:REGISTER_FILE:write \
+    simulator:::DUV:DATA_PATH:REGISTER_FILE:writeData \
+    simulator:::DUV:DATA_PATH:REGISTER_FILE:writeEnable \
+    simulator:::DUV:DATA_PATH:REGISTER_FILE:writeRegister
+group using BRANCH_UNIT
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    simulator:::DUV:DATA_PATH:BranchDetection_unit:branch_decision \
+    simulator:::DUV:DATA_PATH:BranchDetection_unit:branch_prediction \
+    simulator:::DUV:DATA_PATH:BranchDetection_unit:bubble_branch_ID \
+    simulator:::DUV:DATA_PATH:BranchDetection_unit:Data1_ID \
+    simulator:::DUV:DATA_PATH:BranchDetection_unit:Data2_ID \
+    simulator:::DUV:DATA_PATH:BranchDetection_unit:instruction
+group using FORWARDING_UNIT
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    simulator:::DUV:DATA_PATH:Forwarding_unit:Forward1 \
+    simulator:::DUV:DATA_PATH:Forwarding_unit:Forward2 \
+    simulator:::DUV:DATA_PATH:Forwarding_unit:ForwardA \
+    simulator:::DUV:DATA_PATH:Forwarding_unit:ForwardB \
+    simulator:::DUV:DATA_PATH:Forwarding_unit:ForwardWb_A \
+    simulator:::DUV:DATA_PATH:Forwarding_unit:ForwardWb_B \
+    simulator:::DUV:DATA_PATH:Forwarding_unit:rd_stage_EX \
+    simulator:::DUV:DATA_PATH:Forwarding_unit:rd_stage_MEM \
+    simulator:::DUV:DATA_PATH:Forwarding_unit:rd_stage_WB \
+    simulator:::DUV:DATA_PATH:Forwarding_unit:RegWrite_stage_EX \
+    simulator:::DUV:DATA_PATH:Forwarding_unit:RegWrite_stage_MEM \
+    simulator:::DUV:DATA_PATH:Forwarding_unit:RegWrite_stage_WB \
+    simulator:::DUV:DATA_PATH:Forwarding_unit:rs1_stage_EX \
+    simulator:::DUV:DATA_PATH:Forwarding_unit:rs1_stage_ID \
+    simulator:::DUV:DATA_PATH:Forwarding_unit:rs2_stage_EX \
+    simulator:::DUV:DATA_PATH:Forwarding_unit:rs2_stage_ID
+group using HAZARD_UNIT
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    simulator:::DUV:DATA_PATH:HazardDetection_unit:bubble_hazard_EX \
+    simulator:::DUV:DATA_PATH:HazardDetection_unit:ce \
+    simulator:::DUV:DATA_PATH:HazardDetection_unit:ce_pc \
+    simulator:::DUV:DATA_PATH:HazardDetection_unit:ce_stage_ID \
+    simulator:::DUV:DATA_PATH:HazardDetection_unit:MemToReg_EX \
+    simulator:::DUV:DATA_PATH:HazardDetection_unit:rs1_ID \
+    simulator:::DUV:DATA_PATH:HazardDetection_unit:rs2_EX \
+    simulator:::DUV:DATA_PATH:HazardDetection_unit:rs2_ID
+group using IMM_EXTRACTOR
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    simulator:::DUV:DATA_PATH:IMM_DATA_EXTRACT:imm_data \
+    simulator:::DUV:DATA_PATH:IMM_DATA_EXTRACT:instruction \
+    simulator:::DUV:DATA_PATH:IMM_DATA_EXTRACT:instruction_f
+group using DATA_MEMORY
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    simulator:::DATA_MEMORY:clock \
+    simulator:::DATA_MEMORY:address \
+    simulator:::DATA_MEMORY:data_i \
+    simulator:::DATA_MEMORY:data_o \
+    simulator:::DATA_MEMORY:memoryArray \
+    simulator:::DATA_MEMORY:MemWrite
+group using INSTRUCTION_MEMORY
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    simulator:::INSTRUCTION_MEMORY:clock \
+    simulator:::INSTRUCTION_MEMORY:address \
+    simulator:::INSTRUCTION_MEMORY:data_i \
+    simulator:::INSTRUCTION_MEMORY:data_o \
+    simulator:::INSTRUCTION_MEMORY:memoryArray \
+    simulator:::INSTRUCTION_MEMORY:MemWrite
+group using INS_SIGNALS
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    simulator:::DUV:DATA_PATH:uins_ID \
+    simulator:::DUV:DATA_PATH:uins_EX \
+    simulator:::DUV:DATA_PATH:uins_MEM \
+    simulator:::DUV:DATA_PATH:uins_WB
+
+#
+# Mnemonic Maps
+#
+mmap new  -reuse -name {Boolean as Logic} -radix %b -contents {{%c=FALSE -edgepriority 1 -shape low}
+{%c=TRUE -edgepriority 1 -shape high}}
+mmap new  -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor orange -label REG:%x -linecolor yellow -shape bus}
+{%x=1F -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=2C -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=* -label %x -linecolor gray -shape bus}}
+
+#
+# Design Browser windows
+#
+if {[catch {window new WatchList -name "Design Browser 1" -geometry 1920x977+-1+27}] != ""} {
+    window geometry "Design Browser 1" 1920x977+-1+27
+}
+window target "Design Browser 1" on
+browser using {Design Browser 1}
+browser set -scope  simulator:::DUV:DATA_PATH 
+browser set \
+    -signalsort name
+browser yview see  simulator:::DUV:DATA_PATH 
+browser timecontrol set -lock 0
+
+#
+# Waveform windows
+#
+if {[catch {window new WaveWindow -name "Waveform 3" -geometry 1920x1043+1919+-1}] != ""} {
+    window geometry "Waveform 3" 1920x1043+1919+-1
+}
+window target "Waveform 3" on
+waveform using {Waveform 3}
+waveform sidebar visibility partial
+waveform set \
+    -primarycursor TimeA \
+    -signalnames name \
+    -signalwidth 175 \
+    -units fs \
+    -valuewidth 75
+waveform baseline set -time 0
+
+
+set groupId0 [waveform add -groups RISCV_PIPELINE]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups DATA_PATH]
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups INSTRUCTIONS]
+
+set groupId1 [waveform find -name INS_SIGNALS]
+waveform hierarchy collapse $groupId1
+
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups PC_REGISTER]
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups ID_STAGE]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups EX_STAGE]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups MEM_STAGE]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups WB_STAGE]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups ALU]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups REG_FILE]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups BRANCH_UNIT]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups FORWARDING_UNIT]
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups HAZARD_UNIT]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups IMM_EXTRACTOR]
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups DATA_MEMORY]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups INSTRUCTION_MEMORY]
+waveform hierarchy collapse $groupId0
+
+
+waveform xview limits 0 65000000fs
+
+#
+# Waveform Window Links
+#
+
+#
+# Console windows
+#
+console set -windowname Console
+window geometry Console 730x250+261+564
+
+#
+# Layout selection
+#

@@ -31,22 +31,15 @@ architecture arch2 of ImmediateDataExtractor is
     begin
         imm_data <= 
             -- Tipo I: Load e instruções imediatas
-            (instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & 
-             instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & 
-            instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31 downto 20)) when instruction_f = I else
+            (instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31 downto 20)) when instruction_f = I else
             -- Tipo S: Store
-            (instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & 
-             instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & 
-            instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31 downto 25) & instruction(11 downto 7)) when instruction_f = S else
+            (instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31 downto 25) & instruction(11 downto 7)) when instruction_f = S else
             -- Tipo B: Branch
-            (instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & 
-             instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & 
-            instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(7) & instruction(30 downto 25) & instruction(11 downto 8) & '0') when instruction_f = B else
+            (instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(7) & instruction(30 downto 25) & instruction(11 downto 8) & '0') when instruction_f = B else
             -- Tipo U: LUI e AUIPC
             (instruction(31 downto 12) & "000000000000") when instruction_f = U else
             -- Tipo J: Jump
-            (instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & 
-            instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(19 downto 12) & instruction(20) & instruction(30 downto 21) & "0");
+            (instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(31) & instruction(19 downto 12) & instruction(20) & instruction(30 downto 21) & "0");
 
     end arch2;
     

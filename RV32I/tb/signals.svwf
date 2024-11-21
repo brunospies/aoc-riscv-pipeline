@@ -12,25 +12,25 @@ mmap new  -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor or
 #
 # Conditions
 #
-set expression :MIPS_PIPELINE:DATA_PATH:uins_EX.instruction
-if {[catch {condition new -name  Instruction_Stage_EX -expr $expression}] != ""} {
-    condition set -using Instruction_Stage_EX -expr $expression
+set expression :DUV:DATA_PATH:Stage_EX:uins_out.instruction
+if {[catch {condition new -name  instruction_EX -expr $expression}] != ""} {
+    condition set -using instruction_EX -expr $expression
 }
-set expression :MIPS_PIPELINE:DATA_PATH:uins_ID.instruction
-if {[catch {condition new -name  Instruction_Stage_ID -expr $expression}] != ""} {
-    condition set -using Instruction_Stage_ID -expr $expression
+set expression :DUV:DATA_PATH:Stage_EX:uins_in.instruction
+if {[catch {condition new -name  instruction_ID -expr $expression}] != ""} {
+    condition set -using instruction_ID -expr $expression
 }
-set expression :MIPS_PIPELINE:DATA_PATH:instruction_Stage_IF
-if {[catch {condition new -name  Instruction_Stage_IF -expr $expression}] != ""} {
-    condition set -using Instruction_Stage_IF -expr $expression
+set expression :DUV:DATA_PATH:decodedInstruction_IF
+if {[catch {condition new -name  instruction_IF -expr $expression}] != ""} {
+    condition set -using instruction_IF -expr $expression
 }
-set expression :MIPS_PIPELINE:DATA_PATH:uins_MEM.instruction
-if {[catch {condition new -name  Instruction_Stage_MEM -expr $expression}] != ""} {
-    condition set -using Instruction_Stage_MEM -expr $expression
+set expression :DUV:DATA_PATH:Stage_MEM:uins_out.instruction
+if {[catch {condition new -name  instruction_MEM -expr $expression}] != ""} {
+    condition set -using instruction_MEM -expr $expression
 }
-set expression :MIPS_PIPELINE:DATA_PATH:uins_WB.instruction
-if {[catch {condition new -name  Instruction_Stage_WB -expr $expression}] != ""} {
-    condition set -using Instruction_Stage_WB -expr $expression
+set expression :DUV:DATA_PATH:Stage_WB:uins_out.instruction
+if {[catch {condition new -name  instruction_WB -expr $expression}] != ""} {
+    condition set -using instruction_WB -expr $expression
 }
 
 array unset createdGroup
@@ -38,33 +38,61 @@ array set createdGroup {}
 #
 # Groups
 #
-if {[catch {group get -using [list Instructions_Stages]}]} {
-set createdGroup([list Instructions_Stages]) 1
-catch {group new -name Instructions_Stages -overlay 0}
+if {[catch {group get -using [list RISCV_PIPELINE]}]} {
+set createdGroup([list RISCV_PIPELINE]) 1
+catch {group new -name RISCV_PIPELINE -overlay 0}
 }
-if {[catch {group get -using [list Group 2]}]} {
-set createdGroup([list Group 2]) 1
-catch {group new -name {Group 2} -overlay 0}
+if {[catch {group get -using [list DATA_PATH]}]} {
+set createdGroup([list DATA_PATH]) 1
+catch {group new -name DATA_PATH -overlay 0}
 }
-if {[catch {group get -using [list Instruction_Stages_Signals]}]} {
-set createdGroup([list Instruction_Stages_Signals]) 1
-catch {group new -name Instruction_Stages_Signals -overlay 0}
+if {[catch {group get -using [list INSTRUCTIONS]}]} {
+set createdGroup([list INSTRUCTIONS]) 1
+catch {group new -name INSTRUCTIONS -overlay 0}
+}
+if {[catch {group get -using [list IF_STAGE]}]} {
+set createdGroup([list IF_STAGE]) 1
+catch {group new -name IF_STAGE -overlay 0}
+}
+if {[catch {group get -using [list ID_STAGE]}]} {
+set createdGroup([list ID_STAGE]) 1
+catch {group new -name ID_STAGE -overlay 0}
+}
+if {[catch {group get -using [list EX_STAGE]}]} {
+set createdGroup([list EX_STAGE]) 1
+catch {group new -name EX_STAGE -overlay 0}
+}
+if {[catch {group get -using [list MEM_STAGE]}]} {
+set createdGroup([list MEM_STAGE]) 1
+catch {group new -name MEM_STAGE -overlay 0}
+}
+if {[catch {group get -using [list WB_STAGE]}]} {
+set createdGroup([list WB_STAGE]) 1
+catch {group new -name WB_STAGE -overlay 0}
 }
 if {[catch {group get -using [list ALU]}]} {
 set createdGroup([list ALU]) 1
 catch {group new -name ALU -overlay 0}
 }
-if {[catch {group get -using [list BRANCH_DETECTION_UNIT]}]} {
-set createdGroup([list BRANCH_DETECTION_UNIT]) 1
-catch {group new -name BRANCH_DETECTION_UNIT -overlay 0}
+if {[catch {group get -using [list REG_FILE]}]} {
+set createdGroup([list REG_FILE]) 1
+catch {group new -name REG_FILE -overlay 0}
+}
+if {[catch {group get -using [list BRANCH_UNIT]}]} {
+set createdGroup([list BRANCH_UNIT]) 1
+catch {group new -name BRANCH_UNIT -overlay 0}
 }
 if {[catch {group get -using [list FORWARDING_UNIT]}]} {
 set createdGroup([list FORWARDING_UNIT]) 1
 catch {group new -name FORWARDING_UNIT -overlay 0}
 }
-if {[catch {group get -using [list HAZARD_DETECTION_UNIT]}]} {
-set createdGroup([list HAZARD_DETECTION_UNIT]) 1
-catch {group new -name HAZARD_DETECTION_UNIT -overlay 0}
+if {[catch {group get -using [list HAZARD_UNIT]}]} {
+set createdGroup([list HAZARD_UNIT]) 1
+catch {group new -name HAZARD_UNIT -overlay 0}
+}
+if {[catch {group get -using [list IMM_EXTRACTOR]}]} {
+set createdGroup([list IMM_EXTRACTOR]) 1
+catch {group new -name IMM_EXTRACTOR -overlay 0}
 }
 if {[catch {group get -using [list DATA_MEMORY]}]} {
 set createdGroup([list DATA_MEMORY]) 1
@@ -74,49 +102,152 @@ if {[catch {group get -using [list INSTRUCTION_MEMORY]}]} {
 set createdGroup([list INSTRUCTION_MEMORY]) 1
 catch {group new -name INSTRUCTION_MEMORY -overlay 0}
 }
-if {[catch {group get -using [list MIPS_PIPELINE]}]} {
-set createdGroup([list MIPS_PIPELINE]) 1
-catch {group new -name MIPS_PIPELINE -overlay 0}
+if {[catch {group get -using [list INS_SIGNALS]}]} {
+set createdGroup([list INS_SIGNALS]) 1
+catch {group new -name INS_SIGNALS -overlay 0}
 }
-if {[catch {group get -using [list Group 11]}]} {
-set createdGroup([list Group 11]) 1
-catch {group new -name {Group 11} -overlay 0}
-}
-if {[catch {group get -using [list CICLES]}]} {
-set createdGroup([list CICLES]) 1
-catch {group new -name CICLES -overlay 0}
-}
-if {[info exists createdGroup([list Instructions_Stages])]} {
-group using Instructions_Stages
+if {[info exists createdGroup([list RISCV_PIPELINE])]} {
+group using RISCV_PIPELINE
 group set -overlay 0
 group set -comment {}
 group clear 0 end
 group insert \
-    [subst  {[format {Instruction_Stage_IF}]} ] \
-    [subst  {[format {Instruction_Stage_ID}]} ] \
-    [subst  {[format {Instruction_Stage_EX}]} ] \
-    [subst  {[format {Instruction_Stage_MEM}]} ] \
-    [subst  {[format {Instruction_Stage_WB}]} ]
+    [subst  {[format {:DUV:clock}]} ] \
+    [subst  {[format {:DUV:data_i}]} ] \
+    [subst  {[format {:DUV:data_o}]} ] \
+    [subst  {[format {:DUV:dataAddress}]} ] \
+    [subst  {[format {:DUV:instruction}]} ] \
+    [subst  {[format {:DUV:instructionAddress}]} ] \
+    [subst  {[format {:DUV:MemWrite}]} ] \
+    [subst  {[format {:DUV:reset}]} ]
 }
 
-if {[info exists createdGroup([list Group 2])]} {
-group using {Group 2}
-group set -overlay 0
-group set -comment {}
-group clear 0 end
-
-}
-
-if {[info exists createdGroup([list Instruction_Stages_Signals])]} {
-group using Instruction_Stages_Signals
+if {[info exists createdGroup([list DATA_PATH])]} {
+group using DATA_PATH
 group set -overlay 0
 group set -comment {}
 group clear 0 end
 group insert \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:uins_ID}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:uins_EX}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:uins_MEM}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:uins_WB}]} ]
+    [subst  {[format {:DUV:DATA_PATH:uins_ID}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:reset}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:MemWrite}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:instructionAddress}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:instruction_out}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:instruction_IF}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:dataAddress}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:data_o}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:data_i}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:clock}]} ]
+}
+
+if {[info exists createdGroup([list INSTRUCTIONS])]} {
+group using INSTRUCTIONS
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {instruction_IF}]} ] \
+    [subst  {[format {instruction_ID}]} ] \
+    [subst  {[format {instruction_EX}]} ] \
+    [subst  {[format {instruction_MEM}]} ] \
+    [subst  {[format {instruction_WB}]} ] \
+    INS_SIGNALS
+}
+
+if {[info exists createdGroup([list IF_STAGE])]} {
+group using IF_STAGE
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {:DUV:DATA_PATH:PROGRAM_COUNTER:ce}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:PROGRAM_COUNTER:clock}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:PROGRAM_COUNTER:d}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:PROGRAM_COUNTER:INIT_VALUE}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:PROGRAM_COUNTER:LENGTH}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:PROGRAM_COUNTER:q}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:PROGRAM_COUNTER:reset}]} ]
+}
+
+if {[info exists createdGroup([list ID_STAGE])]} {
+group using ID_STAGE
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {:DUV:DATA_PATH:Stage_ID:ce}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_ID:clock}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_ID:INIT}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_ID:instruction_in}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_ID:instruction_out}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_ID:pc_in}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_ID:pc_out}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_ID:reset}]} ]
+}
+
+if {[info exists createdGroup([list EX_STAGE])]} {
+group using EX_STAGE
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {:DUV:DATA_PATH:Stage_EX:clock}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_EX:imm_data_in}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_EX:imm_data_out}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_EX:INIT}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_EX:pc_in}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_EX:pc_out}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_EX:rd_in}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_EX:rd_out}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_EX:read_data_1_in}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_EX:read_data_1_out}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_EX:read_data_2_in}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_EX:read_data_2_out}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_EX:reset}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_EX:rs1_in}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_EX:rs1_out}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_EX:rs2_in}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_EX:rs2_out}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_EX:uins_in}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_EX:uins_out}]} ]
+}
+
+if {[info exists createdGroup([list MEM_STAGE])]} {
+group using MEM_STAGE
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {:DUV:DATA_PATH:Stage_MEM:alu_result_in}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_MEM:alu_result_out}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_MEM:clock}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_MEM:INIT}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_MEM:rd_in}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_MEM:rd_out}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_MEM:reset}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_MEM:uins_in}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_MEM:uins_out}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_MEM:write_data_in}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_MEM:write_data_out}]} ]
+}
+
+if {[info exists createdGroup([list WB_STAGE])]} {
+group using WB_STAGE
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {:DUV:DATA_PATH:Stage_WB:alu_result_in}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_WB:alu_result_out}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_WB:clock}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_WB:INIT}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_WB:rd_in}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_WB:rd_out}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_WB:read_data_in}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_WB:read_data_out}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_WB:reset}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_WB:uins_in}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Stage_WB:uins_out}]} ]
 }
 
 if {[info exists createdGroup([list ALU])]} {
@@ -125,29 +256,52 @@ group set -overlay 0
 group set -comment {}
 group clear 0 end
 group insert \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:ALU:op1}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:ALU:op2}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:ALU:operand1}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:ALU:operand2}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:ALU:operation}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:ALU:result}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:ALU:temp}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:ALU:zero}]} ]
+    [subst  {[format {:DUV:DATA_PATH:ALU:four}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:ALU:one}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:ALU:op1_s}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:ALU:op1_u}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:ALU:op2_i}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:ALU:op2_s}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:ALU:op2_u}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:ALU:operand1}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:ALU:operand2}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:ALU:operation}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:ALU:pc}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:ALU:result}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:ALU:zero}]} ]
 }
 
-if {[info exists createdGroup([list BRANCH_DETECTION_UNIT])]} {
-group using BRANCH_DETECTION_UNIT
+if {[info exists createdGroup([list REG_FILE])]} {
+group using REG_FILE
 group set -overlay 0
 group set -comment {}
 group clear 0 end
 group insert \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:BranchDetection_unit:Branch_ID}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:BranchDetection_unit:clock}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:BranchDetection_unit:jump_ID}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:BranchDetection_unit:reset}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:BranchDetection_unit:rst_branch}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:BranchDetection_unit:rst_branch_ID}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:BranchDetection_unit:zero_branch}]} ]
+    [subst  {[format {:DUV:DATA_PATH:REGISTER_FILE:clock}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:REGISTER_FILE:readData1}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:REGISTER_FILE:readData2}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:REGISTER_FILE:readRegister1}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:REGISTER_FILE:readRegister2}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:REGISTER_FILE:reg}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:REGISTER_FILE:reset}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:REGISTER_FILE:write}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:REGISTER_FILE:writeData}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:REGISTER_FILE:writeEnable}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:REGISTER_FILE:writeRegister}]} ]
+}
+
+if {[info exists createdGroup([list BRANCH_UNIT])]} {
+group using BRANCH_UNIT
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {:DUV:DATA_PATH:BranchDetection_unit:branch_decision}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:BranchDetection_unit:branch_prediction}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:BranchDetection_unit:bubble_branch_ID}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:BranchDetection_unit:Data1_ID}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:BranchDetection_unit:Data2_ID}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:BranchDetection_unit:instruction}]} ]
 }
 
 if {[info exists createdGroup([list FORWARDING_UNIT])]} {
@@ -156,41 +310,49 @@ group set -overlay 0
 group set -comment {}
 group clear 0 end
 group insert \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:Forwarding_unit:Forward1}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:Forwarding_unit:Forward2}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:Forwarding_unit:ForwardA}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:Forwarding_unit:ForwardB}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:Forwarding_unit:ForwardWb_A}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:Forwarding_unit:ForwardWb_B}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:Forwarding_unit:RegWrite_stage_EX}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:Forwarding_unit:RegWrite_stage_MEM}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:Forwarding_unit:RegWrite_stage_WB}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:Forwarding_unit:rs_stage_EX}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:Forwarding_unit:rs_stage_ID}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:Forwarding_unit:rt_stage_EX}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:Forwarding_unit:rt_stage_ID}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:Forwarding_unit:WriteReg_stage_EX}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:Forwarding_unit:WriteReg_stage_MEM}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:Forwarding_unit:WriteReg_stage_WB}]} ]
+    [subst  {[format {:DUV:DATA_PATH:Forwarding_unit:Forward1}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Forwarding_unit:Forward2}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Forwarding_unit:ForwardA}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Forwarding_unit:ForwardB}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Forwarding_unit:ForwardWb_A}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Forwarding_unit:ForwardWb_B}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Forwarding_unit:rd_stage_EX}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Forwarding_unit:rd_stage_MEM}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Forwarding_unit:rd_stage_WB}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Forwarding_unit:RegWrite_stage_EX}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Forwarding_unit:RegWrite_stage_MEM}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Forwarding_unit:RegWrite_stage_WB}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Forwarding_unit:rs1_stage_EX}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Forwarding_unit:rs1_stage_ID}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Forwarding_unit:rs2_stage_EX}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:Forwarding_unit:rs2_stage_ID}]} ]
 }
 
-if {[info exists createdGroup([list HAZARD_DETECTION_UNIT])]} {
-group using HAZARD_DETECTION_UNIT
+if {[info exists createdGroup([list HAZARD_UNIT])]} {
+group using HAZARD_UNIT
 group set -overlay 0
 group set -comment {}
 group clear 0 end
 group insert \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:HazardDetection_unit:ce}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:HazardDetection_unit:ce_pc}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:HazardDetection_unit:ce_stage_ID}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:HazardDetection_unit:clock}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:HazardDetection_unit:MemToReg_EX}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:HazardDetection_unit:reset}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:HazardDetection_unit:rs_ID}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:HazardDetection_unit:rst_hazard}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:HazardDetection_unit:rst_hazard_stage_EX}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:HazardDetection_unit:rt_EX}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:HazardDetection_unit:rt_ID}]} ]
+    [subst  {[format {:DUV:DATA_PATH:HazardDetection_unit:bubble_hazard_EX}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:HazardDetection_unit:ce}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:HazardDetection_unit:ce_pc}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:HazardDetection_unit:ce_stage_ID}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:HazardDetection_unit:MemToReg_EX}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:HazardDetection_unit:rs1_ID}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:HazardDetection_unit:rs2_EX}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:HazardDetection_unit:rs2_ID}]} ]
+}
+
+if {[info exists createdGroup([list IMM_EXTRACTOR])]} {
+group using IMM_EXTRACTOR
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {:DUV:DATA_PATH:IMM_DATA_EXTRACT:imm_data}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:IMM_DATA_EXTRACT:instruction}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:IMM_DATA_EXTRACT:instruction_f}]} ]
 }
 
 if {[info exists createdGroup([list DATA_MEMORY])]} {
@@ -199,17 +361,12 @@ group set -overlay 0
 group set -comment {}
 group clear 0 end
 group insert \
-    [subst  {[format {:DATA_MEMORY:address}]} ] \
     [subst  {[format {:DATA_MEMORY:clock}]} ] \
+    [subst  {[format {:DATA_MEMORY:address}]} ] \
     [subst  {[format {:DATA_MEMORY:data_i}]} ] \
     [subst  {[format {:DATA_MEMORY:data_o}]} ] \
-    [subst  {[format {:DATA_MEMORY:imageFileName}]} ] \
-    [subst  {[format {:DATA_MEMORY:mappedAddress}]} ] \
     [subst  {[format {:DATA_MEMORY:memoryArray}]} ] \
-    [subst  {[format {:DATA_MEMORY:MemWrite}]} ] \
-    [subst  {[format {:DATA_MEMORY:SIZE}]} ] \
-    [subst  {[format {:DATA_MEMORY:START_ADDRESS}]} ] \
-    [subst  {[format {:DATA_MEMORY:wordAddress}]} ]
+    [subst  {[format {:DATA_MEMORY:MemWrite}]} ]
 }
 
 if {[info exists createdGroup([list INSTRUCTION_MEMORY])]} {
@@ -218,67 +375,67 @@ group set -overlay 0
 group set -comment {}
 group clear 0 end
 group insert \
-    [subst  {[format {:INSTRUCTION_MEMORY:address}]} ] \
     [subst  {[format {:INSTRUCTION_MEMORY:clock}]} ] \
+    [subst  {[format {:INSTRUCTION_MEMORY:address}]} ] \
     [subst  {[format {:INSTRUCTION_MEMORY:data_i}]} ] \
     [subst  {[format {:INSTRUCTION_MEMORY:data_o}]} ] \
-    [subst  {[format {:INSTRUCTION_MEMORY:imageFileName}]} ] \
-    [subst  {[format {:INSTRUCTION_MEMORY:mappedAddress}]} ] \
     [subst  {[format {:INSTRUCTION_MEMORY:memoryArray}]} ] \
-    [subst  {[format {:INSTRUCTION_MEMORY:MemWrite}]} ] \
-    [subst  {[format {:INSTRUCTION_MEMORY:SIZE}]} ] \
-    [subst  {[format {:INSTRUCTION_MEMORY:START_ADDRESS}]} ] \
-    [subst  {[format {:INSTRUCTION_MEMORY:wordAddress}]} ]
+    [subst  {[format {:INSTRUCTION_MEMORY:MemWrite}]} ]
 }
 
-if {[info exists createdGroup([list MIPS_PIPELINE])]} {
-group using MIPS_PIPELINE
+if {[info exists createdGroup([list INS_SIGNALS])]} {
+group using INS_SIGNALS
 group set -overlay 0
 group set -comment {}
 group clear 0 end
 group insert \
-    [subst  {[format {:MIPS_PIPELINE:clock}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:data_i}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:data_o}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:dataAddress}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:instruction}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:instruction_1}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:instructionAddress}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:MemWrite}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:PC_START_ADDRESS}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:reset}]} ] \
-    [subst  {[format {:MIPS_PIPELINE:uins}]} ]
-}
-
-if {[info exists createdGroup([list Group 11])]} {
-group using {Group 11}
-group set -overlay 0
-group set -comment {}
-group clear 0 end
-
-}
-
-if {[info exists createdGroup([list CICLES])]} {
-group using CICLES
-group set -overlay 0
-group set -comment {}
-group clear 0 end
-group insert \
-    [subst  {[format {:MIPS_PIPELINE:DATA_PATH:cicles}]} ]
+    [subst  {[format {:DUV:DATA_PATH:uins_ID}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:uins_EX}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:uins_MEM}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:uins_WB}]} ]
 }
 
 
-set groupId0 [waveform add -groups MIPS_PIPELINE]
+set groupId0 [waveform add -groups RISCV_PIPELINE]
 waveform hierarchy collapse $groupId0
 
 set id [waveform add -cdivider divider]
 
-set groupId0 [waveform add -groups Instructions_Stages]
+set groupId0 [waveform add -groups DATA_PATH]
 waveform hierarchy collapse $groupId0
 
 set id [waveform add -cdivider divider]
 
-set groupId0 [waveform add -groups Instruction_Stages_Signals]
+set groupId0 [waveform add -groups INSTRUCTIONS]
+
+set groupId1 [waveform find -name INS_SIGNALS]
+waveform hierarchy collapse $groupId1
+
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups IF_STAGE]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups ID_STAGE]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups EX_STAGE]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups MEM_STAGE]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups WB_STAGE]
 waveform hierarchy collapse $groupId0
 
 set id [waveform add -cdivider divider]
@@ -288,7 +445,12 @@ waveform hierarchy collapse $groupId0
 
 set id [waveform add -cdivider divider]
 
-set groupId0 [waveform add -groups BRANCH_DETECTION_UNIT]
+set groupId0 [waveform add -groups REG_FILE]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups BRANCH_UNIT]
 waveform hierarchy collapse $groupId0
 
 set id [waveform add -cdivider divider]
@@ -298,7 +460,12 @@ waveform hierarchy collapse $groupId0
 
 set id [waveform add -cdivider divider]
 
-set groupId0 [waveform add -groups HAZARD_DETECTION_UNIT]
+set groupId0 [waveform add -groups HAZARD_UNIT]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups IMM_EXTRACTOR]
 waveform hierarchy collapse $groupId0
 
 set id [waveform add -cdivider divider]
@@ -309,11 +476,6 @@ waveform hierarchy collapse $groupId0
 set id [waveform add -cdivider divider]
 
 set groupId0 [waveform add -groups INSTRUCTION_MEMORY]
-waveform hierarchy collapse $groupId0
-
-set id [waveform add -cdivider divider]
-
-set groupId0 [waveform add -groups CICLES]
 waveform hierarchy collapse $groupId0
 
 

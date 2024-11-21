@@ -142,7 +142,7 @@ begin
         if reset = '1' then
             uins_out.instruction <= INVALID_INSTRUCTION;
 	        uins_out.RegWrite    <= '0';
-            uins_out.ALUSrc      <= "00";
+            uins_out.ALUSrc      <= '0';
             uins_out.MemWrite    <= '0';
             uins_out.MemToReg    <= '0';   
             

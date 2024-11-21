@@ -39,7 +39,7 @@ architecture behavioral of ALU is
 
     signal op1_u, op2_u: UNSIGNED(31 downto 0);
     signal op1_s, op2_s: SIGNED(31 downto 0);
-    signal op1_i, op2_i: INTEGER;
+    signal op2_i: INTEGER;
 
     constant zero : STD_LOGIC_VECTOR(31 downto 0):= (others=>'0'); 
     constant one  : STD_LOGIC_VECTOR(31 downto 0):= x"00000001";
@@ -53,7 +53,6 @@ begin
     op1_s <= SIGNED(operand1);
     op2_s <= SIGNED(operand2); 
    
-    op1_i <= TO_INTEGER(op1_u);
     op2_i <= TO_INTEGER(op2_u);
 
     result <= operand2                                           when operation = LUI else 

@@ -27,7 +27,7 @@ entity RISCV_pipeline is
     );
 end RISCV_pipeline;
 
-architecture structural of MIPS_pipeline is
+architecture structural of RISCV_pipeline is
     
     signal uins : Microinstruction;
     signal instruction_1 : std_logic_vector(31 downto 0);

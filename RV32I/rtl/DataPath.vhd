@@ -38,14 +38,14 @@ architecture structural of DataPath is
 
     -- Instruction Decode Stage Signals:
     signal PC_ID, readData1_ID, readData2_ID, imm_data_ID, imm_data_ID_mux, jumpTarget : std_logic_vector(31 downto 0);
-    signal branchOffset, branchTarget, readReg1, readReg2, Data1_ID, Data1_ID_mux, Data2_ID, Data2_ID_mux, instruction_ID : std_logic_vector(31 downto 0);
+    signal branchTarget, readReg1, readReg2, Data1_ID, Data1_ID_mux, Data2_ID, Data2_ID_mux, instruction_ID : std_logic_vector(31 downto 0);
     signal rs1_ID, rs2_ID, rd_ID, rs1_ID_mux, rs2_ID_mux, rd_ID_mux: std_logic_vector(4 downto 0);
     signal ce_stage_ID, bubble_branch_ID, branch_decision : std_logic;
     signal uins_ID_mux : Microinstruction;
 
     -- Execution Stage Signals:
     signal result_EX, readData1_EX, readData2_EX, operand1, operand2 : std_logic_vector(31 downto 0);
-    signal ALUoperand2, imm_data_EX, zeroExtended_EX, PC_EX : std_logic_vector(31 downto 0);
+    signal ALUoperand2, imm_data_EX, PC_EX : std_logic_vector(31 downto 0);
     signal uins_EX : Microinstruction;
     signal rd_EX, rs2_EX, rs1_EX : std_logic_vector(4 downto 0);
     signal bubble_hazard_EX : std_logic;
@@ -87,20 +87,9 @@ begin
     -- Instruction memory is addressed by the PC register
     instructionAddress <= pc_q;
     
-    -- Compare reads data of reg file for branch 
-    COMP_READ_REGS: branch_decision <= '1' when readReg1 = readReg2  else '0';
-    
-    -- Sign extends the low 16 bits of instruction 
-    SIGN_EX: imm_data_ID <= x"FFFF" & instruction_ID(15 downto 0) when instruction_ID(15) = '1' else 
-             x"0000" & instruction_ID(15 downto 0);
-       
-    -- Convert the branch offset from words to bytes (multiply by 4) 
-    -- Hardware at the second ADDER input
-    SHIFT_L: branchOffset <= imm_data_ID(30 downto 0) & "0";
-    
     -- Branch or Jump target address
     -- Branch ADDER
-    ADDER_BRANCH: branchTarget <= STD_LOGIC_VECTOR(UNSIGNED(PC_ID) + UNSIGNED(branchOffset));
+    ADDER_BRANCH: branchTarget <= STD_LOGIC_VECTOR(UNSIGNED(PC_ID) + UNSIGNED(imm_data_ID));
 
     jumpTarget <= STD_LOGIC_VECTOR(UNSIGNED(imm_data_ID) + UNSIGNED(Data1_ID));
     
@@ -111,8 +100,7 @@ begin
       
     -- Selects the second ALU operand
     -- MUX at the ALU input
-    MUX_ALU: ALUoperand2 <= operand2 when uins_EX.ALUSrc = "00" else
-                            zeroExtended_EX when uins_EX.ALUSrc = "01" else
+    MUX_ALU: ALUoperand2 <= operand2 when uins_EX.ALUSrc = '0' else
                             imm_data_EX;
     
     -- Selects the data to be written in the register file
@@ -344,7 +332,7 @@ begin
     -- BUBBLE signals 
 
     uins_bubble.RegWrite     <= '0';
-    uins_bubble.ALUSrc       <= "00";
+    uins_bubble.ALUSrc       <= '0';
     uins_bubble.MemToReg     <= '0';
     uins_bubble.MemWrite     <= '0';
     uins_bubble.format       <= X;

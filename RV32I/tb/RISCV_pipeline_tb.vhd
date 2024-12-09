@@ -17,7 +17,8 @@ architecture structural of RISCV_pipeline_tb is
 
     -- Declaração de sinais
     signal clock: std_logic := '0';
-    signal reset, MemWrite: std_logic;
+    signal reset: std_logic;
+    signal MemWrite: std_logic_vector(3 downto 0);
     signal instructionAddress, dataAddress, instruction, data_i, data_o : std_logic_vector(31 downto 0);
     signal uins: Microinstruction;
 
@@ -41,7 +42,7 @@ architecture structural of RISCV_pipeline_tb is
             dataAddress         : out std_logic_vector(31 downto 0);
             data_i              : in std_logic_vector(31 downto 0);
             data_o              : out std_logic_vector(31 downto 0);
-            MemWrite            : out std_logic
+            MemWrite            : out std_logic_vector(3 downto 0)
         );
     end component;
 
@@ -95,7 +96,7 @@ begin
         )
         port map (
             clock           => clock,
-            MemWrite        => MemWrite,
+            MemWrite        => MemWrite(0),
             address         => dataAddress,    
             data_i          => data_o,
             data_o          => data_i

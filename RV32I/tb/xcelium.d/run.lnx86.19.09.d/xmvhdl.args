@@ -1,3 +1,11 @@
+//
+// File created by:  xrun
+// Do not modify this file
+//
+-XLMODE
+./xcelium.d/run.lnx86.19.09.d
+-RUNMODE
+-V200X
 ../rtl/RISCV_package.vhd
 ../rtl/shift_unit.vhd
 ../rtl/ALU.vhd
@@ -17,3 +25,9 @@
 Util_package.vhd
 Memory.vhd
 RISCV_pipeline_tb.vhd
+-CDSLIB
+./xcelium.d/run.lnx86.19.09.d/cdsrun.lib
+-HDLVAR
+./xcelium.d/run.lnx86.19.09.d/hdlrun.var
+-MESSAGES
+-UPDATE

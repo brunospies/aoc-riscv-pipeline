@@ -1,0 +1,253 @@
+xrun: 19.09-s005: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+TOOL:	xrun	19.09-s005: Started on Dec 09, 2024 at 16:42:19 -03
+xrun
+	-v200x
+	-f filelist.txt
+		../rtl/RISCV_package.vhd
+		../rtl/shift_unit.vhd
+		../rtl/ALU.vhd
+		../rtl/RegisterNbits.vhd
+		../rtl/Forwarding_unit.vhd
+		../rtl/HazardDetection_unit.vhd
+		../rtl/BranchDetection_unit.vhd
+		../rtl/ImmediateDataExtractor.vhd
+		../rtl/RegisterFile.vhd
+		../rtl/Stage_ID.vhd
+		../rtl/Stage_EX.vhd
+		../rtl/Stage_MEM.vhd
+		../rtl/Stage_WB.vhd
+		../rtl/DataPath.vhd
+		../rtl/ControlPath.vhd
+		../rtl/RISCV_pipeline.vhd
+		Util_package.vhd
+		Memory.vhd
+		RISCV_pipeline_tb.vhd
+	-top RISCV_pipeline_tb
+	-access +rwc
+	-gui
+../rtl/RISCV_package.vhd:
+	errors: 0, warnings: 0
+../rtl/shift_unit.vhd:
+	errors: 0, warnings: 0
+../rtl/ALU.vhd:
+	errors: 0, warnings: 0
+../rtl/RegisterNbits.vhd:
+	errors: 0, warnings: 0
+../rtl/Forwarding_unit.vhd:
+	errors: 0, warnings: 0
+../rtl/HazardDetection_unit.vhd:
+	errors: 0, warnings: 0
+../rtl/BranchDetection_unit.vhd:
+	errors: 0, warnings: 0
+../rtl/ImmediateDataExtractor.vhd:
+	errors: 0, warnings: 0
+../rtl/RegisterFile.vhd:
+	errors: 0, warnings: 0
+../rtl/Stage_ID.vhd:
+	errors: 0, warnings: 0
+../rtl/Stage_EX.vhd:
+	errors: 0, warnings: 0
+../rtl/Stage_MEM.vhd:
+	errors: 0, warnings: 0
+../rtl/Stage_WB.vhd:
+	errors: 0, warnings: 0
+../rtl/DataPath.vhd:
+	errors: 0, warnings: 0
+../rtl/ControlPath.vhd:
+	errors: 0, warnings: 0
+../rtl/RISCV_pipeline.vhd:
+	errors: 0, warnings: 0
+Util_package.vhd:
+	errors: 0, warnings: 0
+Memory.vhd:
+	errors: 0, warnings: 0
+RISCV_pipeline_tb.vhd:
+	errors: 0, warnings: 0
+WORKLIB.RISCV_PACKAGE (package):
+	streams: 1, words: 6
+WORKLIB.SHIFT_UNIT (entity):
+	streams: 8, words: 902
+WORKLIB.SHIFT_UNIT:BEHAVIORAL (architecture):
+	streams: 2, words: 2211
+WORKLIB.ALU (entity):
+	streams: 10, words: 1188
+WORKLIB.ALU:BEHAVIORAL (architecture):
+	streams: 2, words: 3012
+WORKLIB.REGISTERNBITS (entity):
+	streams: 10, words: 1419
+WORKLIB.REGISTERNBITS:BEHAVIORAL (architecture):
+	streams: 1, words: 114
+WORKLIB.FORWARDING_UNIT (entity):
+	streams: 28, words: 2566
+WORKLIB.FORWARDING_UNIT:ARCH1 (architecture):
+	streams: 1, words: 114
+WORKLIB.HAZARDDETECTION_UNIT (entity):
+	streams: 11, words: 740
+WORKLIB.HAZARDDETECTION_UNIT:ARCH1 (architecture):
+	streams: 1, words: 114
+WORKLIB.BRANCHDETECTION_UNIT (entity):
+	streams: 8, words: 628
+WORKLIB.BRANCHDETECTION_UNIT:ARCH1 (architecture):
+	streams: 1, words: 114
+WORKLIB.IMMEDIATEDATAEXTRACTOR (entity):
+	streams: 6, words: 606
+WORKLIB.IMMEDIATEDATAEXTRACTOR:ARCH2 (architecture):
+	streams: 1, words: 114
+WORKLIB.REGISTERFILE (entity):
+	streams: 16, words: 1592
+WORKLIB.REGISTERFILE:STRUCTURAL (architecture):
+	streams: 3, words: 3388
+WORKLIB.REGISTERFILE:BEHAVIORAL (architecture):
+	streams: 1, words: 573
+WORKLIB.STAGE_ID (entity):
+	streams: 13, words: 1245
+WORKLIB.STAGE_ID:BEHAVIORAL (architecture):
+	streams: 3, words: 3034
+WORKLIB.STAGE_EX (entity):
+	streams: 34, words: 4285
+WORKLIB.STAGE_EX:BEHAVIORAL (architecture):
+	streams: 8, words: 10411
+WORKLIB.STAGE_MEM (entity):
+	streams: 18, words: 2237
+WORKLIB.STAGE_MEM:BEHAVIORAL (architecture):
+	streams: 4, words: 4527
+WORKLIB.STAGE_WB (entity):
+	streams: 18, words: 2237
+WORKLIB.STAGE_WB:BEHAVIORAL (architecture):
+	streams: 4, words: 4527
+WORKLIB.DATAPATH (entity):
+	streams: 20, words: 2346
+WORKLIB.DATAPATH:STRUCTURAL (architecture):
+	streams: 12, words: 31762
+WORKLIB.CONTROLPATH (entity):
+	streams: 6, words: 609
+WORKLIB.CONTROLPATH:BEHAVIORAL (architecture):
+	streams: 1, words: 114
+WORKLIB.RISCV_PIPELINE (entity):
+	streams: 16, words: 1742
+WORKLIB.RISCV_PIPELINE:STRUCTURAL (architecture):
+	streams: 3, words: 3709
+WORKLIB.UTIL_PACKAGE (package):
+	streams: 3, words: 656
+WORKLIB.UTIL_PACKAGE:BODY (package body):
+	streams: 3, words: 2521
+WORKLIB.MEMORY (entity):
+	streams: 13, words: 1215
+WORKLIB.MEMORY:BEHAVIORAL (architecture):
+	streams: 3, words: 6072
+WORKLIB.RISCV_PIPELINE_TB (entity):
+	streams: 1, words: 38
+WORKLIB.RISCV_PIPELINE_TB:STRUCTURAL (architecture):
+	streams: 3, words: 6684
+xmelab: *W,ARCMRA: Elaborating the WORKLIB.RISCV_PIPELINE_TB:STRUCTURAL, MRA (most recently analyzed) architecture.
+	Elaborating the design hierarchy:
+xmelab: *W,CUDEFB: default binding occurred for component instance (:RISCV_pipeline_tb(structural):DUV) with design unit (WORKLIB.RISCV_PIPELINE:STRUCTURAL).
+	Top level design units:
+		:riscv_pipeline_tb(structural):
+	Building instance specific data structures.
+	Design hierarchy summary:
+		             Instances  Unique
+		Components:         65      16
+		Default bindings:    1       -
+		Processes:         159      73
+		Signals:            88      85
+	Writing initial simulation snapshot: WORKLIB.RISCV_PIPELINE_TB:STRUCTURAL
+
+-------------------------------------
+Relinquished control to SimVision...
+xcelium> 
+xcelium> database -open waves -into waves.shm -default
+Created default SHM database waves
+xcelium> probe -create -shm :DUV:DATA_PATH:uins_ID :DUV:DATA_PATH:reset :DUV:DATA_PATH:MemWrite :DUV:DATA_PATH:instructionAddress :DUV:DATA_PATH:instruction_out :DUV:DATA_PATH:instruction_IF :DUV:DATA_PATH:dataAddress :DUV:DATA_PATH:data_o :DUV:DATA_PATH:data_i :DUV:DATA_PATH:clock :DUV:DATA_PATH:branchTarget :DUV:DATA_PATH:branch_decision :DUV:DATA_PATH:Data1_ID :DUV:DATA_PATH:Data2_ID :DUV:DATA_PATH:ALU:op1_s :DUV:DATA_PATH:ALU:op1_u :DUV:DATA_PATH:ALU:op2_s :DUV:DATA_PATH:ALU:op2_u :DUV:DATA_PATH:ALU:operand1 :DUV:DATA_PATH:ALU:operand2 :DUV:DATA_PATH:ALU:operation :DUV:DATA_PATH:ALU:pc :DUV:DATA_PATH:ALU:result :DUV:DATA_PATH:BranchDetection_unit:branch_decision :DUV:DATA_PATH:BranchDetection_unit:branch_prediction :DUV:DATA_PATH:BranchDetection_unit:bubble_branch_ID :DUV:DATA_PATH:BranchDetection_unit:Data1_ID :DUV:DATA_PATH:BranchDetection_unit:Data2_ID :DUV:DATA_PATH:BranchDetection_unit:instruction :DUV:DATA_PATH:IMM_DATA_EXTRACT:imm_data :DUV:DATA_PATH:IMM_DATA_EXTRACT:instruction :DUV:DATA_PATH:IMM_DATA_EXTRACT:instruction_f :DATA_MEMORY:clock :DATA_MEMORY:address :DATA_MEMORY:data_i :DATA_MEMORY:data_o :DATA_MEMORY:memoryArray :DATA_MEMORY:MemWrite :DUV:clock :DUV:data_i :DUV:data_o :DUV:dataAddress :DUV:instruction :DUV:instructionAddress :DUV:MemWrite :DUV:reset :DUV:CONTROL_PATH:clock :DUV:CONTROL_PATH:decodedFormat :DUV:CONTROL_PATH:decodedInstruction :DUV:CONTROL_PATH:funct3 :DUV:CONTROL_PATH:funct7 :DUV:CONTROL_PATH:instruction :DUV:CONTROL_PATH:opcode :DUV:CONTROL_PATH:reset :DUV:CONTROL_PATH:uins :DUV:DATA_PATH:uins_EX :DUV:DATA_PATH:uins_MEM :DUV:DATA_PATH:uins_WB :DUV:DATA_PATH:PROGRAM_COUNTER:ce :DUV:DATA_PATH:PROGRAM_COUNTER:clock :DUV:DATA_PATH:PROGRAM_COUNTER:d :DUV:DATA_PATH:PROGRAM_COUNTER:INIT_VALUE :DUV:DATA_PATH:PROGRAM_COUNTER:LENGTH :DUV:DATA_PATH:PROGRAM_COUNTER:q :DUV:DATA_PATH:PROGRAM_COUNTER:reset :DUV:DATA_PATH:Stage_ID:ce :DUV:DATA_PATH:Stage_ID:clock :DUV:DATA_PATH:Stage_ID:INIT :DUV:DATA_PATH:Stage_ID:instruction_in :DUV:DATA_PATH:Stage_ID:instruction_out :DUV:DATA_PATH:Stage_ID:pc_in :DUV:DATA_PATH:Stage_ID:pc_out :DUV:DATA_PATH:Stage_ID:reset :DUV:DATA_PATH:Stage_EX:clock :DUV:DATA_PATH:Stage_EX:imm_data_in :DUV:DATA_PATH:Stage_EX:imm_data_out :DUV:DATA_PATH:Stage_EX:INIT :DUV:DATA_PATH:Stage_EX:pc_in :DUV:DATA_PATH:Stage_EX:pc_out :DUV:DATA_PATH:Stage_EX:rd_in :DUV:DATA_PATH:Stage_EX:rd_out :DUV:DATA_PATH:Stage_EX:read_data_1_in :DUV:DATA_PATH:Stage_EX:read_data_1_out :DUV:DATA_PATH:Stage_EX:read_data_2_in :DUV:DATA_PATH:Stage_EX:read_data_2_out :DUV:DATA_PATH:Stage_EX:reset :DUV:DATA_PATH:Stage_EX:rs1_in :DUV:DATA_PATH:Stage_EX:rs1_out :DUV:DATA_PATH:Stage_EX:rs2_in :DUV:DATA_PATH:Stage_EX:rs2_out :DUV:DATA_PATH:Stage_EX:uins_in :DUV:DATA_PATH:Stage_EX:uins_out :DUV:DATA_PATH:Stage_MEM:alu_result_in :DUV:DATA_PATH:Stage_MEM:alu_result_out :DUV:DATA_PATH:Stage_MEM:clock :DUV:DATA_PATH:Stage_MEM:INIT :DUV:DATA_PATH:Stage_MEM:rd_in :DUV:DATA_PATH:Stage_MEM:rd_out :DUV:DATA_PATH:Stage_MEM:reset :DUV:DATA_PATH:Stage_MEM:uins_in :DUV:DATA_PATH:Stage_MEM:uins_out :DUV:DATA_PATH:Stage_MEM:write_data_in :DUV:DATA_PATH:Stage_MEM:write_data_out :DUV:DATA_PATH:Stage_WB:alu_result_in :DUV:DATA_PATH:Stage_WB:alu_result_out :DUV:DATA_PATH:Stage_WB:clock :DUV:DATA_PATH:Stage_WB:INIT :DUV:DATA_PATH:Stage_WB:rd_in :DUV:DATA_PATH:Stage_WB:rd_out :DUV:DATA_PATH:Stage_WB:read_data_in :DUV:DATA_PATH:Stage_WB:read_data_out :DUV:DATA_PATH:Stage_WB:reset :DUV:DATA_PATH:Stage_WB:uins_in :DUV:DATA_PATH:Stage_WB:uins_out :DUV:DATA_PATH:REGISTER_FILE:clock :DUV:DATA_PATH:REGISTER_FILE:readData1 :DUV:DATA_PATH:REGISTER_FILE:readData2 :DUV:DATA_PATH:REGISTER_FILE:readRegister1 :DUV:DATA_PATH:REGISTER_FILE:readRegister2 :DUV:DATA_PATH:REGISTER_FILE:reg :DUV:DATA_PATH:REGISTER_FILE:reset :DUV:DATA_PATH:REGISTER_FILE:write :DUV:DATA_PATH:REGISTER_FILE:writeData :DUV:DATA_PATH:REGISTER_FILE:writeEnable :DUV:DATA_PATH:REGISTER_FILE:writeRegister :DUV:DATA_PATH:Forwarding_unit:Forward1 :DUV:DATA_PATH:Forwarding_unit:Forward2 :DUV:DATA_PATH:Forwarding_unit:ForwardA :DUV:DATA_PATH:Forwarding_unit:ForwardB :DUV:DATA_PATH:Forwarding_unit:ForwardWb_A :DUV:DATA_PATH:Forwarding_unit:ForwardWb_B :DUV:DATA_PATH:Forwarding_unit:rd_stage_EX :DUV:DATA_PATH:Forwarding_unit:rd_stage_MEM :DUV:DATA_PATH:Forwarding_unit:rd_stage_WB :DUV:DATA_PATH:Forwarding_unit:RegWrite_stage_EX :DUV:DATA_PATH:Forwarding_unit:RegWrite_stage_MEM :DUV:DATA_PATH:Forwarding_unit:RegWrite_stage_WB :DUV:DATA_PATH:Forwarding_unit:rs1_stage_EX :DUV:DATA_PATH:Forwarding_unit:rs1_stage_ID :DUV:DATA_PATH:Forwarding_unit:rs2_stage_EX :DUV:DATA_PATH:Forwarding_unit:rs2_stage_ID :DUV:DATA_PATH:HazardDetection_unit:bubble_hazard_EX :DUV:DATA_PATH:HazardDetection_unit:ce :DUV:DATA_PATH:HazardDetection_unit:ce_pc :DUV:DATA_PATH:HazardDetection_unit:ce_stage_ID :DUV:DATA_PATH:HazardDetection_unit:MemToReg_EX :DUV:DATA_PATH:HazardDetection_unit:rs1_ID :DUV:DATA_PATH:HazardDetection_unit:rs2_ID :INSTRUCTION_MEMORY:clock :INSTRUCTION_MEMORY:address :INSTRUCTION_MEMORY:data_i :INSTRUCTION_MEMORY:data_o :INSTRUCTION_MEMORY:memoryArray :INSTRUCTION_MEMORY:MemWrite :DUV:DATA_PATH:decodedInstruction_IF
+Created probe 1
+xcelium> run 10ns
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DATA_MEMORY:$PROCESS_002 (architecture worklib.Memory:behavioral)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :INSTRUCTION_MEMORY:$PROCESS_002 (architecture worklib.Memory:behavioral)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:$PROCESS_001 (architecture worklib.RegisterFile:structural)
+Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(1):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(2):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(3):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(4):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(5):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(6):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(7):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(8):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(9):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(10):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(11):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(12):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(13):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(14):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(15):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(16):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(17):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(18):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(19):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(20):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(21):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(22):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(23):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(24):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(25):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(26):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(27):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(28):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(29):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(30):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:Registers(31):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :INSTRUCTION_MEMORY:$PROCESS_002 (architecture worklib.Memory:behavioral)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DATA_MEMORY:$PROCESS_002 (architecture worklib.Memory:behavioral)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DATA_MEMORY:$PROCESS_002 (architecture worklib.Memory:behavioral)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :INSTRUCTION_MEMORY:$PROCESS_002 (architecture worklib.Memory:behavioral)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:$PROCESS_001 (architecture worklib.RegisterFile:structural)
+Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :DUV:DATA_PATH:REGISTER_FILE:$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
+Ran until 10 NS + 0
+xcelium> run 4000ns
+Ran until 4010 NS + 0
+xcelium> ^C
+xcelium> exit
+...Regained control from SimVision
+-------------------------------------
+TOOL:	xrun	19.09-s005: Exiting on Dec 09, 2024 at 16:48:24 -03  (total: 00:06:05)

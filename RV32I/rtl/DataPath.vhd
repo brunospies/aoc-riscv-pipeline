@@ -24,7 +24,7 @@ entity DataPath is
         dataAddress         : out std_logic_vector(31 downto 0);  -- Data memory address bus
         data_i              : in  std_logic_vector(31 downto 0);  -- Data bus from data memory 
         data_o              : out std_logic_vector(31 downto 0);  -- Data bus to data memory
-        MemWrite            : out std_logic;
+        MemWrite            : out std_logic_vector(3 downto 0);
         uins_ID             : in  Microinstruction                -- Control path microinstruction
     );
 end DataPath;
@@ -334,7 +334,7 @@ begin
     uins_bubble.RegWrite     <= '0';
     uins_bubble.ALUSrc       <= '0';
     uins_bubble.MemToReg     <= '0';
-    uins_bubble.MemWrite     <= '0';
+    uins_bubble.MemWrite     <= "0000";
     uins_bubble.format       <= X;
     uins_bubble.instruction  <= INVALID_INSTRUCTION;
 

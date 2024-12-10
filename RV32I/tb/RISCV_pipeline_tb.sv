@@ -12,11 +12,12 @@ module RISCV_pipeline_tb;
 
     //localparam logic [31:0] MARS_INSTRUCTION_OFFSET = 32'h00400000;
     //localparam logic [31:0] MARS_DATA_OFFSET        = 32'h10010000;
-    localparam logic [31:0] MARS_INSTRUCTION_OFFSET = 32'h00000054;
+    localparam logic [31:0] INSTRUCTION_OFFSET = 32'h00000054;
+    localparam logic [31:0] DATA_OFFSET        = 32'h00000000;
 
     //DUT (Device Under Test) - RISCV_PIPELINE (VHDL)
     RISCV_PIPELINE #( 
-        .PC_START_ADDRESS($unsigned(MARS_INSTRUCTION_OFFSET))
+        .PC_START_ADDRESS($unsigned(INSTRUCTION_OFFSET))
     ) DUV (
         .clock(clock),
         .reset(reset),
@@ -68,23 +69,23 @@ module RISCV_pipeline_tb;
     end
 
 
-    Memory
-u_mem
-(
-    // Inputs
-     .clk_i(clock)
-    ,.rst_i(reset)
-    ,.data0_i(data_o)
-    ,.addr0_i(dataAddress[15:2])
-    ,.wr0_i(MemWrite)
-    ,.data1_i(data_o)
-    ,.addr1_i(instructionAddress[15:2])
-    ,.wr1_i(4'b0)
+    Memory#( 
+        .DATA_START_ADDRESS($unsigned(DATA_OFFSET))
+    )u_mem(
+        // Inputs
+        .clk_i(clock)
+        ,.rst_i(reset)
+        ,.data0_i(data_o)
+        ,.addr0_i(dataAddress[15:2])
+        ,.wr0_i(MemWrite)
+        ,.data1_i(data_o)
+        ,.addr1_i(instructionAddress[15:2])
+        ,.wr1_i(4'b0)
 
-    // Outputs
-    ,.data0_o(data_i)
-    ,.data1_o(instruction)
-);
+        // Outputs
+        ,.data0_o(data_i)
+        ,.data1_o(instruction)
+    );
 
 
 endmodule

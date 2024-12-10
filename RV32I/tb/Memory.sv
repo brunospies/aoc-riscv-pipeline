@@ -1,6 +1,9 @@
 `timescale 1ns/1ps
 
 module Memory
+#(
+    parameter DATA_START_ADDRESS = 32'h00000000
+)
 (
     // Inputs
      input           clk_i
@@ -30,21 +33,26 @@ reg [31:0]   ram [16383:0] /*verilator public*/;
 reg [31:0] ram_read0_q;
 reg [31:0] ram_read1_q;
 
+logic [13:0] addr0;
+
+assign addr0 = DATA_START_ADDRESS/4 + addr0_i;
+
 
 // Synchronous write
 always @ (posedge clk_i)
 begin
     if (wr0_i[0])
-        ram[addr0_i][7:0] <= data0_i[7:0];
+        ram[addr0][7:0] <= data0_i[7:0];
     if (wr0_i[1])
-        ram[addr0_i][15:8] <= data0_i[15:8];
+        ram[addr0][15:8] <= data0_i[15:8];
     if (wr0_i[2])
-        ram[addr0_i][23:16] <= data0_i[23:16];
+        ram[addr0][23:16] <= data0_i[23:16];
     if (wr0_i[3])
-        ram[addr0_i][31:24] <= data0_i[31:24];
-
-    ram_read0_q <= ram[addr0_i];
+        ram[addr0][31:24] <= data0_i[31:24];
 end
+
+always @ (addr0) ram_read0_q <= ram[addr0];
+
 
 always @ (posedge clk_i)
 begin
@@ -56,9 +64,9 @@ begin
         ram[addr1_i][23:16] <= data1_i[23:16];
     if (wr1_i[3])
         ram[addr1_i][31:24] <= data1_i[31:24];
-
-    ram_read1_q <= ram[addr1_i];
 end
+
+always @ (addr1_i) ram_read1_q <= ram[addr1_i];
 
 assign data0_o = ram_read0_q;
 assign data1_o = ram_read1_q;

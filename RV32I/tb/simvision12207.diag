@@ -1,0 +1,86 @@
+*** Message Type: info ***
+When: Tue Dec 10 10:58:07 AM -03 2024
+SimVision started.
+Version: TOOL:  simvision       22.09-s001
+User: bruno.spies
+Host: cademics
+Platform: Linux/x86_64/3.10.0-1160.114.2.el7.x86_64
+Started: Tue Dec 10 10:58:07 AM -03 2024
+Command: /home/tools/cadence/installs/XCELIUM2209/tools.lnx86/simvision/bin/simvision.exe -connect dc:cademics:36800 -nocopyright
+Work Directory: /home/bruno.spies/Documents/RISCV-PIPELINE/aoc-riscv-pipeline/RV32I/tb
+ 
+*** Message Type: info ***
+When: Tue Dec 10 10:58:08 AM -03 2024
+Create browser window: "Design Browser 1"
+ 
+*** Message Type: info ***
+When: Tue Dec 10 10:58:12 AM -03 2024
+Create console window: "Console"
+ 
+*** Message Type: info ***
+When: Tue Dec 10 10:58:14 AM -03 2024
+Exit Simulator: abnormal
+      Design: Unknown
+   Languages: Unknown
+   Simulator: Unknown
+     Version: Unknown
+        User: Unknown
+        Host: Unknown
+Time Started: Unknown
+  Process ID: Unknown
+   Directory: Unknown
+     Command: Unknown
+
+ 
+*** Message Type: error ***
+When: Tue Dec 10 10:58:14 AM -03 2024
+Simulator Crashed:
+      Design: Unknown
+   Languages: Unknown
+   Simulator: Unknown
+     Version: Unknown
+        User: Unknown
+        Host: Unknown
+Time Started: Unknown
+  Process ID: Unknown
+   Directory: Unknown
+     Command: Unknown
+      Design: Unknown
+   Languages: Unknown
+   Simulator: Unknown
+     Version: Unknown
+        User: Unknown
+        Host: Unknown
+Time Started: Unknown
+  Process ID: Unknown
+   Directory: Unknown
+     Command: Unknown
+
+Outstanding STRAP Requests:
+        strap::get g . -ck
+        strap::get g . -xu
+        strap::get g . -sa
+ 
+*** Message Type: info ***
+When: Tue Dec 10 10:58:14 AM -03 2024
+Connect to Simulator
+      Design: Unknown
+   Languages: Unknown
+   Simulator: Unknown
+     Version: Unknown
+        User: Unknown
+        Host: Unknown
+Time Started: Unknown
+  Process ID: Unknown
+   Directory: Unknown
+     Command: Unknown
+
+ 
+*** Message Type: info ***
+When: Tue Dec 10 10:58:15 AM -03 2024
+Create utility window: "Properties"
+ 
+*** Message Type: info ***
+When: Tue Dec 10 11:12:32 AM -03 2024
+SimVision Exit.
+ 

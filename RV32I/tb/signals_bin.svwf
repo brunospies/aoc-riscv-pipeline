@@ -1,0 +1,552 @@
+
+#
+# Mnemonic Maps
+#
+mmap new  -reuse -name {Boolean as Logic} -radix %b -contents {{%c=FALSE -edgepriority 1 -shape low}
+{%c=TRUE -edgepriority 1 -shape high}}
+mmap new  -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor orange -label REG:%x -linecolor yellow -shape bus}
+{%x=1F -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=2C -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=* -label %x -linecolor gray -shape bus}}
+
+#
+# Conditions
+#
+set expression RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:uins_out.instruction
+if {[catch {condition new -name  instruction_EX -expr $expression}] != ""} {
+    condition set -using instruction_EX -expr $expression
+}
+set expression RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:uins_in.instruction
+if {[catch {condition new -name  instruction_ID -expr $expression}] != ""} {
+    condition set -using instruction_ID -expr $expression
+}
+set expression RISCV_pipeline_tb.DUV:DATA_PATH:decodedInstruction_IF
+if {[catch {condition new -name  instruction_IF -expr $expression}] != ""} {
+    condition set -using instruction_IF -expr $expression
+}
+set expression RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:uins_out.instruction
+if {[catch {condition new -name  instruction_MEM -expr $expression}] != ""} {
+    condition set -using instruction_MEM -expr $expression
+}
+set expression RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:uins_out.instruction
+if {[catch {condition new -name  instruction_WB -expr $expression}] != ""} {
+    condition set -using instruction_WB -expr $expression
+}
+
+array unset createdGroup
+array set createdGroup {}
+#
+# Groups
+#
+if {[catch {group get -using [list {RISC_V}]}]} {
+set createdGroup([list {RISC_V}]) 1
+catch {group new -name RISC_V -overlay 0}
+}
+if {[catch {group get -using [list {CONTROLPATH}]}]} {
+set createdGroup([list {CONTROLPATH}]) 1
+catch {group new -name CONTROLPATH -overlay 0}
+}
+if {[catch {group get -using [list {DATAPATH}]}]} {
+set createdGroup([list {DATAPATH}]) 1
+catch {group new -name DATAPATH -overlay 0}
+}
+if {[catch {group get -using [list {INSTRUCTIONS}]}]} {
+set createdGroup([list {INSTRUCTIONS}]) 1
+catch {group new -name INSTRUCTIONS -overlay 0}
+}
+if {[catch {group get -using [list {ALU}]}]} {
+set createdGroup([list {ALU}]) 1
+catch {group new -name ALU -overlay 0}
+}
+if {[catch {group get -using [list {REG_FILE}]}]} {
+set createdGroup([list {REG_FILE}]) 1
+catch {group new -name REG_FILE -overlay 0}
+}
+if {[catch {group get -using [list {PC}]}]} {
+set createdGroup([list {PC}]) 1
+catch {group new -name PC -overlay 0}
+}
+if {[catch {group get -using [list {STAGE_ID}]}]} {
+set createdGroup([list {STAGE_ID}]) 1
+catch {group new -name STAGE_ID -overlay 0}
+}
+if {[catch {group get -using [list {STAGE_EX}]}]} {
+set createdGroup([list {STAGE_EX}]) 1
+catch {group new -name STAGE_EX -overlay 0}
+}
+if {[catch {group get -using [list {STAGE_MEM}]}]} {
+set createdGroup([list {STAGE_MEM}]) 1
+catch {group new -name STAGE_MEM -overlay 0}
+}
+if {[catch {group get -using [list {STAGE_WB}]}]} {
+set createdGroup([list {STAGE_WB}]) 1
+catch {group new -name STAGE_WB -overlay 0}
+}
+if {[catch {group get -using [list {FORWARDING_UNIT}]}]} {
+set createdGroup([list {FORWARDING_UNIT}]) 1
+catch {group new -name FORWARDING_UNIT -overlay 0}
+}
+if {[catch {group get -using [list {BRANCH_DETECTION}]}]} {
+set createdGroup([list {BRANCH_DETECTION}]) 1
+catch {group new -name BRANCH_DETECTION -overlay 0}
+}
+if {[catch {group get -using [list {HAZARD_DETECTION}]}]} {
+set createdGroup([list {HAZARD_DETECTION}]) 1
+catch {group new -name HAZARD_DETECTION -overlay 0}
+}
+if {[catch {group get -using [list {IMM_GENERATE}]}]} {
+set createdGroup([list {IMM_GENERATE}]) 1
+catch {group new -name IMM_GENERATE -overlay 0}
+}
+if {[catch {group get -using [list {MEMORY}]}]} {
+set createdGroup([list {MEMORY}]) 1
+catch {group new -name MEMORY -overlay 0}
+}
+if {[catch {group get -using [list {Group 17}]}]} {
+set createdGroup([list {Group 17}]) 1
+catch {group new -name {Group 17} -overlay 0}
+}
+if {[info exists createdGroup([list {RISC_V}])]} {
+group using RISC_V
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {RISCV_pipeline_tb.DUV:clock}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:data_i}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:data_o}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:dataAddress}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:instruction}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:instruction_1}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:instructionAddress}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:MemWrite}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:PC_START_ADDRESS}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:reset}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:uins}]} ]
+}
+
+if {[info exists createdGroup([list {CONTROLPATH}])]} {
+group using CONTROLPATH
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {RISCV_pipeline_tb.DUV:CONTROL_PATH:clock}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:CONTROL_PATH:decodedFormat}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:CONTROL_PATH:decodedInstruction}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:CONTROL_PATH:funct3}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:CONTROL_PATH:funct7}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:CONTROL_PATH:instruction}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:CONTROL_PATH:opcode}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:CONTROL_PATH:reset}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:CONTROL_PATH:uins}]} ]
+}
+
+if {[info exists createdGroup([list {DATAPATH}])]} {
+group using DATAPATH
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:ALUoperand2}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:branch_decision}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:branchTarget}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:bubble_branch_ID}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:bubble_hazard_EX}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:ce_pc}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:ce_stage_ID}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:cicles}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:clock}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Data1_ID}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Data1_ID_mux}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Data2_ID}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Data2_ID_mux}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:data_i}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:data_i_WB}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:data_o}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:dataAddress}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:decodedFormat_IF}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:decodedInstruction_IF}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Forward1}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Forward2}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:ForwardA}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:ForwardB}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:ForwardWb_A}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:ForwardWb_B}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:funct3}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:funct7}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:imm_data_EX}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:imm_data_ID}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:imm_data_ID_mux}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:incrementedPC_IF}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:instruction_ID}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:instruction_IF}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:instruction_IF_mux}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:instruction_out}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:instructionAddress}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:jumpTarget}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:MemWrite}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:opcode}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:operand1}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:operand2}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:pc_d}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:PC_EX}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:PC_ID}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:PC_IF_mux}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:pc_q}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:PC_START_ADDRESS}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:rd_EX}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:rd_ID}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:rd_ID_mux}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:rd_MEM}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:rd_WB}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:readData1_EX}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:readData1_ID}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:readData2_EX}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:readData2_ID}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:readReg1}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:readReg2}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:reset}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:result_EX}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:result_MEM}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:result_WB}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:rs1_EX}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:rs1_ID}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:rs1_ID_mux}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:rs2_EX}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:rs2_ID}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:rs2_ID_mux}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:SYNTHESIS}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:uins_bubble}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:uins_EX}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:uins_ID}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:uins_ID_mux}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:uins_MEM}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:uins_WB}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:writeData}]} ]
+}
+
+if {[info exists createdGroup([list {INSTRUCTIONS}])]} {
+group using INSTRUCTIONS
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {instruction_IF}]} ] \
+    [subst  {[format {instruction_ID}]} ] \
+    [subst  {[format {instruction_EX}]} ] \
+    [subst  {[format {instruction_MEM}]} ] \
+    [subst  {[format {instruction_WB}]} ]
+}
+
+if {[info exists createdGroup([list {ALU}])]} {
+group using ALU
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:ALU:four}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:ALU:one}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:ALU:op1_s}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:ALU:op1_u}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:ALU:op2_s}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:ALU:op2_u}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:ALU:operand1}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:ALU:operand2}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:ALU:operation}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:ALU:pc}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:ALU:result}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:ALU:zero}]} ]
+}
+
+if {[info exists createdGroup([list {REG_FILE}])]} {
+group using REG_FILE
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:clock}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:readData1}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:readData2}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:readRegister1}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:readRegister2}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:reg}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:reset}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:write}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:writeData}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:writeEnable}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:writeRegister}]} ]
+}
+
+if {[info exists createdGroup([list {PC}])]} {
+group using PC
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:PROGRAM_COUNTER:ce}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:PROGRAM_COUNTER:clock}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:PROGRAM_COUNTER:d}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:PROGRAM_COUNTER:INIT_VALUE}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:PROGRAM_COUNTER:LENGTH}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:PROGRAM_COUNTER:q}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:PROGRAM_COUNTER:reset}]} ]
+}
+
+if {[info exists createdGroup([list {STAGE_ID}])]} {
+group using STAGE_ID
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_ID:ce}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_ID:clock}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_ID:INIT}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_ID:instruction_in}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_ID:instruction_out}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_ID:pc_in}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_ID:pc_out}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_ID:reset}]} ]
+}
+
+if {[info exists createdGroup([list {STAGE_EX}])]} {
+group using STAGE_EX
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:clock}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:imm_data_in}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:imm_data_out}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:INIT}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:pc_in}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:pc_out}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:rd_in}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:rd_out}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:read_data_1_in}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:read_data_1_out}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:read_data_2_in}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:read_data_2_out}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:reset}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:rs1_in}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:rs1_out}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:rs2_in}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:rs2_out}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:uins_in}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:uins_out}]} ]
+}
+
+if {[info exists createdGroup([list {STAGE_MEM}])]} {
+group using STAGE_MEM
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:alu_result_in}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:alu_result_out}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:clock}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:INIT}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:rd_in}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:rd_out}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:reset}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:uins_in}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:uins_out}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:write_data_in}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:write_data_out}]} ]
+}
+
+if {[info exists createdGroup([list {STAGE_WB}])]} {
+group using STAGE_WB
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:alu_result_in}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:alu_result_out}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:clock}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:INIT}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:rd_in}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:rd_out}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:read_data_in}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:read_data_out}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:reset}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:uins_in}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:uins_out}]} ]
+}
+
+if {[info exists createdGroup([list {FORWARDING_UNIT}])]} {
+group using FORWARDING_UNIT
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:Forward1}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:Forward2}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:ForwardA}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:ForwardB}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:ForwardWb_A}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:ForwardWb_B}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:rd_stage_EX}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:rd_stage_MEM}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:rd_stage_WB}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:RegWrite_stage_EX}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:RegWrite_stage_MEM}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:RegWrite_stage_WB}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:rs1_stage_EX}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:rs1_stage_ID}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:rs2_stage_EX}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:rs2_stage_ID}]} ]
+}
+
+if {[info exists createdGroup([list {BRANCH_DETECTION}])]} {
+group using BRANCH_DETECTION
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:BranchDetection_unit:branch_decision}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:BranchDetection_unit:branch_prediction}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:BranchDetection_unit:bubble_branch_ID}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:BranchDetection_unit:Data1_ID}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:BranchDetection_unit:Data2_ID}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:BranchDetection_unit:instruction}]} ]
+}
+
+if {[info exists createdGroup([list {HAZARD_DETECTION}])]} {
+group using HAZARD_DETECTION
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:HazardDetection_unit:bubble_hazard_EX}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:HazardDetection_unit:ce}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:HazardDetection_unit:ce_pc}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:HazardDetection_unit:ce_stage_ID}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:HazardDetection_unit:MemToReg_EX}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:HazardDetection_unit:rd_EX}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:HazardDetection_unit:rs1_ID}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:HazardDetection_unit:rs2_ID}]} ]
+}
+
+if {[info exists createdGroup([list {IMM_GENERATE}])]} {
+group using IMM_GENERATE
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:IMM_DATA_EXTRACT:imm_data}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:IMM_DATA_EXTRACT:instruction}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.DUV:DATA_PATH:IMM_DATA_EXTRACT:instruction_f}]} ]
+}
+
+if {[info exists createdGroup([list {MEMORY}])]} {
+group using MEMORY
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {RISCV_pipeline_tb.u_mem.addr0_i[13:0]}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.u_mem.addr1_i[13:0]}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.u_mem.clk_i}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.u_mem.data0_i[31:0]}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.u_mem.data0_o[31:0]}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.u_mem.data1_i[31:0]}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.u_mem.data1_o[31:0]}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.u_mem.ram[16383:0]}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.u_mem.ram_read0_q[31:0]}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.u_mem.ram_read1_q[31:0]}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.u_mem.rst_i}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.u_mem.wr0_i[3:0]}]} ] \
+    [subst  {[format {RISCV_pipeline_tb.u_mem.wr1_i[3:0]}]} ]
+}
+
+if {[info exists createdGroup([list {Group 17}])]} {
+group using {Group 17}
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+}
+
+
+set groupId0 [waveform add -groups RISC_V]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups CONTROLPATH]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups DATAPATH]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups INSTRUCTIONS]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups ALU]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups REG_FILE]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups PC]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups STAGE_ID]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups STAGE_EX]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups STAGE_MEM]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups STAGE_WB]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups FORWARDING_UNIT]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups BRANCH_DETECTION]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups HAZARD_DETECTION]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups IMM_GENERATE]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups MEMORY]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+waveform xview limits 0 2000fs

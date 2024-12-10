@@ -1,0 +1,102 @@
+*** Message Type: info ***
+When: Tue Dec 10 11:12:43 AM -03 2024
+SimVision started.
+Version: TOOL:  simvision       22.09-s001
+User: bruno.spies
+Host: cademics
+Platform: Linux/x86_64/3.10.0-1160.114.2.el7.x86_64
+Started: Tue Dec 10 11:12:43 AM -03 2024
+Command: /home/tools/cadence/installs/XCELIUM2209/tools.lnx86/simvision/bin/simvision.exe -connect dc:cademics:57523 -nocopyright
+Work Directory: /home/bruno.spies/Documents/RISCV-PIPELINE/aoc-riscv-pipeline/RV32I/tb
+ 
+*** Message Type: info ***
+When: Tue Dec 10 11:12:45 AM -03 2024
+Create browser window: "Design Browser 1"
+ 
+*** Message Type: info ***
+When: Tue Dec 10 11:12:49 AM -03 2024
+Create console window: "Console"
+ 
+*** Message Type: info ***
+When: Tue Dec 10 11:12:51 AM -03 2024
+Connect to Simulator
+      Design: worklib.RISCV_pipeline_tb:sv
+   Languages: verilog vhdl
+   Simulator: XM-Sim
+     Version: TOOL:  xmsim   22.09-s001
+        User: bruno.spies
+        Host: cademics
+Time Started: Tue Dec 10 11:12:41 AM -03 2024
+  Process ID: 13979
+   Directory: /home/bruno.spies/Documents/RISCV-PIPELINE/aoc-riscv-pipeline/RV32I/tb
+     Command: xrun -sv -v200x -f filelist_sv.txt -top RISCV_pipeline_tb -access +rwc -gui
+
+ 
+*** Message Type: info ***
+When: Tue Dec 10 11:12:52 AM -03 2024
+Create utility window: "Properties"
+ 
+*** Message Type: info ***
+When: Tue Dec 10 11:13:16 AM -03 2024
+Create waveform window: "Waveform 1"
+ 
+*** Message Type: info ***
+When: Tue Dec 10 11:13:47 AM -03 2024
+Delete waveform window: "Waveform 1"
+ 
+*** Message Type: info ***
+When: Tue Dec 10 11:13:53 AM -03 2024
+Create waveform window: "Waveform 2"
+ 
+*** Message Type: info ***
+When: Tue Dec 10 12:28:01 PM -03 2024
+Exit XM-Sim: user
+      Design: worklib.RISCV_pipeline_tb:sv
+   Languages: verilog vhdl
+   Simulator: XM-Sim
+     Version: TOOL:  xmsim   22.09-s001
+        User: bruno.spies
+        Host: cademics
+Time Started: Tue Dec 10 12:19:17 PM -03 2024
+  Process ID: 21791
+   Directory: /home/bruno.spies/Documents/RISCV-PIPELINE/aoc-riscv-pipeline/RV32I/tb
+     Command: xrun -sv -v200x -f filelist_sv.txt -top RISCV_pipeline_tb -access +rwc -gui -s
+
+ 
+*** Message Type: info ***
+When: Tue Dec 10 12:33:25 PM -03 2024
+Exit XM-Sim: user
+      Design: worklib.RISCV_pipeline_tb:sv
+   Languages: verilog vhdl
+   Simulator: XM-Sim
+     Version: TOOL:  xmsim   22.09-s001
+        User: bruno.spies
+        Host: cademics
+Time Started: Tue Dec 10 12:28:49 PM -03 2024
+  Process ID: 22895
+   Directory: /home/bruno.spies/Documents/RISCV-PIPELINE/aoc-riscv-pipeline/RV32I/tb
+     Command: xrun -sv -v200x -f filelist_sv.txt -top RISCV_pipeline_tb -access +rwc -gui -s
+
+ 
+*** Message Type: info ***
+When: Tue Dec 10 12:41:22 PM -03 2024
+Delete waveform window: "Waveform 2"
+ 
+*** Message Type: error ***
+When: Tue Dec 10 12:41:23 PM -03 2024
+invalid command name ".waveWindow1.bottom.statusbar.indicator-autosave.autosave"
+    while executing
+".waveWindow1.bottom.statusbar.indicator-autosave.autosave configure -image image283"
+    ("after" script)
+ 
+*** Message Type: error ***
+When: Tue Dec 10 12:41:23 PM -03 2024
+invalid command name ".waveWindow1.bottom.statusbar.indicator-autosave.autosave"
+    while executing
+".waveWindow1.bottom.statusbar.indicator-autosave.autosave configure -image image283"
+    ("after" script)
+ 
+*** Message Type: info ***
+When: Tue Dec 10 12:54:47 PM -03 2024
+Delete browser window: "Design Browser 1"
+ 

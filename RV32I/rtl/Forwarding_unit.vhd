@@ -21,10 +21,13 @@ entity Forwarding_unit is
         rd_stage_MEM        : in  std_logic_vector (4 downto 0);
         rd_stage_WB         : in  std_logic_vector (4 downto 0);
         rd_stage_EX         : in  std_logic_vector (4 downto 0);
+        MemToReg_MEM        : in  std_logic;
         ForwardA            : out std_logic_vector (1 downto 0);
         ForwardB            : out std_logic_vector (1 downto 0);
         Forward1            : out std_logic_vector (1 downto 0);
         Forward2            : out std_logic_vector (1 downto 0);
+        MuxLoad1_Comp       : out std_logic;
+        MuxLoad2_Comp       : out std_logic;
         ForwardWb_A         : out std_logic;
         ForwardWb_B         : out std_logic
     );
@@ -33,11 +36,13 @@ end Forwarding_unit;
 architecture arch1 of Forwarding_unit is
 begin
 
-    ForwardA <= "10" when RegWrite_stage_MEM = '1' and rd_stage_MEM /= "00000" and rd_stage_MEM = rs1_stage_EX else
+    ForwardA <= "10" when RegWrite_stage_MEM = '1' and rd_stage_MEM /= "00000" and rd_stage_MEM = rs1_stage_EX and MemToReg_MEM = '0' else
+                "11" when RegWrite_stage_MEM = '1' and rd_stage_MEM /= "00000" and rd_stage_MEM = rs1_stage_EX and MemToReg_MEM = '1' else
                 "01" when RegWrite_stage_WB = '1' and rd_stage_WB /= "00000" and rd_stage_WB = rs1_stage_EX else
                 "00";
 
-    ForwardB <= "10" when RegWrite_stage_MEM = '1' and rd_stage_MEM /= "00000" and rd_stage_MEM = rs2_stage_EX else
+    ForwardB <= "10" when RegWrite_stage_MEM = '1' and rd_stage_MEM /= "00000" and rd_stage_MEM = rs2_stage_EX and MemToReg_MEM = '0' else
+                "11" when RegWrite_stage_MEM = '1' and rd_stage_MEM /= "00000" and rd_stage_MEM = rs2_stage_EX and MemToReg_MEM = '1' else
                 "01" when RegWrite_stage_WB = '1' and rd_stage_WB /= "00000" and rd_stage_WB = rs2_stage_EX else
                 "00";
     
@@ -56,5 +61,11 @@ begin
     
     ForwardWb_B <= '1' when RegWrite_stage_WB = '1' and rd_stage_WB = rs2_stage_ID else
                    '0';
+
+    MuxLoad1_Comp <= '1' when RegWrite_stage_MEM = '1' and rd_stage_MEM /= "00000" and rd_stage_MEM = rs1_stage_ID and MemToReg_MEM = '1' else 
+                     '0';
+    
+    MuxLoad2_Comp <= '1' when RegWrite_stage_MEM = '1' and rd_stage_MEM /= "00000" and rd_stage_MEM = rs2_stage_ID and MemToReg_MEM = '1' else
+                     '0';
     
 end arch1;

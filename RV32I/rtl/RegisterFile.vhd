@@ -31,7 +31,7 @@ architecture structural of RegisterFile is
 
 begin            
 
-    Registers: for i in 0 to 31 generate        
+    Registers1: for i in 0 to 1 generate        
 
         -- Register $0 is the constant 0, not a register.
         -- This is implemented by never enabling writes to register $0.
@@ -50,7 +50,45 @@ begin
                 d       => writeData, 
                 q       => reg(i)
             );
-   end generate Registers;   
+   end generate Registers1; 
+
+   -- stack pointer
+ 
+   writeEnable(2) <= '1' when UNSIGNED(writeRegister) = 2 and Write = '1' else '0';
+
+   Regs: entity work.RegisterNbits 
+            generic map (
+                LENGTH      => 32,
+                INIT_VALUE  => 16384
+            )
+            port map (
+                clock   => clock, 
+                reset   => reset, 
+                ce      => writeEnable(2), 
+                d       => writeData, 
+                q       => reg(2)
+            );
+
+   Registers2: for i in 3 to 31 generate        
+
+        -- Register $0 is the constant 0, not a register.
+        -- This is implemented by never enabling writes to register $0.
+        writeEnable(i) <= '1' when i > 0 and UNSIGNED(writeRegister) = i and Write = '1' else '0';
+
+        -- Generate the remaining registers
+        Regs: entity work.RegisterNbits 
+            generic map (
+                LENGTH      => 32
+                --INIT_VALUE  => i
+            )
+            port map (
+                clock   => clock, 
+                reset   => reset, 
+                ce      => writeEnable(i), 
+                d       => writeData, 
+                q       => reg(i)
+            );
+   end generate Registers2;   
     
     -- Register source (rs)
     ReadData1 <= reg(TO_INTEGER(UNSIGNED(ReadRegister1)));   

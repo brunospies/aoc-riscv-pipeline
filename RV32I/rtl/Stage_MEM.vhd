@@ -16,9 +16,9 @@ entity Stage_MEM is
     port (  
         clock            : in  std_logic;
         reset            : in  std_logic;
-	alu_result_in    : in  std_logic_vector(31 downto 0);  
+	    alu_result_in    : in  std_logic_vector(31 downto 0);  
         alu_result_out   : out std_logic_vector(31 downto 0); 
-	write_data_in    : in  std_logic_vector(31 downto 0);  
+	    write_data_in    : in  std_logic_vector(31 downto 0);  
         write_data_out   : out std_logic_vector(31 downto 0);
         rd_in            : in  std_logic_vector(4 downto 0); 
         rd_out           : out std_logic_vector(4 downto 0);
@@ -79,7 +79,7 @@ begin
         if reset = '1' then
             uins_out.instruction <= INVALID_INSTRUCTION;
 	        uins_out.RegWrite  <= '0';
-            uins_out.MemWrite  <= '0';
+            uins_out.MemWrite  <= "0000";
             uins_out.MemToReg  <= '0';     
         
         elsif rising_edge(clock) then

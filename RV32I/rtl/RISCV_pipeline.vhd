@@ -23,7 +23,7 @@ entity RISCV_pipeline is
         dataAddress         : out std_logic_vector(31 downto 0);
         data_i              : in  std_logic_vector(31 downto 0);      
         data_o              : out std_logic_vector(31 downto 0);
-        MemWrite            : out std_logic 
+        MemWrite            : out std_logic_vector(3 downto 0) 
     );
 end RISCV_pipeline;
 

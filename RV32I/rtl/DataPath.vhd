@@ -24,7 +24,7 @@ entity DataPath is
         dataAddress         : out std_logic_vector(31 downto 0);  -- Data memory address bus
         data_i              : in  std_logic_vector(31 downto 0);  -- Data bus from data memory 
         data_o              : out std_logic_vector(31 downto 0);  -- Data bus to data memory
-        MemWrite            : out std_logic;
+        MemWrite            : out std_logic_vector(3 downto 0);
         uins_ID             : in  Microinstruction                -- Control path microinstruction
     );
 end DataPath;
@@ -37,7 +37,7 @@ architecture structural of DataPath is
     signal ce_pc : std_logic;
 
     -- Instruction Decode Stage Signals:
-    signal PC_ID, readData1_ID, readData2_ID, imm_data_ID, imm_data_ID_mux, jumpTarget : std_logic_vector(31 downto 0);
+    signal PC_ID, readData1_ID, readData2_ID, imm_data_ID, imm_data_ID_mux, jumpTarget, readReg1_Comp, readReg2_Comp : std_logic_vector(31 downto 0);
     signal branchTarget, readReg1, readReg2, Data1_ID, Data1_ID_mux, Data2_ID, Data2_ID_mux, instruction_ID : std_logic_vector(31 downto 0);
     signal rs1_ID, rs2_ID, rd_ID, rs1_ID_mux, rs2_ID_mux, rd_ID_mux: std_logic_vector(4 downto 0);
     signal ce_stage_ID, bubble_branch_ID, branch_decision : std_logic;
@@ -62,7 +62,7 @@ architecture structural of DataPath is
 
     -- Auxiliar Signals:
     signal ForwardA, ForwardB, Forward1, Forward2 : std_logic_vector(1 downto 0);
-    signal ForwardWb_A, ForwardWb_B : std_logic;
+    signal ForwardWb_A, ForwardWb_B, MuxLoad1_Comp, MuxLoad2_Comp : std_logic;
     signal uins_bubble : Microinstruction;
 
     -- SIMULATION Signals:
@@ -95,7 +95,7 @@ begin
     
     -- MUX which selects the PC value
     MUX_PC: pc_d <= branchTarget when (uins_ID.format = B and branch_decision = '1') or uins_ID.format = J else
-                    jumpTarget(30 downto 0) & '0' when uins_ID.instruction = JALR else 
+                    jumpTarget when uins_ID.instruction = JALR else --jumpTarget(30 downto 0) & '0' when uins_ID.instruction = JALR else 
                     incrementedPC_IF;
       
     -- Selects the second ALU operand
@@ -110,11 +110,13 @@ begin
     -- MUX Forward A (operand ALU)
     MUX_FORWARD_A: operand1 <= readData1_EX when ForwardA = "00" else 
     writeData when ForwardA = "01" else
+    data_i when ForwardA = "11" else
     result_MEM;
 
     -- MUX Forward B (operand ALU)
     MUX_FORWARD_B: operand2 <= readData2_EX when ForwardB = "00" else 
     writeData when ForwardB = "01" else
+    data_i when ForwardB = "11" else
     result_MEM;
 
     -- MUX Forward 1 (comparison)
@@ -128,6 +130,14 @@ begin
     result_EX when Forward2 = "01" else
     result_MEM when Forward2 = "10" else
     writeData;
+
+    -- MUX Load 1 (comparison)
+    MUX_LOAD_1: readReg1_Comp <= data_i when MuxLoad1_Comp = '1' else
+                                 readReg1;
+
+    -- MUX Load 1 (comparison)
+    MUX_LOAD_2: readReg2_Comp <= data_i when MuxLoad2_Comp = '1' else
+                                 readReg2;
 
     -- MUX Forward WB A
     MUX_FORWARD_WB_A: Data1_ID <= writeData when ForwardWb_A = '1' else readData1_ID; 
@@ -225,9 +235,9 @@ begin
         port map (
             clock            => clock, 
             reset            => reset,
-	    alu_result_in    => result_EX,
+	        alu_result_in    => result_EX,
             alu_result_out   => result_MEM,
-	    write_data_in    => operand2,
+	        write_data_in    => operand2,
             write_data_out   => data_o,
             rd_in            => rd_EX,
             rd_out           => rd_MEM,
@@ -263,10 +273,13 @@ begin
             rd_stage_EX         => rd_EX,
             rd_stage_MEM        => rd_MEM,
             rd_stage_WB         => rd_WB,
+            MemToReg_MEM        => uins_MEM.MemToReg,
             ForwardA            => ForwardA,
             ForwardB            => ForwardB,
             Forward1            => Forward1,
             Forward2            => Forward2,
+            MuxLoad1_Comp       => MuxLoad1_Comp,
+            MuxLoad2_Comp       => MuxLoad2_Comp,
             ForwardWb_A         => ForwardWb_A,
             ForwardWb_B         => ForwardWb_B
 
@@ -287,8 +300,8 @@ begin
     BranchDetection_unit: entity work.BranchDetection_unit(arch1)
         port map (
             instruction        => uins_ID.instruction,
-            Data1_ID           => ReadReg1,
-            Data2_ID           => ReadReg2,
+            Data1_ID           => readReg1_Comp,
+            Data2_ID           => readReg2_Comp,
             branch_decision    => branch_decision,
             bubble_branch_ID   => bubble_branch_ID
         );
@@ -334,7 +347,7 @@ begin
     uins_bubble.RegWrite     <= '0';
     uins_bubble.ALUSrc       <= '0';
     uins_bubble.MemToReg     <= '0';
-    uins_bubble.MemWrite     <= '0';
+    uins_bubble.MemWrite     <= "0000";
     uins_bubble.format       <= X;
     uins_bubble.instruction  <= INVALID_INSTRUCTION;
 

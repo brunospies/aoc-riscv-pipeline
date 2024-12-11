@@ -28,7 +28,7 @@ package RISCV_package is
         RegWrite    : std_logic;                    -- Register file write control
         ALUSrc      : std_logic;                    -- Selects the ALU second operand
         MemToReg    : std_logic;                    -- Selects the data to the register file
-        MemWrite    : std_logic;                    -- Enable the data memory write
+        MemWrite    : std_logic_vector(3 downto 0);  -- Enable the data memory write
         instruction : Instruction_type;             -- Decoded instruction  
         format      : Instruction_format;           -- Indicates the instruction format      
     end record;

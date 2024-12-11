@@ -120,8 +120,10 @@ begin
     uins.MemToReg <= '1' when opcode = "0000011" else -- Load Instructions
                      '0'; 
 
-    uins.MemWrite <= '1' when decodedFormat = S else
-                     '0';
+    uins.MemWrite <= "1111" when decodedInstruction = SW else
+                     "0011" when decodedInstruction = SH else
+                     "0001" when decodedInstruction = SB else
+                     "0000";
     
 
     -- FENCE, BREAK and CSR => TODO...

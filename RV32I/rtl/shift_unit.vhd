@@ -28,6 +28,7 @@ architecture behavioral of shift_unit is
     signal shift_amount : integer;
 
 begin
+
     SHIFT_GENERATE: for i in 2 to 30 generate
         results_sll(i) <= (operand1(31-i downto 0) & (i-1 downto 0=>'0'));
         results_srl(i) <= ((i-1 downto 0=>'0') & operand1(31 downto i));

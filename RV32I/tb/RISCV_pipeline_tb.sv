@@ -10,9 +10,7 @@ module RISCV_pipeline_tb;
     integer i;
     integer f;
 
-    //localparam logic [31:0] MARS_INSTRUCTION_OFFSET = 32'h00400000;
-    //localparam logic [31:0] MARS_DATA_OFFSET        = 32'h10010000;
-    localparam logic [31:0] INSTRUCTION_OFFSET = 32'h00000054;
+    localparam logic [31:0] INSTRUCTION_OFFSET = 32'h00000298;
     localparam logic [31:0] DATA_OFFSET        = 32'h00000000;
 
     //DUT (Device Under Test) - RISCV_PIPELINE (VHDL)

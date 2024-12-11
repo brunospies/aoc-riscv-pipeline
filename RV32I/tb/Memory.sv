@@ -71,7 +71,7 @@ always @ (addr1_i) ram_read1_q <= ram[addr1_i];
 assign data0_o = ram_read0_q;
 assign data1_o = ram_read1_q;
 
-task write; /*verilator public*/
+task write; 
     input [31:0] addr;
     input [7:0]  data;
 begin

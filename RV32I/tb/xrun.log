@@ -1,0 +1,316 @@
+xrun: 19.09-s005: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+TOOL:	xrun	19.09-s005: Started on Dec 12, 2024 at 15:29:43 -03
+xrun
+	-sv
+	-v200x
+	-f filelist_sv.txt
+		../rtl/RISCV_package.vhd
+		../rtl/shift_unit.vhd
+		../rtl/ALU.vhd
+		../rtl/RegisterNbits.vhd
+		../rtl/Forwarding_unit.vhd
+		../rtl/HazardDetection_unit.vhd
+		../rtl/BranchDetection_unit.vhd
+		../rtl/ImmediateDataExtractor.vhd
+		../rtl/RegisterFile.vhd
+		../rtl/Stage_ID.vhd
+		../rtl/Stage_EX.vhd
+		../rtl/Stage_MEM.vhd
+		../rtl/Stage_WB.vhd
+		../rtl/DataPath.vhd
+		../rtl/ControlPath.vhd
+		../rtl/RISCV_pipeline.vhd
+		Memory.sv
+		RISCV_pipeline_tb.sv
+	-top RISCV_pipeline_tb
+	-access +rwc
+	-gui
+file: Memory.sv
+	module worklib.Memory:sv
+		errors: 0, warnings: 0
+file: RISCV_pipeline_tb.sv
+	module worklib.RISCV_pipeline_tb:sv
+		errors: 0, warnings: 0
+../rtl/RISCV_package.vhd:
+	errors: 0, warnings: 0
+../rtl/shift_unit.vhd:
+	errors: 0, warnings: 0
+../rtl/ALU.vhd:
+	errors: 0, warnings: 0
+../rtl/RegisterNbits.vhd:
+	errors: 0, warnings: 0
+../rtl/Forwarding_unit.vhd:
+	errors: 0, warnings: 0
+../rtl/HazardDetection_unit.vhd:
+	errors: 0, warnings: 0
+../rtl/BranchDetection_unit.vhd:
+	errors: 0, warnings: 0
+../rtl/ImmediateDataExtractor.vhd:
+	errors: 0, warnings: 0
+../rtl/RegisterFile.vhd:
+	errors: 0, warnings: 0
+../rtl/Stage_ID.vhd:
+	errors: 0, warnings: 0
+../rtl/Stage_EX.vhd:
+	errors: 0, warnings: 0
+../rtl/Stage_MEM.vhd:
+	errors: 0, warnings: 0
+../rtl/Stage_WB.vhd:
+	errors: 0, warnings: 0
+../rtl/DataPath.vhd:
+	errors: 0, warnings: 0
+../rtl/ControlPath.vhd:
+	errors: 0, warnings: 0
+../rtl/RISCV_pipeline.vhd:
+	errors: 0, warnings: 0
+WORKLIB.RISCV_PACKAGE (package):
+	streams: 1, words: 6
+WORKLIB.SHIFT_UNIT (entity):
+	streams: 8, words: 902
+WORKLIB.SHIFT_UNIT:BEHAVIORAL (architecture):
+	streams: 2, words: 2211
+WORKLIB.ALU (entity):
+	streams: 10, words: 1188
+WORKLIB.ALU:BEHAVIORAL (architecture):
+	streams: 2, words: 2975
+WORKLIB.REGISTERNBITS (entity):
+	streams: 10, words: 1419
+WORKLIB.REGISTERNBITS:BEHAVIORAL (architecture):
+	streams: 1, words: 114
+WORKLIB.FORWARDING_UNIT (entity):
+	streams: 31, words: 2584
+WORKLIB.FORWARDING_UNIT:ARCH1 (architecture):
+	streams: 1, words: 114
+WORKLIB.HAZARDDETECTION_UNIT (entity):
+	streams: 11, words: 740
+WORKLIB.HAZARDDETECTION_UNIT:ARCH1 (architecture):
+	streams: 1, words: 114
+WORKLIB.BRANCHDETECTION_UNIT (entity):
+	streams: 8, words: 628
+WORKLIB.BRANCHDETECTION_UNIT:ARCH1 (architecture):
+	streams: 1, words: 114
+WORKLIB.IMMEDIATEDATAEXTRACTOR (entity):
+	streams: 6, words: 606
+WORKLIB.IMMEDIATEDATAEXTRACTOR:ARCH2 (architecture):
+	streams: 1, words: 114
+WORKLIB.REGISTERFILE (entity):
+	streams: 16, words: 1592
+WORKLIB.REGISTERFILE:STRUCTURAL (architecture):
+	streams: 6, words: 7665
+WORKLIB.REGISTERFILE:BEHAVIORAL (architecture):
+	streams: 1, words: 573
+WORKLIB.STAGE_ID (entity):
+	streams: 13, words: 1245
+WORKLIB.STAGE_ID:BEHAVIORAL (architecture):
+	streams: 3, words: 3034
+WORKLIB.STAGE_EX (entity):
+	streams: 34, words: 4285
+WORKLIB.STAGE_EX:BEHAVIORAL (architecture):
+	streams: 8, words: 10411
+WORKLIB.STAGE_MEM (entity):
+	streams: 18, words: 2237
+WORKLIB.STAGE_MEM:BEHAVIORAL (architecture):
+	streams: 4, words: 4527
+WORKLIB.STAGE_WB (entity):
+	streams: 18, words: 2237
+WORKLIB.STAGE_WB:BEHAVIORAL (architecture):
+	streams: 4, words: 4527
+WORKLIB.DATAPATH (entity):
+	streams: 20, words: 2346
+WORKLIB.DATAPATH:STRUCTURAL (architecture):
+	streams: 12, words: 32274
+WORKLIB.CONTROLPATH (entity):
+	streams: 6, words: 609
+WORKLIB.CONTROLPATH:BEHAVIORAL (architecture):
+	streams: 1, words: 114
+WORKLIB.RISCV_PIPELINE (entity):
+	streams: 16, words: 1742
+WORKLIB.RISCV_PIPELINE:STRUCTURAL (architecture):
+	streams: 3, words: 3709
+	Elaborating the design hierarchy:
+		Caching library 'worklib' ....... Done
+xmelab: *W,CUDEFB: default binding occurred for component instance (RISCV_pipeline_tb.DUV) with design unit (WORKLIB.RISCV_PIPELINE:STRUCTURAL).
+	Top level design units:
+		RISCV_pipeline_tb
+xmelab: *W,DSEMEL: This SystemVerilog design will be simulated as per IEEE 1800-2009 SystemVerilog simulation semantics. Use -disable_sem2009 option for turning off SV 2009 simulation semantics.
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.RISCV_pipeline_tb:sv <0x101a3e56>
+			streams:  18, words:  6623
+		worklib.Memory:sv <0x0e7fb24c>
+			streams:  15, words:  6019
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                 Instances  Unique
+	VHDL Design hierarchy:
+		Components:             62      15
+		Processes:             254      86
+		Signals:                82      82
+	Verilog Design hierarchy:
+		Modules:                 2       2
+		Registers:              17      17
+		Scalar wires:            4       -
+		Expanded wires:        164       6
+		Vectored wires:         11       -
+		Always blocks:           5       5
+		Initial blocks:          2       2
+		Cont. assignments:       1       3
+		Pseudo assignments:     15      15
+		Simulation timescale:  1ps
+	Writing initial simulation snapshot: worklib.RISCV_pipeline_tb:sv
+xmsim: *W,DSEM2009: This SystemVerilog design is simulated as per IEEE 1800-2009 SystemVerilog simulation semantics. Use -disable_sem2009 option for turning off SV 2009 simulation semantics.
+
+-------------------------------------
+Relinquished control to SimVision...
+xcelium> 
+xcelium> source /tools/cadence/XCELIUM1909/tools/xcelium/files/xmsimrc
+xcelium> database -open waves -into waves.shm -default
+Created default SHM database waves
+xcelium> probe -create -shm RISCV_pipeline_tb.DUV:clock RISCV_pipeline_tb.DUV:data_i RISCV_pipeline_tb.DUV:data_o RISCV_pipeline_tb.DUV:dataAddress RISCV_pipeline_tb.DUV:instruction RISCV_pipeline_tb.DUV:instruction_1 RISCV_pipeline_tb.DUV:instructionAddress RISCV_pipeline_tb.DUV:MemWrite RISCV_pipeline_tb.DUV:PC_START_ADDRESS RISCV_pipeline_tb.DUV:reset RISCV_pipeline_tb.DUV:uins RISCV_pipeline_tb.DUV:CONTROL_PATH:clock RISCV_pipeline_tb.DUV:CONTROL_PATH:decodedFormat RISCV_pipeline_tb.DUV:CONTROL_PATH:decodedInstruction RISCV_pipeline_tb.DUV:CONTROL_PATH:funct3 RISCV_pipeline_tb.DUV:CONTROL_PATH:funct7 RISCV_pipeline_tb.DUV:CONTROL_PATH:instruction RISCV_pipeline_tb.DUV:CONTROL_PATH:opcode RISCV_pipeline_tb.DUV:CONTROL_PATH:reset RISCV_pipeline_tb.DUV:CONTROL_PATH:uins RISCV_pipeline_tb.DUV:DATA_PATH:ALUoperand2 RISCV_pipeline_tb.DUV:DATA_PATH:branch_decision RISCV_pipeline_tb.DUV:DATA_PATH:branchTarget RISCV_pipeline_tb.DUV:DATA_PATH:bubble_branch_ID RISCV_pipeline_tb.DUV:DATA_PATH:bubble_hazard_EX RISCV_pipeline_tb.DUV:DATA_PATH:ce_pc RISCV_pipeline_tb.DUV:DATA_PATH:ce_stage_ID RISCV_pipeline_tb.DUV:DATA_PATH:cicles RISCV_pipeline_tb.DUV:DATA_PATH:clock RISCV_pipeline_tb.DUV:DATA_PATH:Data1_ID RISCV_pipeline_tb.DUV:DATA_PATH:Data1_ID_mux RISCV_pipeline_tb.DUV:DATA_PATH:Data2_ID RISCV_pipeline_tb.DUV:DATA_PATH:Data2_ID_mux RISCV_pipeline_tb.DUV:DATA_PATH:data_i RISCV_pipeline_tb.DUV:DATA_PATH:data_i_WB RISCV_pipeline_tb.DUV:DATA_PATH:data_o RISCV_pipeline_tb.DUV:DATA_PATH:dataAddress RISCV_pipeline_tb.DUV:DATA_PATH:decodedFormat_IF RISCV_pipeline_tb.DUV:DATA_PATH:decodedInstruction_IF RISCV_pipeline_tb.DUV:DATA_PATH:Forward1 RISCV_pipeline_tb.DUV:DATA_PATH:Forward2 RISCV_pipeline_tb.DUV:DATA_PATH:ForwardA RISCV_pipeline_tb.DUV:DATA_PATH:ForwardB RISCV_pipeline_tb.DUV:DATA_PATH:ForwardWb_A RISCV_pipeline_tb.DUV:DATA_PATH:ForwardWb_B RISCV_pipeline_tb.DUV:DATA_PATH:funct3 RISCV_pipeline_tb.DUV:DATA_PATH:funct7 RISCV_pipeline_tb.DUV:DATA_PATH:imm_data_EX RISCV_pipeline_tb.DUV:DATA_PATH:imm_data_ID RISCV_pipeline_tb.DUV:DATA_PATH:imm_data_ID_mux RISCV_pipeline_tb.DUV:DATA_PATH:incrementedPC_IF RISCV_pipeline_tb.DUV:DATA_PATH:instruction_ID RISCV_pipeline_tb.DUV:DATA_PATH:instruction_IF RISCV_pipeline_tb.DUV:DATA_PATH:instruction_IF_mux RISCV_pipeline_tb.DUV:DATA_PATH:instruction_out RISCV_pipeline_tb.DUV:DATA_PATH:instructionAddress RISCV_pipeline_tb.DUV:DATA_PATH:jumpTarget RISCV_pipeline_tb.DUV:DATA_PATH:MemWrite RISCV_pipeline_tb.DUV:DATA_PATH:opcode RISCV_pipeline_tb.DUV:DATA_PATH:operand1 RISCV_pipeline_tb.DUV:DATA_PATH:operand2 RISCV_pipeline_tb.DUV:DATA_PATH:pc_d RISCV_pipeline_tb.DUV:DATA_PATH:PC_EX RISCV_pipeline_tb.DUV:DATA_PATH:PC_ID RISCV_pipeline_tb.DUV:DATA_PATH:PC_IF_mux RISCV_pipeline_tb.DUV:DATA_PATH:pc_q RISCV_pipeline_tb.DUV:DATA_PATH:PC_START_ADDRESS RISCV_pipeline_tb.DUV:DATA_PATH:rd_EX RISCV_pipeline_tb.DUV:DATA_PATH:rd_ID RISCV_pipeline_tb.DUV:DATA_PATH:rd_ID_mux RISCV_pipeline_tb.DUV:DATA_PATH:rd_MEM RISCV_pipeline_tb.DUV:DATA_PATH:rd_WB RISCV_pipeline_tb.DUV:DATA_PATH:readData1_EX RISCV_pipeline_tb.DUV:DATA_PATH:readData1_ID RISCV_pipeline_tb.DUV:DATA_PATH:readData2_EX RISCV_pipeline_tb.DUV:DATA_PATH:readData2_ID RISCV_pipeline_tb.DUV:DATA_PATH:readReg1 RISCV_pipeline_tb.DUV:DATA_PATH:readReg2 RISCV_pipeline_tb.DUV:DATA_PATH:reset RISCV_pipeline_tb.DUV:DATA_PATH:result_EX RISCV_pipeline_tb.DUV:DATA_PATH:result_MEM RISCV_pipeline_tb.DUV:DATA_PATH:result_WB RISCV_pipeline_tb.DUV:DATA_PATH:rs1_EX RISCV_pipeline_tb.DUV:DATA_PATH:rs1_ID RISCV_pipeline_tb.DUV:DATA_PATH:rs1_ID_mux RISCV_pipeline_tb.DUV:DATA_PATH:rs2_EX RISCV_pipeline_tb.DUV:DATA_PATH:rs2_ID RISCV_pipeline_tb.DUV:DATA_PATH:rs2_ID_mux RISCV_pipeline_tb.DUV:DATA_PATH:SYNTHESIS RISCV_pipeline_tb.DUV:DATA_PATH:uins_bubble RISCV_pipeline_tb.DUV:DATA_PATH:uins_EX RISCV_pipeline_tb.DUV:DATA_PATH:uins_ID RISCV_pipeline_tb.DUV:DATA_PATH:uins_ID_mux RISCV_pipeline_tb.DUV:DATA_PATH:uins_MEM RISCV_pipeline_tb.DUV:DATA_PATH:uins_WB RISCV_pipeline_tb.DUV:DATA_PATH:writeData RISCV_pipeline_tb.DUV:DATA_PATH:ALU:op1_s RISCV_pipeline_tb.DUV:DATA_PATH:ALU:op1_u RISCV_pipeline_tb.DUV:DATA_PATH:ALU:op2_s RISCV_pipeline_tb.DUV:DATA_PATH:ALU:op2_u RISCV_pipeline_tb.DUV:DATA_PATH:ALU:operand1 RISCV_pipeline_tb.DUV:DATA_PATH:ALU:operand2 RISCV_pipeline_tb.DUV:DATA_PATH:ALU:operation RISCV_pipeline_tb.DUV:DATA_PATH:ALU:pc RISCV_pipeline_tb.DUV:DATA_PATH:ALU:result RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:clock RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:readData1 RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:readData2 RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:readRegister1 RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:readRegister2 RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:reg RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:reset RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:write RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:writeData RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:writeEnable RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:writeRegister RISCV_pipeline_tb.DUV:DATA_PATH:PROGRAM_COUNTER:ce RISCV_pipeline_tb.DUV:DATA_PATH:PROGRAM_COUNTER:clock RISCV_pipeline_tb.DUV:DATA_PATH:PROGRAM_COUNTER:d RISCV_pipeline_tb.DUV:DATA_PATH:PROGRAM_COUNTER:INIT_VALUE RISCV_pipeline_tb.DUV:DATA_PATH:PROGRAM_COUNTER:LENGTH RISCV_pipeline_tb.DUV:DATA_PATH:PROGRAM_COUNTER:q RISCV_pipeline_tb.DUV:DATA_PATH:PROGRAM_COUNTER:reset RISCV_pipeline_tb.DUV:DATA_PATH:Stage_ID:ce RISCV_pipeline_tb.DUV:DATA_PATH:Stage_ID:clock RISCV_pipeline_tb.DUV:DATA_PATH:Stage_ID:INIT RISCV_pipeline_tb.DUV:DATA_PATH:Stage_ID:instruction_in RISCV_pipeline_tb.DUV:DATA_PATH:Stage_ID:instruction_out RISCV_pipeline_tb.DUV:DATA_PATH:Stage_ID:pc_in RISCV_pipeline_tb.DUV:DATA_PATH:Stage_ID:pc_out RISCV_pipeline_tb.DUV:DATA_PATH:Stage_ID:reset RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:clock RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:imm_data_in RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:imm_data_out RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:INIT RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:pc_in RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:pc_out RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:rd_in RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:rd_out RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:read_data_1_in RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:read_data_1_out RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:read_data_2_in RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:read_data_2_out RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:reset RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:rs1_in RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:rs1_out RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:rs2_in RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:rs2_out RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:uins_in RISCV_pipeline_tb.DUV:DATA_PATH:Stage_EX:uins_out RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:alu_result_in RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:alu_result_out RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:clock RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:INIT RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:rd_in RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:rd_out RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:reset RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:uins_in RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:uins_out RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:write_data_in RISCV_pipeline_tb.DUV:DATA_PATH:Stage_MEM:write_data_out RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:alu_result_in RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:alu_result_out RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:clock RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:INIT RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:rd_in RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:rd_out RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:read_data_in RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:read_data_out RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:reset RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:uins_in RISCV_pipeline_tb.DUV:DATA_PATH:Stage_WB:uins_out RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:Forward1 RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:Forward2 RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:ForwardA RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:ForwardB RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:ForwardWb_A RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:ForwardWb_B RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:rd_stage_EX RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:rd_stage_MEM RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:rd_stage_WB RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:RegWrite_stage_EX RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:RegWrite_stage_MEM RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:RegWrite_stage_WB RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:rs1_stage_EX RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:rs1_stage_ID RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:rs2_stage_EX RISCV_pipeline_tb.DUV:DATA_PATH:Forwarding_unit:rs2_stage_ID RISCV_pipeline_tb.DUV:DATA_PATH:BranchDetection_unit:branch_decision RISCV_pipeline_tb.DUV:DATA_PATH:BranchDetection_unit:branch_prediction RISCV_pipeline_tb.DUV:DATA_PATH:BranchDetection_unit:bubble_branch_ID RISCV_pipeline_tb.DUV:DATA_PATH:BranchDetection_unit:Data1_ID RISCV_pipeline_tb.DUV:DATA_PATH:BranchDetection_unit:Data2_ID RISCV_pipeline_tb.DUV:DATA_PATH:BranchDetection_unit:instruction RISCV_pipeline_tb.DUV:DATA_PATH:HazardDetection_unit:bubble_hazard_EX RISCV_pipeline_tb.DUV:DATA_PATH:HazardDetection_unit:ce RISCV_pipeline_tb.DUV:DATA_PATH:HazardDetection_unit:ce_pc RISCV_pipeline_tb.DUV:DATA_PATH:HazardDetection_unit:ce_stage_ID RISCV_pipeline_tb.DUV:DATA_PATH:HazardDetection_unit:MemToReg_EX RISCV_pipeline_tb.DUV:DATA_PATH:HazardDetection_unit:rd_EX RISCV_pipeline_tb.DUV:DATA_PATH:HazardDetection_unit:rs1_ID RISCV_pipeline_tb.DUV:DATA_PATH:HazardDetection_unit:rs2_ID RISCV_pipeline_tb.DUV:DATA_PATH:IMM_DATA_EXTRACT:imm_data RISCV_pipeline_tb.DUV:DATA_PATH:IMM_DATA_EXTRACT:instruction RISCV_pipeline_tb.DUV:DATA_PATH:IMM_DATA_EXTRACT:instruction_f RISCV_pipeline_tb.u_mem.addr0_i RISCV_pipeline_tb.u_mem.addr1_i RISCV_pipeline_tb.u_mem.clk_i RISCV_pipeline_tb.u_mem.data0_i RISCV_pipeline_tb.u_mem.data0_o RISCV_pipeline_tb.u_mem.data1_i RISCV_pipeline_tb.u_mem.data1_o RISCV_pipeline_tb.u_mem.ram RISCV_pipeline_tb.u_mem.ram_read0_q RISCV_pipeline_tb.u_mem.ram_read1_q RISCV_pipeline_tb.u_mem.rst_i RISCV_pipeline_tb.u_mem.wr0_i RISCV_pipeline_tb.u_mem.wr1_i
+Created probe 1
+xcelium> run 4000ns
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:ALU:i_shift_unit:$PROCESS_012 (architecture worklib.shift_unit:behavioral)
+Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:$PROCESS_002 (architecture worklib.RegisterFile:structural)
+Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:$PROCESS_001 (architecture worklib.RegisterFile:structural)
+Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(3):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(4):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(5):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(6):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(7):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(8):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(9):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(10):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(11):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(12):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(13):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(14):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(15):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(16):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(17):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(18):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(19):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(20):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(21):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(22):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(23):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(24):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(25):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(26):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(27):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(28):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(29):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(30):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(31):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers1(1):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:$PROCESS_002 (architecture worklib.RegisterFile:structural)
+Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
+ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:$PROCESS_001 (architecture worklib.RegisterFile:structural)
+Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
+ASSERT/WARNING (time 15 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:$PROCESS_002 (architecture worklib.RegisterFile:structural)
+Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
+ASSERT/WARNING (time 15 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:$PROCESS_001 (architecture worklib.RegisterFile:structural)
+Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(3):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(4):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(5):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(6):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(7):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(8):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(9):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(10):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(11):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(12):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(13):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(14):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(15):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(16):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(17):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(18):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(19):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(20):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(21):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(22):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(23):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(24):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(25):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(26):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(27):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(28):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(29):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(30):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers2(31):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 45 NS) from package ieee.NUMERIC_STD, this builtin function called  from process RISCV_pipeline_tb.DUV:DATA_PATH:REGISTER_FILE:Registers1(1):$PROCESS_000 (architecture worklib.RegisterFile:structural)
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+Ran until 4 US + 0
+xcelium> ^C
+xcelium> exit
+...Regained control from SimVision
+-------------------------------------
+TOOL:	xrun	19.09-s005: Exiting on Dec 12, 2024 at 15:33:41 -03  (total: 00:03:58)

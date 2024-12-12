@@ -1,0 +1,20 @@
+//
+// File created by:  xrun
+// Do not modify this file
+//
+/home/desenvolvimento/Documents/Disciplinas/6_Semestre/Arq_Org_III/aoc-riscv-pipeline/RV32I/rtl/RISCV_package.vhd
+/home/desenvolvimento/Documents/Disciplinas/6_Semestre/Arq_Org_III/aoc-riscv-pipeline/RV32I/rtl/shift_unit.vhd
+/home/desenvolvimento/Documents/Disciplinas/6_Semestre/Arq_Org_III/aoc-riscv-pipeline/RV32I/rtl/ALU.vhd
+/home/desenvolvimento/Documents/Disciplinas/6_Semestre/Arq_Org_III/aoc-riscv-pipeline/RV32I/rtl/RegisterNbits.vhd
+/home/desenvolvimento/Documents/Disciplinas/6_Semestre/Arq_Org_III/aoc-riscv-pipeline/RV32I/rtl/Forwarding_unit.vhd
+/home/desenvolvimento/Documents/Disciplinas/6_Semestre/Arq_Org_III/aoc-riscv-pipeline/RV32I/rtl/HazardDetection_unit.vhd
+/home/desenvolvimento/Documents/Disciplinas/6_Semestre/Arq_Org_III/aoc-riscv-pipeline/RV32I/rtl/BranchDetection_unit.vhd
+/home/desenvolvimento/Documents/Disciplinas/6_Semestre/Arq_Org_III/aoc-riscv-pipeline/RV32I/rtl/ImmediateDataExtractor.vhd
+/home/desenvolvimento/Documents/Disciplinas/6_Semestre/Arq_Org_III/aoc-riscv-pipeline/RV32I/rtl/RegisterFile.vhd
+/home/desenvolvimento/Documents/Disciplinas/6_Semestre/Arq_Org_III/aoc-riscv-pipeline/RV32I/rtl/Stage_ID.vhd
+/home/desenvolvimento/Documents/Disciplinas/6_Semestre/Arq_Org_III/aoc-riscv-pipeline/RV32I/rtl/Stage_EX.vhd
+/home/desenvolvimento/Documents/Disciplinas/6_Semestre/Arq_Org_III/aoc-riscv-pipeline/RV32I/rtl/Stage_MEM.vhd
+/home/desenvolvimento/Documents/Disciplinas/6_Semestre/Arq_Org_III/aoc-riscv-pipeline/RV32I/rtl/Stage_WB.vhd
+/home/desenvolvimento/Documents/Disciplinas/6_Semestre/Arq_Org_III/aoc-riscv-pipeline/RV32I/rtl/DataPath.vhd
+/home/desenvolvimento/Documents/Disciplinas/6_Semestre/Arq_Org_III/aoc-riscv-pipeline/RV32I/rtl/ControlPath.vhd
+/home/desenvolvimento/Documents/Disciplinas/6_Semestre/Arq_Org_III/aoc-riscv-pipeline/RV32I/rtl/RISCV_pipeline.vhd

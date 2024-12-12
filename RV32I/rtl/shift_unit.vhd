@@ -49,9 +49,9 @@ begin
 
     results_sll(32) <= (others=>'0');
     results_srl(32) <= (others=>'0');
-    results_sra(32) <= (others=>'0');
+    results_sra(32) <= (others=>operand1(31));
 
-    shift_amount <= to_integer(unsigned(operand2)) when operand2 < x"00000010" else -- operand2<32
+    shift_amount <= to_integer(unsigned(operand2)) when unsigned(operand2) < x"00000010" else -- operand2<32
                     32;
 
     result <= results_sll(shift_amount) when operation = SLLI or operation = SLLL else

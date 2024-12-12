@@ -35,6 +35,7 @@ architecture structural of DataPath is
     -- Instruction Fetch Stage Signals:
     signal incrementedPC_IF, pc_d, pc_q, PC_IF_mux, instruction_IF_mux : std_logic_vector(31 downto 0);
     signal ce_pc : std_logic;
+    signal predicted_ID : std_logic;
 
     -- Instruction Decode Stage Signals:
     signal PC_ID, readData1_ID, readData2_ID, imm_data_ID, imm_data_ID_mux, jumpTarget : std_logic_vector(31 downto 0);
@@ -49,6 +50,8 @@ architecture structural of DataPath is
     signal uins_EX : Microinstruction;
     signal rd_EX, rs2_EX, rs1_EX : std_logic_vector(4 downto 0);
     signal bubble_hazard_EX : std_logic;
+
+    signal branchTarget_EX : std_logic_vector(31 downto 0);
 
     -- Memory Stage Signals:
     signal result_MEM : std_logic_vector(31 downto 0);
@@ -92,11 +95,6 @@ begin
     ADDER_BRANCH: branchTarget <= STD_LOGIC_VECTOR(UNSIGNED(PC_ID) + UNSIGNED(imm_data_ID));
 
     jumpTarget <= STD_LOGIC_VECTOR(UNSIGNED(imm_data_ID) + UNSIGNED(Data1_ID));
-    
-    -- MUX which selects the PC value
-    MUX_PC: pc_d <= branchTarget when (uins_ID.format = B and branch_decision = '1') or uins_ID.format = J else
-                    jumpTarget(30 downto 0) & '0' when uins_ID.instruction = JALR else 
-                    incrementedPC_IF;
       
     -- Selects the second ALU operand
     -- MUX at the ALU input
@@ -217,7 +215,9 @@ begin
             rd_in                 => rd_ID_mux,  
             rd_out                => rd_EX,
             uins_in               => uins_ID_mux, 
-            uins_out              => uins_EX
+            uins_out              => uins_EX,
+            branchTarget_in       => branchTarget,
+            branchTarget_out      => branchTarget_EX 
         );
 
     -- Stage Memory of Pipeline
@@ -225,9 +225,9 @@ begin
         port map (
             clock            => clock, 
             reset            => reset,
-	    alu_result_in    => result_EX,
+	        alu_result_in    => result_EX,
             alu_result_out   => result_MEM,
-	    write_data_in    => operand2,
+	        write_data_in    => operand2,
             write_data_out   => data_o,
             rd_in            => rd_EX,
             rd_out           => rd_MEM,
@@ -287,12 +287,30 @@ begin
     BranchDetection_unit: entity work.BranchDetection_unit(arch1)
         port map (
             instruction        => uins_ID.instruction,
+            branch_prediction  => predicted_ID,
             Data1_ID           => ReadReg1,
             Data2_ID           => ReadReg2,
             branch_decision    => branch_decision,
             bubble_branch_ID   => bubble_branch_ID
         );
 
+    Branch_predictor: entity work.Branch_predictor(behavioral)
+        port map (
+            clock              => clock,
+            reset              => reset,
+            incrementedPC_IF   => incrementedPC_IF,
+            PC_IF              => PC_IF_mux,
+            pc_predicted_IF    => pc_d,
+            PC_ID              => PC_ID,
+            branchTarget_ID    => branchTarget,
+            jumpTarget_ID      => jumpTarget,
+            branch_decision_ID => branch_decision,
+            uins_ID            => uins_ID,
+            predicted_ID       => predicted_ID,
+            PC_EX              => PC_EX,
+            branchTarget_EX    => branchTarget_EX,
+            uins_EX            => uins_EX
+        );
     -- MemWrite receive signal of Stage MEM
     MemWrite <= uins_MEM.MemWrite;
 

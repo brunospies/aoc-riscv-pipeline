@@ -31,7 +31,9 @@ entity Stage_EX is
         rd_in                 : in  std_logic_vector(4 downto 0);  
         rd_out                : out std_logic_vector(4 downto 0);
         uins_in               : in  Microinstruction;
-        uins_out              : out Microinstruction                
+        uins_out              : out Microinstruction;
+        branchTarget_in       : in  std_logic_vector(31 downto 0);
+        branchTarget_out      : out std_logic_vector(31 downto 0)          
     );
 end Stage_EX;
 
@@ -135,6 +137,20 @@ begin
             ce          => '1', 
             d           => rs1_in, 
             q           => rs1_out
+        );
+
+    -- Branch Target register
+    BranchTarget:    entity work.RegisterNbits
+        generic map (
+            LENGTH      => 32,
+            INIT_VALUE  => INIT
+        )
+        port map (
+            clock       => clock,
+            reset       => reset,
+            ce          => '1', 
+            d           => branchTarget_in, 
+            q           => branchTarget_out
         );
     -- Control register   
     process(clock, reset)

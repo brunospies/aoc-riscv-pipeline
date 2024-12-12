@@ -1,18 +1,19 @@
-../rtl/RISCV_package.vhd
-../rtl/ALU.vhd
-../rtl/RegisterNbits.vhd
-../rtl/Forwarding_unit.vhd
-../rtl/HazardDetection_unit.vhd
-../rtl/BranchDetection_unit.vhd
-../rtl/ImmediateDataExtractor.vhd
-../rtl/RegisterFile.vhd
-../rtl/Stage_ID.vhd
-../rtl/Stage_EX.vhd
-../rtl/Stage_MEM.vhd
-../rtl/Stage_WB.vhd
-../rtl/DataPath.vhd
-../rtl/ControlPath.vhd
-../rtl/RISCV_pipeline.vhd
-Util_package.vhd
-Memory.vhd
-RISCV_pipeline_tb.vhd
+ghdl -a ../rtl/RISCV_package.vhd &&
+ghdl -a ../rtl/ALU.vhd &&
+ghdl -a ../rtl/RegisterNbits.vhd &&
+ghdl -a ../rtl/Forwarding_unit.vhd &&
+ghdl -a ../rtl/HazardDetection_unit.vhd &&
+ghdl -a ../rtl/BranchDetection_unit.vhd &&
+ghdl -a ../rtl/Branch_predictor.vhd &&
+ghdl -a ../rtl/ImmediateDataExtractor.vhd &&
+ghdl -a ../rtl/RegisterFile.vhd &&
+ghdl -a ../rtl/Stage_ID.vhd &&
+ghdl -a ../rtl/Stage_EX.vhd &&
+ghdl -a ../rtl/Stage_MEM.vhd &&
+ghdl -a ../rtl/Stage_WB.vhd &&
+ghdl -a ../rtl/DataPath.vhd &&
+ghdl -a ../rtl/ControlPath.vhd &&
+ghdl -a ../rtl/RISCV_pipeline.vhd &&
+ghdl -a Util_package.vhd &&
+ghdl -a Memory.vhd &&
+ghdl -a RISCV_pipeline_tb.vhd

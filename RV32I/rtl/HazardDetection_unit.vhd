@@ -13,7 +13,7 @@ entity HazardDetection_unit is
     port ( 
         rs2_ID                : in  std_logic_vector (4 downto 0);
         rs1_ID                : in  std_logic_vector (4 downto 0);
-        rd_EX                : in  std_logic_vector (4 downto 0);
+        rd_EX                 : in  std_logic_vector (4 downto 0);
         MemToReg_EX           : in  std_logic;
         ce_pc                 : out std_logic;
         ce_stage_ID           : out std_logic;

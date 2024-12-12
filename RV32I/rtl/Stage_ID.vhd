@@ -16,7 +16,7 @@ entity Stage_ID is
         clock               : in  std_logic;
         reset               : in  std_logic;
         ce                  : in  std_logic;  
-	pc_in               : in  std_logic_vector(31 downto 0);  
+	    pc_in               : in  std_logic_vector(31 downto 0);  
         pc_out              : out std_logic_vector(31 downto 0);
         instruction_in      : in  std_logic_vector(31 downto 0);  
         instruction_out     : out std_logic_vector(31 downto 0)                

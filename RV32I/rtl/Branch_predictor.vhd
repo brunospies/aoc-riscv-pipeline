@@ -127,7 +127,6 @@ begin
     end process;
 
     -- Process to determine if the branch is taken or not
-
     process(index_ID)
     begin
         case predict_branch_table(to_integer(unsigned(index_ID))) is
@@ -145,7 +144,7 @@ begin
     (taken_IF = '1' and valid_index_table(to_integer(unsigned(index_IF))) = '1' and
     tag_memory_table(to_integer(unsigned(index_IF))) = tag_pc_IF) else -- Branch prediction in the table 
     branchTarget_ID when (branch_decision_ID /= taken_ID) and (branch_decision_ID = '1') and
-    ((uins_ID.format = B) or (uins_ID.format = J)) else -- Should have been taken but was not taken
+    ((uins_ID.format = B) or (uins_ID.format = J)) else -- Should have been taken but was not taken or it was jump not relative
     PC_ID when (branch_decision_ID /= taken_ID) and (branch_decision_ID = '0') and
     (uins_ID.format = B) else -- Should have been not taken but was taken
     jumpTarget_ID(30 downto 0) & '0' when uins_ID.instruction = JALR else -- Jump instruction

@@ -44,7 +44,7 @@ begin
         
         if reset = '1' then
             for i in 0 to LENGTH-1 loop
-                counter(i) <= "01";     -- weak not taken
+                counter(i) <= "01"; -- weak not taken
             end loop;
         
         elsif rising_edge(clock) then

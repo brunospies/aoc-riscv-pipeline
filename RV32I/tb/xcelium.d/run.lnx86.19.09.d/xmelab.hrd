@@ -1,0 +1,9 @@
+//
+// File created by:  xrun
+// Do not modify this file
+//
+-V200X
+
+RISCV_pipeline_tb
+-ACCESS
++rwc

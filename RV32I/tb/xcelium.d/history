@@ -1,0 +1,6 @@
+//
+// File created by:  xrun
+// Do not modify this file
+
+s1::(13Dec2024:12:32:40):( xrun -v200x -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui )
+s2::(13Dec2024:12:35:01):( xrun -sv -v200x -f filelist_sv.txt -top RISCV_pipeline_tb -access +rwc -gui )

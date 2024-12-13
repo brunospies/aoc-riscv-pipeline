@@ -37,7 +37,7 @@ begin
     
     branch_decision <= branch_decision_mux;
     
-    bubble_branch_ID <= '1' when branch_decision_mux /= branch_prediction else
+    bubble_branch_ID <= '1' when branch_decision_mux /= branch_prediction and instruction /= INVALID_INSTRUCTION else
                         '0'; 
             
 end arch1;

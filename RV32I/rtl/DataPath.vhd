@@ -33,14 +33,14 @@ end DataPath;
 architecture structural of DataPath is
 
     -- Instruction Fetch Stage Signals:
-    signal incrementedPC_IF, pc_d, pc_q, PC_IF_mux, instruction_IF_mux, next_pc : std_logic_vector(31 downto 0);
+    signal incrementedPC_IF, pc_d, pc_q, PC_IF_mux, instruction_IF_mux, next_pc, incrementedPC_IF_old, pc_q_old : std_logic_vector(31 downto 0);
     signal ce_pc, branch_prediction_IF : std_logic;
 
     -- Instruction Decode Stage Signals:
     signal PC_ID, readData1_ID, readData2_ID, imm_data_ID, imm_data_ID_mux, jumpTarget, readReg1_Comp, readReg2_Comp : std_logic_vector(31 downto 0);
     signal branchTarget, readReg1, readReg2, Data1_ID, Data1_ID_mux, Data2_ID, Data2_ID_mux, instruction_ID : std_logic_vector(31 downto 0);
     signal rs1_ID, rs2_ID, rd_ID, rs1_ID_mux, rs2_ID_mux, rd_ID_mux: std_logic_vector(4 downto 0);
-    signal ce_stage_ID, bubble_branch_ID, branch_decision, branch_prediction_ID : std_logic;
+    signal ce_stage_ID, bubble_branch_ID, branch_decision, branch_decision_mux, branch_prediction_ID : std_logic;
     signal uins_ID_mux : Microinstruction;
 
     -- Execution Stage Signals:
@@ -84,6 +84,8 @@ begin
     -- incrementedPC_IF points the next instruction address
     -- ADDER over the PC register
     ADDER_PC: incrementedPC_IF <= STD_LOGIC_VECTOR(UNSIGNED(pc_q) + TO_UNSIGNED(4,32));
+
+    ADDER_PC_OLD: incrementedPC_IF_old <= STD_LOGIC_VECTOR(UNSIGNED(pc_q_old) + TO_UNSIGNED(4,32));
         
     -- Instruction memory is addressed by the PC register
     instructionAddress <= pc_q;
@@ -95,8 +97,9 @@ begin
     jumpTarget <= STD_LOGIC_VECTOR(UNSIGNED(imm_data_ID) + UNSIGNED(Data1_ID));
     
     -- MUX which selects the PC value
-    MUX_PC: next_pc <= branchTarget when (uins_ID.format = B and bubble_branch_ID = '1' and branch_prediction_ID = '0') else
-                       jumpTarget when uins_ID.instruction = JALR else --jumpTarget(30 downto 0) & '0' when uins_ID.instruction = JALR else 
+    MUX_PC: next_pc <= branchTarget when uins_ID.format = B and bubble_branch_ID = '1' and branch_decision = '1' else
+                       incrementedPC_IF_old when uins_ID.format = B and bubble_branch_ID = '1' and branch_decision = '0' else
+                       jumpTarget when uins_ID.instruction = JALR else 
                        incrementedPC_IF;
       
     -- Selects the second ALU operand
@@ -204,6 +207,8 @@ begin
             ce                    => ce_stage_ID,
             branch_prediction_in  => branch_prediction_IF,
             branch_prediction_out => branch_prediction_ID,
+            pc_old_in             => pc_q,
+            pc_old_out            => pc_q_old,
 	        pc_in                 => PC_IF_mux, 
             pc_out                => PC_ID,
             instruction_in        => instruction_IF_mux,
@@ -302,7 +307,7 @@ begin
 
     BranchDetection_unit: entity work.BranchDetection_unit(arch1)
         port map (
-            instruction        => uins_ID.instruction,
+            instruction        => uins_ID_mux.instruction,
             branch_prediction  => branch_prediction_ID,
             Data1_ID           => readReg1_Comp,
             Data2_ID           => readReg2_Comp,
@@ -314,6 +319,8 @@ begin
         port map (
             clock                => clock,
             reset                => reset,
+            ce                   => ce_stage_ID,
+            bubble_branch        => bubble_branch_ID,
             branch_decision      => branch_decision,
             current_pc           => pc_q,
             instruction          => instruction_IF,
@@ -336,6 +343,10 @@ begin
 
     MUX_BUBBLE_instruction_IF: instruction_IF_mux <= instruction_IF when bubble_branch_ID = '0' else
                                                      (others=>'0');
+    
+    
+    --MUX_BRANCH_DECISION: branch_decision_mux <= branch_decision when bubble_branch_ID = '0' else
+     --                                           '0';
     
     -- MUX BUBBLE EX
 

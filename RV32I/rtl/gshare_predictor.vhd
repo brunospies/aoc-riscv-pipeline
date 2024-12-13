@@ -18,7 +18,9 @@ entity gshare_predictor is
     port ( 
         clock             : in  std_logic;
         reset             : in  std_logic; 
+        ce                : in  std_logic;
         branch_decision   : in  std_logic;
+        bubble_branch     : in  std_logic;
         current_pc        : in  std_logic_vector(31 downto 0);
         instruction       : in  std_logic_vector(31 downto 0);
         next_pc           : in  std_logic_vector(31 downto 0);
@@ -65,24 +67,26 @@ begin
             ghr <= (others=>'0');
         
         elsif rising_edge(clock) then
-            if format_ID = B then
-                counter(id_ID) <= "00" when counter(id_ID) = "01" and branch_decision = '0' else
-                                  "10" when counter(id_ID) = "01" and branch_decision = '1' else
-                                  "01" when counter(id_ID) = "10" and branch_decision = '0' else
-                                  "11" when counter(id_ID) = "10" and branch_decision = '1' else 
-                                  "00" when counter(id_ID) = "00" and branch_decision = '0' else
-                                  "01" when counter(id_ID) = "00" and branch_decision = '1' else
-                                  "10" when counter(id_ID) = "11" and branch_decision = '0' else
-                                  "11";
-                
-                ghr <= ghr(N-2 downto 0) & branch_decision;
+            if ce = '1' then    
+                if format_ID = B then
+                    counter(id_ID) <= "00" when counter(id_ID) = "01" and branch_decision = '0' else
+                                      "10" when counter(id_ID) = "01" and branch_decision = '1' else
+                                      "01" when counter(id_ID) = "10" and branch_decision = '0' else
+                                      "11" when counter(id_ID) = "10" and branch_decision = '1' else 
+                                      "00" when counter(id_ID) = "00" and branch_decision = '0' else
+                                      "01" when counter(id_ID) = "00" and branch_decision = '1' else
+                                      "10" when counter(id_ID) = "11" and branch_decision = '0' else
+                                      "11";
+                    
+                    ghr <= ghr(N-2 downto 0) & branch_decision;
 
+                end if;
             end if;
         end if;
             
     end process;
     
-    predicted_pc <= branchTarget when (format_IF = B and counter(id_IF)(1) = '1' and branch_decision = '0') or format_IF = J else
+    predicted_pc <= branchTarget when ((format_IF = B and counter(id_IF)(1) = '1') or format_IF = J) and (branch_decision = '0' and bubble_branch = '0') else -- exeption branch target
                     next_pc;
     
     branch_prediction <= counter(id_IF)(1) when format_IF = B else

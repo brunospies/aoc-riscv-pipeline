@@ -18,6 +18,8 @@ entity Stage_ID is
         ce                    : in  std_logic;
         branch_prediction_in  : in  std_logic;
         branch_prediction_out : out std_logic;
+        pc_old_in             : in  std_logic_vector(31 downto 0);  
+        pc_old_out            : out std_logic_vector(31 downto 0);
 	    pc_in                 : in  std_logic_vector(31 downto 0);  
         pc_out                : out std_logic_vector(31 downto 0);
         instruction_in        : in  std_logic_vector(31 downto 0);  
@@ -43,6 +45,21 @@ begin
             d           => pc_in, 
             q           => pc_out
         );
+
+    -- PC_old register
+    PC_OLD:    entity work.RegisterNbits
+        generic map (
+            LENGTH      => 32,
+            INIT_VALUE  => INIT
+        )
+        port map (
+            clock       => clock,
+            reset       => reset,
+            ce          => ce, 
+            d           => pc_old_in, 
+            q           => pc_old_out
+        );
+    
     
     -- Instruction register
     Instruction:    entity work.RegisterNbits

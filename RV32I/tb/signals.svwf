@@ -110,6 +110,14 @@ if {[catch {group get -using [list CONTROL_PATH]}]} {
 set createdGroup([list CONTROL_PATH]) 1
 catch {group new -name CONTROL_PATH -overlay 0}
 }
+if {[catch {group get -using [list GSHARE]}]} {
+set createdGroup([list GSHARE]) 1
+catch {group new -name GSHARE -overlay 0}
+}
+if {[catch {group get -using [list CLYCLES]}]} {
+set createdGroup([list CLYCLES]) 1
+catch {group new -name CLYCLES -overlay 0}
+}
 if {[info exists createdGroup([list RISCV_PIPELINE])]} {
 group using RISCV_PIPELINE
 group set -overlay 0
@@ -418,13 +426,49 @@ group insert \
     [subst  {[format {:DUV:CONTROL_PATH:uins}]} ]
 }
 
+if {[info exists createdGroup([list GSHARE])]} {
+group using GSHARE
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {:DUV:DATA_PATH:gshare_predictor:branch_decision}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:gshare_predictor:branch_prediction}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:gshare_predictor:branchTarget}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:gshare_predictor:clock}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:gshare_predictor:counter}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:gshare_predictor:current_pc}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:gshare_predictor:format_ID}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:gshare_predictor:format_IF}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:gshare_predictor:ghr}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:gshare_predictor:id_ID}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:gshare_predictor:id_IF}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:gshare_predictor:imm_data}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:gshare_predictor:index_ID}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:gshare_predictor:index_IF}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:gshare_predictor:instruction}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:gshare_predictor:LENGTH}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:gshare_predictor:N}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:gshare_predictor:next_pc}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:gshare_predictor:predicted_pc}]} ] \
+    [subst  {[format {:DUV:DATA_PATH:gshare_predictor:reset}]} ]
+}
+
+if {[info exists createdGroup([list CLYCLES])]} {
+group using CLYCLES
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+}
+
 
 set groupId0 [waveform add -groups RISCV_PIPELINE]
-waveform hierarchy collapse $groupId0
 
 set id [waveform add -cdivider divider]
 
 set groupId0 [waveform add -groups DATA_PATH]
+waveform hierarchy collapse $groupId0
 
 set id [waveform add -cdivider divider]
 
@@ -467,6 +511,7 @@ waveform hierarchy collapse $groupId0
 set id [waveform add -cdivider divider]
 
 set groupId0 [waveform add -groups ALU]
+waveform hierarchy collapse $groupId0
 
 set id [waveform add -cdivider divider]
 
@@ -490,6 +535,11 @@ waveform hierarchy collapse $groupId0
 set id [waveform add -cdivider divider]
 
 set groupId0 [waveform add -groups IMM_EXTRACTOR]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups GSHARE]
 
 set id [waveform add -cdivider divider]
 
@@ -500,5 +550,9 @@ set id [waveform add -cdivider divider]
 set groupId0 [waveform add -groups INSTRUCTION_MEMORY]
 waveform hierarchy collapse $groupId0
 
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {:DUV:DATA_PATH:cycles}]}
+	} ]]
 
-waveform xview limits 0 4000000000fs
+waveform xview limits 0 2000fs

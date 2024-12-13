@@ -1,0 +1,19 @@
+//
+// File created by:  xrun
+// Do not modify this file
+
+s1::(13Dec2024:09:21:06):( xrun -v200x -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui )
+s2::(13Dec2024:09:35:30):( xrun -v200x -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui "-s " )
+s3::(13Dec2024:09:43:54):( xrun -v200x -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s )
+s4::(13Dec2024:09:53:40):( xrun -v200x -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s )
+s5::(13Dec2024:09:54:06):( xrun -v200x -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s )
+s6::(13Dec2024:09:58:29):( xrun -v200x -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s )
+s7::(13Dec2024:10:16:45):( xrun -v200x -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s )
+s8::(13Dec2024:10:27:23):( xrun -v200x -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s )
+s9::(13Dec2024:10:36:54):( xrun -v200x -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s )
+s10::(13Dec2024:11:55:50):( xrun -v200x -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s )
+s11::(13Dec2024:11:56:33):( xrun -v200x -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s )
+s12::(13Dec2024:12:02:28):( xrun -v200x -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s )
+s13::(13Dec2024:12:02:52):( xrun -v200x -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s )
+s14::(13Dec2024:12:04:59):( xrun -v200x -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s )
+s15::(13Dec2024:12:19:20):( xrun -v200x -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -s )

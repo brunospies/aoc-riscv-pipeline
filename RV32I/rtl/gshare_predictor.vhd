@@ -69,14 +69,23 @@ begin
         elsif rising_edge(clock) then
             if ce = '1' then    
                 if format_ID = B then
-                    counter(id_ID) <= "00" when counter(id_ID) = "01" and branch_decision = '0' else
-                                      "10" when counter(id_ID) = "01" and branch_decision = '1' else
-                                      "01" when counter(id_ID) = "10" and branch_decision = '0' else
-                                      "11" when counter(id_ID) = "10" and branch_decision = '1' else 
-                                      "00" when counter(id_ID) = "00" and branch_decision = '0' else
-                                      "01" when counter(id_ID) = "00" and branch_decision = '1' else
-                                      "10" when counter(id_ID) = "11" and branch_decision = '0' else
-                                      "11";
+                    if counter(id_ID) = "01" and branch_decision = '0' then
+                        counter(id_ID) <= "00";
+                    elsif counter(id_ID) = "01" and branch_decision = '1' then
+                        counter(id_ID) <= "10";
+                    elsif counter(id_ID) = "10" and branch_decision = '0' then
+                        counter(id_ID) <= "01";
+                    elsif counter(id_ID) = "10" and branch_decision = '1' then
+                        counter(id_ID) <= "11";
+                    elsif counter(id_ID) = "00" and branch_decision = '0' then
+                        counter(id_ID) <= "00";
+                    elsif counter(id_ID) = "00" and branch_decision = '1' then
+                        counter(id_ID) <= "01";
+                    elsif counter(id_ID) = "11" and branch_decision = '0' then
+                        counter(id_ID) <= "10";
+                    else
+                        counter(id_ID) <= "11";
+                    end if;
                     
                     ghr <= ghr(N-2 downto 0) & branch_decision;
 

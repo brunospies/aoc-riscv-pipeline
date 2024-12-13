@@ -1,3 +1,0 @@
-SOFTINCLUDE /tools/cadence/XCELIUM1909/tools/inca/files/cds.lib
-define worklib ../worklib
-define vhdlspice_skeletons ../vhdlspice_skeletons

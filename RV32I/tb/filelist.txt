@@ -11,6 +11,7 @@
 ../rtl/Stage_EX.vhd
 ../rtl/Stage_MEM.vhd
 ../rtl/Stage_WB.vhd
+../rtl/gshare_predictor.vhd
 ../rtl/DataPath.vhd
 ../rtl/ControlPath.vhd
 ../rtl/RISCV_pipeline.vhd

@@ -13,13 +13,15 @@ entity Stage_ID is
         INIT    : integer := 0
     );
     port (  
-        clock               : in  std_logic;
-        reset               : in  std_logic;
-        ce                  : in  std_logic;  
-	pc_in               : in  std_logic_vector(31 downto 0);  
-        pc_out              : out std_logic_vector(31 downto 0);
-        instruction_in      : in  std_logic_vector(31 downto 0);  
-        instruction_out     : out std_logic_vector(31 downto 0)                
+        clock                 : in  std_logic;
+        reset                 : in  std_logic;
+        ce                    : in  std_logic;
+        branch_prediction_in  : in  std_logic;
+        branch_prediction_out : out std_logic;
+	    pc_in                 : in  std_logic_vector(31 downto 0);  
+        pc_out                : out std_logic_vector(31 downto 0);
+        instruction_in        : in  std_logic_vector(31 downto 0);  
+        instruction_out       : out std_logic_vector(31 downto 0)                
     );
 end Stage_ID;
 
@@ -56,4 +58,16 @@ begin
             q           => instruction_out
         );
     
+    -- Branch Prediction register
+    process(clock, reset)
+    begin
+        if reset = '1' then
+            branch_prediction_out <= '0';
+        elsif rising_edge(clock) then
+            if ce = '1' then
+                branch_prediction_out <= branch_prediction_in;
+            end if;
+        end if;
+    end process;
+
 end behavioral;

@@ -33,14 +33,14 @@ end DataPath;
 architecture structural of DataPath is
 
     -- Instruction Fetch Stage Signals:
-    signal incrementedPC_IF, pc_d, pc_q, PC_IF_mux, instruction_IF_mux : std_logic_vector(31 downto 0);
-    signal ce_pc : std_logic;
+    signal incrementedPC_IF, pc_d, pc_q, PC_IF_mux, instruction_IF_mux, next_pc : std_logic_vector(31 downto 0);
+    signal ce_pc, branch_prediction_IF : std_logic;
 
     -- Instruction Decode Stage Signals:
     signal PC_ID, readData1_ID, readData2_ID, imm_data_ID, imm_data_ID_mux, jumpTarget, readReg1_Comp, readReg2_Comp : std_logic_vector(31 downto 0);
     signal branchTarget, readReg1, readReg2, Data1_ID, Data1_ID_mux, Data2_ID, Data2_ID_mux, instruction_ID : std_logic_vector(31 downto 0);
     signal rs1_ID, rs2_ID, rd_ID, rs1_ID_mux, rs2_ID_mux, rd_ID_mux: std_logic_vector(4 downto 0);
-    signal ce_stage_ID, bubble_branch_ID, branch_decision : std_logic;
+    signal ce_stage_ID, bubble_branch_ID, branch_decision, branch_prediction_ID : std_logic;
     signal uins_ID_mux : Microinstruction;
 
     -- Execution Stage Signals:
@@ -64,6 +64,7 @@ architecture structural of DataPath is
     signal ForwardA, ForwardB, Forward1, Forward2 : std_logic_vector(1 downto 0);
     signal ForwardWb_A, ForwardWb_B, MuxLoad1_Comp, MuxLoad2_Comp : std_logic;
     signal uins_bubble : Microinstruction;
+    signal format_IF   : Instruction_format;
 
     -- SIMULATION Signals:
     signal decodedInstruction_IF: Instruction_type;
@@ -71,7 +72,7 @@ architecture structural of DataPath is
     alias  opcode: std_logic_vector(6 downto 0) is instruction_IF(6 downto 0);
     alias  funct3: std_logic_vector(2 downto 0) is instruction_IF(14 downto 12);
     alias  funct7: std_logic_vector(6 downto 0) is instruction_IF(31 downto 25); 
-    signal cicles : integer := 0;
+    signal cycles : integer := 0;
 
     
 begin
@@ -94,9 +95,9 @@ begin
     jumpTarget <= STD_LOGIC_VECTOR(UNSIGNED(imm_data_ID) + UNSIGNED(Data1_ID));
     
     -- MUX which selects the PC value
-    MUX_PC: pc_d <= branchTarget when (uins_ID.format = B and branch_decision = '1') or uins_ID.format = J else
-                    jumpTarget when uins_ID.instruction = JALR else --jumpTarget(30 downto 0) & '0' when uins_ID.instruction = JALR else 
-                    incrementedPC_IF;
+    MUX_PC: next_pc <= branchTarget when (uins_ID.format = B and bubble_branch_ID = '1' and branch_prediction_ID = '0') else
+                       jumpTarget when uins_ID.instruction = JALR else --jumpTarget(30 downto 0) & '0' when uins_ID.instruction = JALR else 
+                       incrementedPC_IF;
       
     -- Selects the second ALU operand
     -- MUX at the ALU input
@@ -198,13 +199,15 @@ begin
     -- Stage Instruction Decode of Pipeline
      Stage_ID: entity work.Stage_ID(behavioral)
         port map (
-            clock               => clock, 
-            reset               => reset,
-            ce                  => ce_stage_ID,  
-	        pc_in               => PC_IF_mux, 
-            pc_out              => PC_ID,
-            instruction_in      => instruction_IF_mux,
-            instruction_out     => instruction_ID
+            clock                 => clock, 
+            reset                 => reset,
+            ce                    => ce_stage_ID,
+            branch_prediction_in  => branch_prediction_IF,
+            branch_prediction_out => branch_prediction_ID,
+	        pc_in                 => PC_IF_mux, 
+            pc_out                => PC_ID,
+            instruction_in        => instruction_IF_mux,
+            instruction_out       => instruction_ID
         );
 
     -- Stage Exexution of Pipeline
@@ -300,10 +303,25 @@ begin
     BranchDetection_unit: entity work.BranchDetection_unit(arch1)
         port map (
             instruction        => uins_ID.instruction,
+            branch_prediction  => branch_prediction_ID,
             Data1_ID           => readReg1_Comp,
             Data2_ID           => readReg2_Comp,
             branch_decision    => branch_decision,
             bubble_branch_ID   => bubble_branch_ID
+        );
+
+    GSHARE_predictor: entity work.gshare_predictor(behavioral)
+        port map (
+            clock                => clock,
+            reset                => reset,
+            branch_decision      => branch_decision,
+            current_pc           => pc_q,
+            instruction          => instruction_IF,
+            next_pc              => next_pc,
+            format_ID            => uins_ID_mux.format,
+            format_IF            => format_IF,
+            predicted_pc         => pc_d,
+            branch_prediction    => branch_prediction_IF
         );
 
     -- MemWrite receive signal of Stage MEM
@@ -341,6 +359,10 @@ begin
 
     MUX_BUBBLE_uins_ID: uins_ID_mux <= uins_ID when bubble_hazard_EX = '0' else
                                     uins_bubble;
+    
+    format_IF <= B when opcode = "1100011" else
+                 J when opcode = "1101111" else
+                 X;
 
     -- BUBBLE signals 
 
@@ -356,18 +378,18 @@ begin
 
         process(clock) begin 
             if rising_edge(clock) then
-                cicles <= cicles + 1;
+                cycles <= cycles + 1;
             end if;
         end process;
 
     -- Instruction format decode
     decodedFormat_IF <= U when opcode = "0010111" or opcode = "0110111" else
-                     J when opcode = "1101111" else
-                     I when opcode = "1100111" or opcode = "1100111" or opcode = "1110011" or opcode = "0001111" else
-                     B when opcode = "1100011" else
-                     R when opcode = "0110011" else
-                     S when opcode = "0100011" else
-                     X; -- invalid format
+                        J when opcode = "1101111" else
+                        I when opcode = "1100111" or opcode = "1100111" or opcode = "1110011" or opcode = "0001111" else
+                        B when opcode = "1100011" else
+                        R when opcode = "0110011" else
+                        S when opcode = "0100011" else
+                        X; -- invalid format
 
     -- Instruction type decode
     decodedInstruction_IF <=   -- U-format 

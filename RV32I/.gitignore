@@ -1,0 +1,12 @@
+# Ignored Files
+
+
+# Ignored Extensions
+*.log
+*.key
+*.history
+
+# Ignored Directories
+/xcelium.d/
+/waves.shm/
+/.simvision/

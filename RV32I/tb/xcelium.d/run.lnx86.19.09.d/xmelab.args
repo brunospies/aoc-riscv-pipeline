@@ -17,4 +17,3 @@ RISCV_pipeline_tb
 -WORK
 worklib
 -IRUNHASTOP
--HASXLMODE

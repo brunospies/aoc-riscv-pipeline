@@ -1,0 +1,12 @@
+# Ignored Files
+
+
+# Ignored Extensions
+*.log
+*.key
+*.history
+
+# Ignored Directories
+RV32I/tb/xcelium.d/
+RV32I/tb/waves.shm/
+RV32I/tb/.simvision/

@@ -18,3 +18,6 @@
 /home/desenvolvimento/Documents/Disciplinas/6_Semestre/Arq_Org_III/aoc-riscv-pipeline/RV32I/rtl/DataPath.vhd
 /home/desenvolvimento/Documents/Disciplinas/6_Semestre/Arq_Org_III/aoc-riscv-pipeline/RV32I/rtl/ControlPath.vhd
 /home/desenvolvimento/Documents/Disciplinas/6_Semestre/Arq_Org_III/aoc-riscv-pipeline/RV32I/rtl/RISCV_pipeline.vhd
+/home/desenvolvimento/Documents/Disciplinas/6_Semestre/Arq_Org_III/aoc-riscv-pipeline/RV32I/tb/Util_package.vhd
+/home/desenvolvimento/Documents/Disciplinas/6_Semestre/Arq_Org_III/aoc-riscv-pipeline/RV32I/tb/Memory.vhd
+/home/desenvolvimento/Documents/Disciplinas/6_Semestre/Arq_Org_III/aoc-riscv-pipeline/RV32I/tb/RISCV_pipeline_tb.vhd

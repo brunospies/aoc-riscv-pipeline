@@ -418,6 +418,9 @@ group insert \
     [subst  {[format {:DUV:CONTROL_PATH:uins}]} ]
 }
 
+set id [waveform add -signals [subst  {
+	{[format {:DUV:DATA_PATH:instructionAddress}]}
+	} ]]
 
 set groupId0 [waveform add -groups RISCV_PIPELINE]
 waveform hierarchy collapse $groupId0
@@ -500,5 +503,9 @@ set id [waveform add -cdivider divider]
 set groupId0 [waveform add -groups INSTRUCTION_MEMORY]
 waveform hierarchy collapse $groupId0
 
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {:DUV:DATA_PATH:cycles}]}
+	} ]]
 
-waveform xview limits 0 4000000000fs
+waveform xview limits 0 2000fs

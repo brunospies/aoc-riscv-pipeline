@@ -22,6 +22,9 @@
 ../rtl/DataPath.vhd
 ../rtl/ControlPath.vhd
 ../rtl/RISCV_pipeline.vhd
+Util_package.vhd
+Memory.vhd
+RISCV_pipeline_tb.vhd
 -CDSLIB
 ./xcelium.d/run.lnx86.19.09.d/cdsrun.lib
 -HDLVAR

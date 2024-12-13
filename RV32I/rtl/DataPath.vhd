@@ -71,7 +71,7 @@ architecture structural of DataPath is
     alias  opcode: std_logic_vector(6 downto 0) is instruction_IF(6 downto 0);
     alias  funct3: std_logic_vector(2 downto 0) is instruction_IF(14 downto 12);
     alias  funct7: std_logic_vector(6 downto 0) is instruction_IF(31 downto 25); 
-    signal cicles : integer := 0;
+    signal cycles : integer := 0;
 
     
 begin
@@ -356,7 +356,7 @@ begin
 
         process(clock) begin 
             if rising_edge(clock) then
-                cicles <= cicles + 1;
+                cycles <= cycles + 1;
             end if;
         end process;
 

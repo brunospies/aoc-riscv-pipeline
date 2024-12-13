@@ -2,12 +2,13 @@
 // File created by:  xrun
 // Do not modify this file
 //
--sv
 -v200x
 -f
-filelist_sv.txt
+filelist.txt
 -top
 RISCV_pipeline_tb
 -access
 +rwc
 -gui
+-clean
+-s

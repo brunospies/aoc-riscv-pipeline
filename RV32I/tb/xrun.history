@@ -1,1 +1,1 @@
-s1(12Dec2024:15:29:47):  xrun -sv -v200x -f filelist_sv.txt -top RISCV_pipeline_tb -access +rwc -gui 
+s1(13Dec2024:12:41:47):  xrun -v200x -f filelist.txt -top RISCV_pipeline_tb -access +rwc -gui -clean "-s " 

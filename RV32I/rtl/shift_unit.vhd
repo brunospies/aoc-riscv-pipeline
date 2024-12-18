@@ -5,13 +5,15 @@
 
 library IEEE;
 use IEEE.std_logic_1164.all;
+use IEEE.numeric_std.all;
+use work.RISCV_package.all;
 
 entity shift_unit is
     port( 
         operand1    : in std_logic_vector(31 downto 0);
         operand2    : in std_logic_vector(31 downto 0);
         result      : out std_logic_vector(31 downto 0);
-        operation   : in std_logic(1 downto 0); 
+        operation   : in Instruction_type
     );
 end shift_unit;
 
@@ -26,21 +28,30 @@ architecture behavioral of shift_unit is
     signal shift_amount : integer;
 
 begin
-    SHIFT_GENERATE: for i in 0 to 30 generate
-        results_sll(i) <= (operand1(31-i downto 0) & (others=>'0'));
-        results_srl(i) <= ((others=>'0') & operand1(31 downto i));
-        results_sra(i) <= ((others=>operand1(31)) & operand1(31 downto i));
+
+    SHIFT_GENERATE: for i in 2 to 30 generate
+        results_sll(i) <= (operand1(31-i downto 0) & (i-1 downto 0=>'0'));
+        results_srl(i) <= ((i-1 downto 0=>'0') & operand1(31 downto i));
+        results_sra(i) <= ((i-1 downto 0=>operand1(31)) & operand1(31 downto i));
     end generate SHIFT_GENERATE;
 
-    results_sll(31) <= operand1(31) & (others=>'0');
-    results_srl(31) <= (others=>'0') & operand1(31);
-    results_sra(31) <= (others=>operand1(31));
+    results_sll(0) <= operand1;
+    results_srl(0) <= operand1;
+    results_sra(0) <= operand1;
+
+    results_sll(1) <= operand1(30 downto 0) & '0';
+    results_srl(1) <= '0' & operand1(31 downto 1);
+    results_sra(1) <= operand1(31) & operand1(31 downto 1);
+
+    results_sll(31) <= operand1(31) & (30 downto 0=>'0');
+    results_srl(31) <= (30 downto 0=>'0') & operand1(31);
+    results_sra(31) <= (31 downto 0=>operand1(31));
 
     results_sll(32) <= (others=>'0');
     results_srl(32) <= (others=>'0');
-    results_sra(32) <= (others=>'0');
+    results_sra(32) <= (others=>operand1(31));
 
-    shift_amount <= to_integer(to_unsigned(operand2)) when operand2 < x"00000010" else -- operand2<32
+    shift_amount <= to_integer(unsigned(operand2)) when unsigned(operand2) < x"00000010" else -- operand2<32
                     32;
 
     result <= results_sll(shift_amount) when operation = SLLI or operation = SLLL else
@@ -49,4 +60,3 @@ begin
               (others=>'0');
               
 end behavioral;
-

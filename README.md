@@ -1,7 +1,7 @@
 # AOC RISC-V Pipeline
 
-A pipelined RISC-V (RV32I) CPU core implemented in **VHDL**, designed for educational and experimental use.  
-The project demonstrates a classic 5-stage pipeline, including hazard detection, forwarding, and control logic.
+A pipelined RISC-V (RV32I) CPU core implemented in VHDL for the Computer Architecture III (AOC-III) course with Professor Matheus Rutzig at the Federal University of Santa Maria (UFSM).
+Designed for educational and experimental use, the project demonstrates a classic 5-stage pipeline, including hazard detection, forwarding, and control logic.
 
 ## 🧠 Architecture Overview
 

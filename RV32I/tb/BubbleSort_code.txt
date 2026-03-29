@@ -4,9 +4,9 @@ Address     Code        Basic                        Line Source
 0x00400004  0x00100513  addi x10,x0,1                7        addi   a0, zero, 1           # t8 = 1: swap performed
 0x00400008  0x04050663  beq x10,x0,0x0000004c        10       beq     a0, zero, end        # Verifies if a swap has ocurred
 0x0040000c  0x0fc10297  auipc x5,0x0000fc10          11       la      t0, array            # t0 points the first array element
-0x00400010  0xff428293  addi x5,x5,0xfffffff4             
-0x00400014  0x0fc10f97  auipc x31,0x0000fc10         12       la      t6, size               # 
-0x00400018  0x008f8f93  addi x31,x31,8                    
+0x00400010  0xff428293  addi x5,x5,0xfffffff4            
+0x00400014  0x0fc10f97  auipc x31,0x0000fc10         12       la      t6, size               #
+0x00400018  0x018f8f93  addi x31,x31,18                    
 0x0040001c  0x000faf83  lw x31,0(x31)                13       lw      t6, 0(t6)             # t6 <- size    
 0x00400020  0x00000513  addi x10,x0,0                14       addi   a0, zero, 0           # swap <- 0
 0x00400024  0x0002a303  lw x6,0(x5)                  17       lw      t1, 0(t0)             # t1 <- array[i]
@@ -21,4 +21,4 @@ Address     Code        Basic                        Line Source
 0x00400048  0x0072a023  sw x7,0(x5)                  31       sw      t2, 0(t0)
 0x0040004c  0x00100513  addi x10,x0,1                32       addi   a0, zero, 1           # Indicates a swap
 0x00400050  0xfe5ff06f  jal x0,0xffffffe4            33       j       continue
-0x00400054  0x0000006f  jal x0,0x00000000            36       j       end 
+0x00400054  0x0000006f  jal x0,0x00000000            36       j       end
